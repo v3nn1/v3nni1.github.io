@@ -474,7 +474,7 @@
                             </div> -->
                             
                             <div class="gallery-item">
-                                <div class="gallery-placeholder">IMAGE_01.PNG</div>
+                                <img src="images/2d/Giger.jpg" alt="Digital illustration inspired by H.R.Giger">
                             </div>
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_02.PNG</div>
@@ -532,7 +532,7 @@
                             </div> -->
                             
                             <div class="gallery-item">
-                                <img src="images/3d/GGJ2016_Spider.gif" alt="GGJ 2016 Spider" data-description="Example description: Add your image description here using the data-description attribute">
+                                <img src="images/3d/GGJ2016_Spider.gif" alt="GGJ 2016 Spider - 3D animated character created for Global Game Jam 2016">
                             </div>
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_02.PNG</div>
@@ -716,8 +716,8 @@
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
             
-            // Set description from data-description attribute or alt text
-            const description = img.getAttribute('data-description') || img.alt || '';
+            // Set description from alt text
+            const description = img.alt || '';
             lightboxDescription.textContent = description;
             lightboxDescription.style.display = description ? 'block' : 'none';
             

@@ -674,7 +674,7 @@
         updateLanguage('en');
 
         // Lightbox functionality
-        const galleryImages = Array.from(document.querySelectorAll('.gallery-item img'));
+        let currentGalleryImages = [];
         let currentImageIndex = 0;
 
         const lightbox = document.createElement('div');
@@ -710,9 +710,9 @@
         }
 
         function showImage(index) {
-            if (galleryImages.length === 0) return;
+            if (currentGalleryImages.length === 0) return;
             currentImageIndex = index;
-            const img = galleryImages[currentImageIndex];
+            const img = currentGalleryImages[currentImageIndex];
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
             
@@ -730,27 +730,34 @@
             }
             
             // Show/hide navigation buttons
-            lightboxPrev.style.display = galleryImages.length > 1 ? 'flex' : 'none';
-            lightboxNext.style.display = galleryImages.length > 1 ? 'flex' : 'none';
+            lightboxPrev.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
+            lightboxNext.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
         }
 
         function showNext() {
-            if (galleryImages.length === 0) return;
-            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            if (currentGalleryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
             showImage(currentImageIndex);
         }
 
         function showPrev() {
-            if (galleryImages.length === 0) return;
-            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            if (currentGalleryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
             showImage(currentImageIndex);
         }
 
-        // Open lightbox on image click
-        galleryImages.forEach((img, index) => {
+        // Open lightbox on image click - only navigate within the same section
+        document.querySelectorAll('.gallery-item img').forEach((img) => {
             img.addEventListener('click', () => {
-                showImage(index);
-                lightbox.classList.add('active');
+                // Find the parent skill-item section
+                const skillItem = img.closest('.skill-item');
+                if (skillItem) {
+                    // Get all images from this section's gallery only
+                    currentGalleryImages = Array.from(skillItem.querySelectorAll('.gallery-item img'));
+                    currentImageIndex = currentGalleryImages.indexOf(img);
+                    showImage(currentImageIndex);
+                    lightbox.classList.add('active');
+                }
             });
         });
 

@@ -249,7 +249,6 @@
             position: relative;
             max-width: 90%;
             max-height: 90%;
-            border: 2px solid #66FF99;
             background: transparent;
             padding: 0;
             display: inline-block;
@@ -263,23 +262,22 @@
             object-fit: contain;
             width: auto;
             height: auto;
+            border: 2px solid #66FF99;
+            box-sizing: border-box;
         }
 
         .lightbox-description {
             margin-top: 0;
             padding: 10px 15px;
             background: #000;
-            border-top: none;
-            border-left: 1px solid #66FF99;
-            border-right: 1px solid #66FF99;
-            border-bottom: 1px solid #66FF99;
+            border: 2px solid #66FF99;
             color: #66FF99;
             font-size: 0.85em;
             font-family: 'Share Tech Mono', monospace;
             line-height: 1.4;
-            width: 100%;
             box-sizing: border-box;
             word-wrap: break-word;
+            display: block;
         }
 
         .lightbox-nav {
@@ -698,6 +696,13 @@
         const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
         const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
 
+        function matchDescriptionWidth() {
+            if (lightboxImg.complete && lightboxImg.naturalWidth > 0) {
+                const imgWidth = lightboxImg.offsetWidth;
+                lightboxDescription.style.width = imgWidth + 'px';
+            }
+        }
+
         function showImage(index) {
             if (galleryImages.length === 0) return;
             currentImageIndex = index;
@@ -709,6 +714,14 @@
             const description = img.getAttribute('data-description') || img.alt || '';
             lightboxDescription.textContent = description;
             lightboxDescription.style.display = description ? 'block' : 'none';
+            
+            // Match description width to image width after image loads
+            lightboxImg.onload = function() {
+                matchDescriptionWidth();
+            };
+            if (lightboxImg.complete) {
+                matchDescriptionWidth();
+            }
             
             // Show/hide navigation buttons
             lightboxPrev.style.display = galleryImages.length > 1 ? 'flex' : 'none';

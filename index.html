@@ -698,8 +698,14 @@
 
         function matchDescriptionWidth() {
             if (lightboxImg.complete && lightboxImg.naturalWidth > 0) {
-                const imgWidth = lightboxImg.offsetWidth;
+                // Get image width including border
+                const imgRect = lightboxImg.getBoundingClientRect();
+                const imgWidth = imgRect.width;
+                // Set description width to match (accounting for borders)
                 lightboxDescription.style.width = imgWidth + 'px';
+            } else {
+                // Retry after a short delay if image not loaded yet
+                setTimeout(matchDescriptionWidth, 100);
             }
         }
 

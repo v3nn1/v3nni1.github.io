@@ -218,8 +218,72 @@
             display: block;
         }
 
+        .gallery-item img {
+            cursor: pointer;
+        }
+
         .gallery-item video {
             cursor: pointer;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            border: 3px solid #66FF99;
+            background: #0a0a0a;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(102, 255, 153, 0.5);
+        }
+
+        .lightbox-content img,
+        .lightbox-content video {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: #66FF99;
+            color: #000;
+            border: 2px solid #66FF99;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: 400;
+        }
+
+        .lightbox-close:hover {
+            background: #4ACC7F;
+            border-color: #4ACC7F;
         }
 
         .gallery-placeholder {
@@ -230,8 +294,24 @@
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: 60px 20px 20px 20px;
+            }
+
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+                gap: 5px;
+            }
+
+            .lang-btn {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+
             h1 {
                 font-size: 1.5em;
+                margin-top: 10px;
             }
 
             .content {
@@ -244,6 +324,19 @@
 
             .skill-name {
                 font-size: 1.4em;
+            }
+
+            .lightbox-content {
+                padding: 15px;
+                max-width: 95%;
+            }
+
+            .lightbox-close {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2em;
+                top: -10px;
+                right: -10px;
             }
         }
     </style>
@@ -374,7 +467,7 @@
                             </div> -->
                             
                             <div class="gallery-item">
-                                <div class="gallery-placeholder">IMAGE_01.PNG</div>
+                                <img src="images/3d/GGJ2016_Spider.gif" alt="GGJ 2016 Spider">
                             </div>
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_02.PNG</div>
@@ -514,6 +607,47 @@
 
         // Set default language to English
         updateLanguage('en');
+
+        // Lightbox functionality
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        lightbox.innerHTML = `
+            <div class="lightbox-content">
+                <button class="lightbox-close">×</button>
+                <img src="" alt="">
+            </div>
+        `;
+        document.body.appendChild(lightbox);
+
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxClose = lightbox.querySelector('.lightbox-close');
+
+        // Open lightbox on image click
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightbox.classList.add('active');
+            });
+        });
+
+        // Close lightbox
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>

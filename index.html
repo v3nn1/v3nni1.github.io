@@ -38,6 +38,36 @@
             padding: 40px 30px;
             text-align: center;
             border-bottom: 2px solid #66FF99;
+            position: relative;
+        }
+
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: rgba(102, 255, 153, 0.1);
+            border: 1px solid #66FF99;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            color: #66FF99;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(102, 255, 153, 0.2);
+        }
+
+        .lang-btn.active {
+            background: #66FF99;
+            color: #0a0a0a;
+            font-weight: 400;
         }
 
         h1 {
@@ -215,16 +245,20 @@
 <body>
     <div class="container">
         <header>
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">ENG</button>
+                <button class="lang-btn" data-lang="fi">FIN</button>
+            </div>
             <h1>Veera Arvola</h1>
-            <p class="subtitle">Creative Visual Designer</p>
+            <p class="subtitle" data-translate="subtitle">2D/3D Game Artist</p>
         </header>
 
         <div class="content">
             <section class="section introduction-section">
-                <h2>Introduction</h2>
+                <h2 data-translate="intro-title">Introduction</h2>
                 <div class="introduction">
-                    <p>Welcome to my portfolio! I'm a passionate game artist dedicated to creating immersive visual experiences. With a keen eye for detail and a love for both traditional and digital art, I bring characters, environments, and worlds to life through 2D and 3D artistry.</p>
-                    <p>My work spans various styles and genres, from stylized fantasy to realistic sci-fi, always focusing on storytelling through visual design. I believe great game art enhances gameplay and creates memorable experiences for players.</p>
+                    <p data-translate="intro-p1">Welcome to my portfolio! I'm a passionate game artist dedicated to creating immersive visual experiences. With a keen eye for detail and a love for both traditional and digital art, I bring characters, environments, and worlds to life through 2D and 3D artistry.</p>
+                    <p data-translate="intro-p2">My work spans various styles and genres, from stylized fantasy to realistic sci-fi, always focusing on storytelling through visual design. I believe great game art enhances gameplay and creates memorable experiences for players.</p>
                 </div>
             </section>
 
@@ -233,7 +267,7 @@
                     <div class="skill-name">2D</div>
                     
                     <div class="skills-list">
-                        <h3>Skills</h3>
+                        <h3 data-translate="skills-label">Skills</h3>
                         <div class="skills">
                             <div class="skill">Character Design</div>
                             <div class="skill">Concept Art</div>
@@ -242,12 +276,11 @@
                             <div class="skill">2D Animation</div>
                             <div class="skill">UI/UX Design</div>
                             <div class="skill">Graphic Design</div>
-                            <div class="skill">Print Production</div>
                         </div>
                     </div>
 
                     <div class="programs-list">
-                        <h3>Programs</h3>
+                        <h3 data-translate="programs-label">Programs</h3>
                         <div class="programs">
                             <div class="program">Adobe Illustrator</div>
                             <div class="program">Adobe Photoshop</div>
@@ -262,7 +295,7 @@
                     </div>
 
                     <div class="gallery">
-                        <h3>Gallery</h3>
+                        <h3 data-translate="gallery-label">Gallery</h3>
                         <div class="gallery-grid">
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_01.PNG</div>
@@ -284,7 +317,7 @@
                     <div class="skill-name">3D</div>
                     
                     <div class="skills-list">
-                        <h3>Skills</h3>
+                        <h3 data-translate="skills-label">Skills</h3>
                         <div class="skills">
                             <div class="skill">3D Modeling</div>
                             <div class="skill">Digital Sculpting</div>
@@ -297,7 +330,7 @@
                     </div>
 
                     <div class="programs-list">
-                        <h3>Programs</h3>
+                        <h3 data-translate="programs-label">Programs</h3>
                         <div class="programs">
                             <div class="program">Bambu studio</div>
                             <div class="program">Blender</div>
@@ -308,7 +341,7 @@
                     </div>
 
                     <div class="gallery">
-                        <h3>Gallery</h3>
+                        <h3 data-translate="gallery-label">Gallery</h3>
                         <div class="gallery-grid">
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_01.PNG</div>
@@ -330,7 +363,7 @@
                     <div class="skill-name">Bonus</div>
                     
                     <div class="skills-list">
-                        <h3>Skills</h3>
+                        <h3 data-translate="skills-label">Skills</h3>
                         <div class="skills">
                             <div class="skill">Music Composition & Production</div>
                             <div class="skill">Narrative Design</div>
@@ -341,7 +374,7 @@
                     </div>
 
                     <div class="programs-list">
-                        <h3>Programs</h3>
+                        <h3 data-translate="programs-label">Programs</h3>
                         <div class="programs">
                             <div class="program">Ableton Live</div>
                             <div class="program">Adobe After Effects</div>
@@ -355,5 +388,64 @@
             </section>
         </div>
     </div>
+    <script>
+        const translations = {
+            en: {
+                'subtitle': '2D/3D Game Artist',
+                'intro-title': 'Introduction',
+                'intro-p1': 'Welcome to my portfolio! I\'m a passionate game artist dedicated to creating immersive visual experiences. With a keen eye for detail and a love for both traditional and digital art, I bring characters, environments, and worlds to life through 2D and 3D artistry.',
+                'intro-p2': 'My work spans various styles and genres, from stylized fantasy to realistic sci-fi, always focusing on storytelling through visual design. I believe great game art enhances gameplay and creates memorable experiences for players.',
+                'skills-label': 'Skills',
+                'programs-label': 'Programs',
+                'gallery-label': 'Gallery'
+            },
+            fi: {
+                'subtitle': '2D/3D Pelitaiteilija',
+                'intro-title': 'Esittely',
+                'intro-p1': 'Tervetuloa portfoliooni! Olen intohimoinen pelitaiteilija, joka on omistautunut luomaan mukaansatempaavia visuaalisia kokemuksia. Tarkalla silmällä yksityiskohtiin ja rakkaudella sekä perinteiseen että digitaaliseen taiteeseen, herätän hahmot, ympäristöt ja maailmat eloon 2D- ja 3D-taidon avulla.',
+                'intro-p2': 'Työni kattaa erilaisia tyylejä ja genrejä, tyyliteltystä fantasiasta realistiseen sci-fiin, keskittyen aina tarinankerrontaan visuaalisen suunnittelun kautta. Uskon, että hieno pelitaide parantaa pelattavuutta ja luo muistettavia kokemuksia pelaajille.',
+                'skills-label': 'Taidot',
+                'programs-label': 'Ohjelmistot',
+                'gallery-label': 'Galleria'
+            }
+        };
+
+        let currentLang = 'en';
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Update active button state
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Initialize language switcher
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                updateLanguage(lang);
+            });
+        });
+
+        // Set default language to English
+        updateLanguage('en');
+    </script>
 </body>
 </html>

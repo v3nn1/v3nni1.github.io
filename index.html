@@ -210,10 +210,16 @@
             overflow: hidden;
         }
 
-        .gallery-item img {
+        .gallery-item img,
+        .gallery-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item video {
+            cursor: pointer;
         }
 
         .gallery-placeholder {
@@ -297,6 +303,18 @@
                     <div class="gallery">
                         <h3 data-translate="gallery-label">Gallery</h3>
                         <div class="gallery-grid">
+                            <!-- Example: Image -->
+                            <!-- <div class="gallery-item">
+                                <img src="images/2d/example1.jpg" alt="2D Art Example">
+                            </div> -->
+                            
+                            <!-- Example: Video -->
+                            <!-- <div class="gallery-item">
+                                <video controls muted>
+                                    <source src="videos/2d/example1.mp4" type="video/mp4">
+                                </video>
+                            </div> -->
+                            
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_01.PNG</div>
                             </div>
@@ -343,6 +361,18 @@
                     <div class="gallery">
                         <h3 data-translate="gallery-label">Gallery</h3>
                         <div class="gallery-grid">
+                            <!-- Example: Image -->
+                            <!-- <div class="gallery-item">
+                                <img src="images/3d/example1.jpg" alt="3D Art Example">
+                            </div> -->
+                            
+                            <!-- Example: Video -->
+                            <!-- <div class="gallery-item">
+                                <video controls muted>
+                                    <source src="videos/3d/example1.mp4" type="video/mp4">
+                                </video>
+                            </div> -->
+                            
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_01.PNG</div>
                             </div>

@@ -250,8 +250,9 @@
             max-width: 90%;
             max-height: 90%;
             border: 2px solid #66FF99;
-            background: #0a0a0a;
-            padding: 20px;
+            background: transparent;
+            padding: 0;
+            display: inline-block;
         }
 
         .lightbox-content img,
@@ -260,6 +261,25 @@
             max-height: 80vh;
             display: block;
             object-fit: contain;
+            width: auto;
+            height: auto;
+        }
+
+        .lightbox-description {
+            margin-top: 0;
+            padding: 10px 15px;
+            background: #000;
+            border-top: none;
+            border-left: 1px solid #66FF99;
+            border-right: 1px solid #66FF99;
+            border-bottom: 1px solid #66FF99;
+            color: #66FF99;
+            font-size: 0.85em;
+            font-family: 'Share Tech Mono', monospace;
+            line-height: 1.4;
+            width: 100%;
+            box-sizing: border-box;
+            word-wrap: break-word;
         }
 
         .lightbox-nav {
@@ -295,8 +315,8 @@
 
         .lightbox-close {
             position: absolute;
-            top: -15px;
-            right: -15px;
+            top: -20px;
+            right: -20px;
             width: 40px;
             height: 40px;
             background: #66FF99;
@@ -309,6 +329,7 @@
             justify-content: center;
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
+            z-index: 1;
         }
 
         .lightbox-close:hover {
@@ -373,7 +394,7 @@
             }
 
             .lightbox-content {
-                padding: 15px;
+                padding: 0;
                 max-width: 95%;
             }
 
@@ -513,7 +534,7 @@
                             </div> -->
                             
                             <div class="gallery-item">
-                                <img src="images/3d/GGJ2016_Spider.gif" alt="GGJ 2016 Spider">
+                                <img src="images/3d/GGJ2016_Spider.gif" alt="GGJ 2016 Spider" data-description="Example description: Add your image description here using the data-description attribute">
                             </div>
                             <div class="gallery-item">
                                 <div class="gallery-placeholder">IMAGE_02.PNG</div>
@@ -666,11 +687,13 @@
                 <button class="lightbox-nav prev">‹</button>
                 <button class="lightbox-nav next">›</button>
                 <img src="" alt="">
+                <div class="lightbox-description"></div>
             </div>
         `;
         document.body.appendChild(lightbox);
 
         const lightboxImg = lightbox.querySelector('img');
+        const lightboxDescription = lightbox.querySelector('.lightbox-description');
         const lightboxClose = lightbox.querySelector('.lightbox-close');
         const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
         const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
@@ -681,6 +704,11 @@
             const img = galleryImages[currentImageIndex];
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
+            
+            // Set description from data-description attribute or alt text
+            const description = img.getAttribute('data-description') || img.alt || '';
+            lightboxDescription.textContent = description;
+            lightboxDescription.style.display = description ? 'block' : 'none';
             
             // Show/hide navigation buttons
             lightboxPrev.style.display = galleryImages.length > 1 ? 'flex' : 'none';

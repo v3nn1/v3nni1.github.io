@@ -249,10 +249,9 @@
             position: relative;
             max-width: 90%;
             max-height: 90%;
-            border: 3px solid #66FF99;
+            border: 2px solid #66FF99;
             background: #0a0a0a;
             padding: 20px;
-            box-shadow: 0 0 30px rgba(102, 255, 153, 0.5);
         }
 
         .lightbox-content img,
@@ -261,6 +260,37 @@
             max-height: 80vh;
             display: block;
             object-fit: contain;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(102, 255, 153, 0.2);
+            color: #66FF99;
+            border: 2px solid #66FF99;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(102, 255, 153, 0.3);
+        }
+
+        .lightbox-nav.prev {
+            left: -70px;
+        }
+
+        .lightbox-nav.next {
+            right: -70px;
         }
 
         .lightbox-close {
@@ -284,6 +314,22 @@
         .lightbox-close:hover {
             background: #4ACC7F;
             border-color: #4ACC7F;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+
+            .lightbox-nav.prev {
+                left: 10px;
+            }
+
+            .lightbox-nav.next {
+                right: 10px;
+            }
         }
 
         .gallery-placeholder {
@@ -609,11 +655,16 @@
         updateLanguage('en');
 
         // Lightbox functionality
+        const galleryImages = Array.from(document.querySelectorAll('.gallery-item img'));
+        let currentImageIndex = 0;
+
         const lightbox = document.createElement('div');
         lightbox.className = 'lightbox';
         lightbox.innerHTML = `
             <div class="lightbox-content">
                 <button class="lightbox-close">×</button>
+                <button class="lightbox-nav prev">‹</button>
+                <button class="lightbox-nav next">›</button>
                 <img src="" alt="">
             </div>
         `;
@@ -621,14 +672,50 @@
 
         const lightboxImg = lightbox.querySelector('img');
         const lightboxClose = lightbox.querySelector('.lightbox-close');
+        const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
+        const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
+
+        function showImage(index) {
+            if (galleryImages.length === 0) return;
+            currentImageIndex = index;
+            const img = galleryImages[currentImageIndex];
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            
+            // Show/hide navigation buttons
+            lightboxPrev.style.display = galleryImages.length > 1 ? 'flex' : 'none';
+            lightboxNext.style.display = galleryImages.length > 1 ? 'flex' : 'none';
+        }
+
+        function showNext() {
+            if (galleryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            showImage(currentImageIndex);
+        }
+
+        function showPrev() {
+            if (galleryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            showImage(currentImageIndex);
+        }
 
         // Open lightbox on image click
-        document.querySelectorAll('.gallery-item img').forEach(img => {
+        galleryImages.forEach((img, index) => {
             img.addEventListener('click', () => {
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
+                showImage(index);
                 lightbox.classList.add('active');
             });
+        });
+
+        // Navigation buttons
+        lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showNext();
+        });
+
+        lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showPrev();
         });
 
         // Close lightbox
@@ -642,10 +729,16 @@
             }
         });
 
-        // Close on Escape key
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') {
                 lightbox.classList.remove('active');
+            } else if (e.key === 'ArrowLeft') {
+                showPrev();
+            } else if (e.key === 'ArrowRight') {
+                showNext();
             }
         });
     </script>

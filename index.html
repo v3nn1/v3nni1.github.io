@@ -1108,18 +1108,31 @@
         }
 
         function showItem(index) {
-            if (currentGalleryItems.length === 0) return;
-            
-            // Pause video and hide iframe if switching items
-            if (lightboxVideo.style.display !== 'none') {
-                lightboxVideo.pause();
-            }
-            if (lightboxIframe.style.display !== 'none') {
-                lightboxIframe.src = '';
-            }
-            
-            currentItemIndex = index;
-            const item = currentGalleryItems[currentItemIndex];
+            try {
+                if (currentGalleryItems.length === 0) return;
+                
+                // Ensure index is valid
+                if (index < 0 || index >= currentGalleryItems.length) {
+                    console.error('Invalid index:', index, 'Length:', currentGalleryItems.length);
+                    return;
+                }
+                
+                // Pause video and hide iframe if switching items
+                if (lightboxVideo.style.display !== 'none') {
+                    lightboxVideo.pause();
+                }
+                if (lightboxIframe.style.display !== 'none') {
+                    lightboxIframe.src = '';
+                }
+                
+                currentItemIndex = index;
+                const item = currentGalleryItems[currentItemIndex];
+                
+                // Ensure item exists
+                if (!item) {
+                    console.error('Item not found at index:', index);
+                    return;
+                }
             
             // Check if it's a Sketchfab embed (has data-sketchfab attribute)
             const sketchfabUrl = item.getAttribute('data-sketchfab');
@@ -1148,6 +1161,8 @@
                 // Also hide loading on error
                 lightboxIframe.onerror = function() {
                     lightboxLoading.classList.remove('active');
+                    // Keep lightbox open even if iframe fails to load
+                    console.error('Iframe failed to load:', sketchfabUrl);
                 };
             } else {
                 // Check if it's a video thumbnail (has data-video attribute)
@@ -1200,6 +1215,8 @@
                 // Also hide loading on error
                 lightboxVideo.onerror = function() {
                     lightboxLoading.classList.remove('active');
+                    // Keep lightbox open even if video fails to load
+                    console.error('Video failed to load:', videoSrc);
                 };
                 } else {
                     // Show image, hide video and iframe
@@ -1227,19 +1244,25 @@
                 }
             }
             
-            // Show/hide navigation buttons
-            lightboxPrev.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
-            lightboxNext.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
+                // Show/hide navigation buttons
+                lightboxPrev.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
+                lightboxNext.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
+            } catch (error) {
+                console.error('Error in showItem:', error);
+                // Keep lightbox open even if there's an error
+            }
         }
 
         function showNext() {
             if (currentGalleryItems.length === 0) return;
+            if (currentGalleryItems.length === 1) return; // Only one item, can't navigate
             currentItemIndex = (currentItemIndex + 1) % currentGalleryItems.length;
             showItem(currentItemIndex);
         }
 
         function showPrev() {
             if (currentGalleryItems.length === 0) return;
+            if (currentGalleryItems.length === 1) return; // Only one item, can't navigate
             currentItemIndex = (currentItemIndex - 1 + currentGalleryItems.length) % currentGalleryItems.length;
             showItem(currentItemIndex);
         }
@@ -1251,9 +1274,10 @@
                 const skillItem = img.closest('.skill-item');
                 if (skillItem) {
                     // Get all images from this section's gallery only
+                    // This includes both regular images and video thumbnails (which are also img tags)
                     currentGalleryItems = Array.from(skillItem.querySelectorAll('.gallery-item img'));
                     currentItemIndex = currentGalleryItems.indexOf(img);
-                    if (currentItemIndex !== -1) {
+                    if (currentItemIndex !== -1 && currentGalleryItems.length > 0) {
                         lightbox.classList.add('active');
                         showItem(currentItemIndex);
                     }

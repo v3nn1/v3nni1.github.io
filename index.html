@@ -254,6 +254,11 @@
             display: inline-block;
         }
 
+        .lightbox-media-container {
+            position: relative;
+            display: inline-block;
+        }
+
         .lightbox-content img,
         .lightbox-content video {
             max-width: 100%;
@@ -345,14 +350,14 @@
 
         .lightbox-close {
             position: absolute;
-            top: -15px;
-            right: -15px;
-            width: 32px;
-            height: 32px;
+            top: 4px;
+            right: 4px;
+            width: 22px;
+            height: 22px;
             background: rgba(102, 255, 153, 0.2);
             color: #66FF99;
-            border: 2px solid #66FF99;
-            font-size: 1.2em;
+            border: 1px solid #66FF99;
+            font-size: 0.85em;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -360,7 +365,7 @@
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
             transition: all 0.3s ease;
-            z-index: 1;
+            z-index: 10;
         }
 
         .lightbox-close:hover {
@@ -393,9 +398,12 @@
                 max-width: 95%;
             }
 
+            .lightbox-media-container {
+                order: 1;
+            }
+
             .lightbox-content img,
             .lightbox-content video {
-                order: 1;
                 margin-bottom: 10px;
             }
 
@@ -428,10 +436,6 @@
 
             .lightbox-nav.next {
                 right: auto;
-            }
-
-            .lightbox-close {
-                order: 0;
             }
         }
 
@@ -481,11 +485,11 @@
             }
 
             .lightbox-close {
-                width: 28px;
-                height: 28px;
-                font-size: 1em;
-                top: -10px;
-                right: -10px;
+                width: 20px;
+                height: 20px;
+                font-size: 0.75em;
+                top: 3px;
+                right: 3px;
             }
         }
 
@@ -1005,10 +1009,12 @@
         lightbox.className = 'lightbox';
         lightbox.innerHTML = `
             <div class="lightbox-content">
-                <button class="lightbox-close">×</button>
-                <div class="lightbox-loading">Loading</div>
-                <img src="" alt="" style="display: none;">
-                <video controls style="display: none;"></video>
+                <div class="lightbox-media-container">
+                    <button class="lightbox-close">×</button>
+                    <div class="lightbox-loading">Loading</div>
+                    <img src="" alt="" style="display: none;">
+                    <video controls style="display: none;"></video>
+                </div>
                 <div class="lightbox-description"></div>
                 <div class="lightbox-nav-container">
                     <button class="lightbox-nav prev">‹</button>

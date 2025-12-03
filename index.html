@@ -886,8 +886,8 @@
         updateLanguage('en');
 
         // Lightbox functionality
-        let currentGalleryImages = [];
-        let currentImageIndex = 0;
+        let currentGalleryItems = [];
+        let currentItemIndex = 0;
 
         const lightbox = document.createElement('div');
         lightbox.className = 'lightbox';
@@ -896,79 +896,113 @@
                 <button class="lightbox-close">×</button>
                 <button class="lightbox-nav prev">‹</button>
                 <button class="lightbox-nav next">›</button>
-                <img src="" alt="">
+                <img src="" alt="" style="display: none;">
+                <video controls style="display: none;"></video>
                 <div class="lightbox-description"></div>
             </div>
         `;
         document.body.appendChild(lightbox);
 
         const lightboxImg = lightbox.querySelector('img');
+        const lightboxVideo = lightbox.querySelector('video');
         const lightboxDescription = lightbox.querySelector('.lightbox-description');
         const lightboxClose = lightbox.querySelector('.lightbox-close');
         const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
         const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
 
         function matchDescriptionWidth() {
-            if (lightboxImg.complete && lightboxImg.naturalWidth > 0) {
-                // Get image width including border
-                const imgRect = lightboxImg.getBoundingClientRect();
-                const imgWidth = imgRect.width;
-                // Set description width to match (accounting for borders)
-                lightboxDescription.style.width = imgWidth + 'px';
+            const activeElement = lightboxImg.style.display !== 'none' ? lightboxImg : lightboxVideo;
+            if (activeElement) {
+                const rect = activeElement.getBoundingClientRect();
+                const width = rect.width;
+                lightboxDescription.style.width = width + 'px';
             } else {
-                // Retry after a short delay if image not loaded yet
+                // Retry after a short delay if element not loaded yet
                 setTimeout(matchDescriptionWidth, 100);
             }
         }
 
-        function showImage(index) {
-            if (currentGalleryImages.length === 0) return;
-            currentImageIndex = index;
-            const img = currentGalleryImages[currentImageIndex];
-            lightboxImg.src = img.src;
-            lightboxImg.alt = img.alt;
+        function showItem(index) {
+            if (currentGalleryItems.length === 0) return;
             
-            // Set description from alt text
-            const description = img.alt || '';
-            lightboxDescription.textContent = description;
-            lightboxDescription.style.display = description ? 'block' : 'none';
+            // Pause video if switching items
+            if (lightboxVideo.style.display !== 'none') {
+                lightboxVideo.pause();
+            }
             
-            // Match description width to image width after image loads
-            lightboxImg.onload = function() {
-                matchDescriptionWidth();
-            };
-            if (lightboxImg.complete) {
-                matchDescriptionWidth();
+            currentItemIndex = index;
+            const item = currentGalleryItems[currentItemIndex];
+            
+            // Check if it's a video thumbnail (has data-video attribute)
+            const videoSrc = item.getAttribute('data-video');
+            
+            if (videoSrc) {
+                // Show video, hide image
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'block';
+                lightboxVideo.src = videoSrc;
+                lightboxVideo.load();
+                
+                // Get description from data-description or alt
+                const description = item.getAttribute('data-description') || item.alt || '';
+                lightboxDescription.textContent = description;
+                lightboxDescription.style.display = description ? 'block' : 'none';
+                
+                // Match width after video loads
+                lightboxVideo.onloadedmetadata = function() {
+                    matchDescriptionWidth();
+                };
+            } else {
+                // Show image, hide video
+                lightboxVideo.style.display = 'none';
+                lightboxImg.style.display = 'block';
+                lightboxImg.src = item.src;
+                lightboxImg.alt = item.alt;
+                
+                // Set description from alt text
+                const description = item.alt || '';
+                lightboxDescription.textContent = description;
+                lightboxDescription.style.display = description ? 'block' : 'none';
+                
+                // Match description width to image width after image loads
+                lightboxImg.onload = function() {
+                    matchDescriptionWidth();
+                };
+                if (lightboxImg.complete) {
+                    matchDescriptionWidth();
+                }
             }
             
             // Show/hide navigation buttons
-            lightboxPrev.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
-            lightboxNext.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
+            lightboxPrev.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
+            lightboxNext.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
         }
 
         function showNext() {
-            if (currentGalleryImages.length === 0) return;
-            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
-            showImage(currentImageIndex);
+            if (currentGalleryItems.length === 0) return;
+            currentItemIndex = (currentItemIndex + 1) % currentGalleryItems.length;
+            showItem(currentItemIndex);
         }
 
         function showPrev() {
-            if (currentGalleryImages.length === 0) return;
-            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-            showImage(currentImageIndex);
+            if (currentGalleryItems.length === 0) return;
+            currentItemIndex = (currentItemIndex - 1 + currentGalleryItems.length) % currentGalleryItems.length;
+            showItem(currentItemIndex);
         }
 
-        // Open lightbox on image click - only navigate within the same section
+        // Open lightbox on gallery item click - handles both images and video thumbnails
         document.querySelectorAll('.gallery-item img').forEach((img) => {
             img.addEventListener('click', () => {
                 // Find the parent skill-item section
                 const skillItem = img.closest('.skill-item');
                 if (skillItem) {
                     // Get all images from this section's gallery only
-                    currentGalleryImages = Array.from(skillItem.querySelectorAll('.gallery-item img'));
-                    currentImageIndex = currentGalleryImages.indexOf(img);
-                    showImage(currentImageIndex);
-                    lightbox.classList.add('active');
+                    currentGalleryItems = Array.from(skillItem.querySelectorAll('.gallery-item img'));
+                    currentItemIndex = currentGalleryItems.indexOf(img);
+                    if (currentItemIndex !== -1) {
+                        lightbox.classList.add('active');
+                        showItem(currentItemIndex);
+                    }
                 }
             });
         });
@@ -986,11 +1020,13 @@
 
         // Close lightbox
         lightboxClose.addEventListener('click', () => {
+            lightboxVideo.pause();
             lightbox.classList.remove('active');
         });
 
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
+                lightboxVideo.pause();
                 lightbox.classList.remove('active');
             }
         });
@@ -1000,6 +1036,7 @@
             if (!lightbox.classList.contains('active')) return;
             
             if (e.key === 'Escape') {
+                lightboxVideo.pause();
                 lightbox.classList.remove('active');
             } else if (e.key === 'ArrowLeft') {
                 showPrev();

@@ -410,25 +410,30 @@
             margin-top: 50px;
         }
 
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
         .project-item {
-            margin-bottom: 40px;
             border: 1px solid #66FF99;
-            padding: 30px;
+            padding: 25px;
             background: rgba(102, 255, 153, 0.03);
         }
 
         .project-title {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 1.4em;
+            font-size: 1.2em;
             color: #66FF99;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: 400;
         }
 
         .project-description {
-            font-size: 0.95em;
+            font-size: 0.9em;
             color: #4ACC7F;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.6;
         }
 
@@ -452,12 +457,17 @@
         }
 
         @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
             .project-item {
                 padding: 20px;
             }
 
             .project-title {
-                font-size: 1.2em;
+                font-size: 1.1em;
             }
         }
     </style>
@@ -640,19 +650,21 @@
             <section class="section projects-section">
                 <h2 data-translate="projects-title">Projects</h2>
                 
-                <div class="project-item">
-                    <div class="project-title">Alpha Polaris (2011)</div>
-                    <div class="project-description" data-translate="project-alpha-polaris-description">Project description goes here.</div>
-                    <div class="project-video">
-                        <iframe src="https://www.youtube.com/embed/QtmReC5l4h8?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="projects-grid">
+                    <div class="project-item">
+                        <div class="project-title">Alpha Polaris (2011)</div>
+                        <div class="project-description" data-translate="project-alpha-polaris-description">Project description goes here.</div>
+                        <div class="project-video">
+                            <iframe src="https://www.youtube.com/embed/QtmReC5l4h8?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                     </div>
-                </div>
 
-                <div class="project-item">
-                    <div class="project-title">Baking Success (2013)</div>
-                    <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
-                    <div class="project-video">
-                        <iframe src="https://www.youtube.com/embed/mTai954pp-4?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="project-item">
+                        <div class="project-title">Baking Success (2013)</div>
+                        <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
+                        <div class="project-video">
+                            <iframe src="https://www.youtube.com/embed/mTai954pp-4?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                     </div>
                 </div>
             </section>

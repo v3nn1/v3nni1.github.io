@@ -339,6 +339,10 @@
             right: -70px;
         }
 
+        .lightbox-nav-container {
+            display: contents;
+        }
+
         .lightbox-close {
             position: absolute;
             top: -20px;
@@ -400,14 +404,22 @@
                 margin-top: 0;
             }
 
+            .lightbox-nav-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                order: 3;
+                margin-top: 10px;
+            }
+
             .lightbox-nav {
                 position: static;
                 transform: none;
                 width: 40px;
                 height: 40px;
-                margin: 10px 5px 0 5px;
-                display: inline-flex;
-                order: 3;
+                margin: 0;
+                display: flex;
             }
 
             .lightbox-nav.prev {
@@ -987,12 +999,14 @@
         lightbox.innerHTML = `
             <div class="lightbox-content">
                 <button class="lightbox-close">×</button>
-                <button class="lightbox-nav prev">‹</button>
-                <button class="lightbox-nav next">›</button>
                 <div class="lightbox-loading">Loading</div>
                 <img src="" alt="" style="display: none;">
                 <video controls style="display: none;"></video>
                 <div class="lightbox-description"></div>
+                <div class="lightbox-nav-container">
+                    <button class="lightbox-nav prev">‹</button>
+                    <button class="lightbox-nav next">›</button>
+                </div>
             </div>
         `;
         document.body.appendChild(lightbox);
@@ -1002,6 +1016,7 @@
         const lightboxDescription = lightbox.querySelector('.lightbox-description');
         const lightboxLoading = lightbox.querySelector('.lightbox-loading');
         const lightboxClose = lightbox.querySelector('.lightbox-close');
+        const lightboxNavContainer = lightbox.querySelector('.lightbox-nav-container');
         const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
         const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
 

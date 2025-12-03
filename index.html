@@ -381,6 +381,48 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .lightbox-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                max-width: 95%;
+            }
+
+            .lightbox-content img,
+            .lightbox-content video {
+                order: 1;
+                margin-bottom: 10px;
+            }
+
+            .lightbox-description {
+                order: 2;
+                margin-top: 0;
+            }
+
+            .lightbox-nav {
+                position: static;
+                transform: none;
+                width: 40px;
+                height: 40px;
+                margin: 10px 5px 0 5px;
+                display: inline-flex;
+                order: 3;
+            }
+
+            .lightbox-nav.prev {
+                left: auto;
+            }
+
+            .lightbox-nav.next {
+                right: auto;
+            }
+
+            .lightbox-close {
+                order: 0;
+            }
+        }
+
         .gallery-placeholder {
             color: #4ACC7F;
             font-size: 0.8em;

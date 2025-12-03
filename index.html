@@ -404,6 +404,62 @@
                 right: -10px;
             }
         }
+
+        /* Projects Section */
+        .projects-section {
+            margin-top: 50px;
+        }
+
+        .project-item {
+            margin-bottom: 40px;
+            border: 1px solid #66FF99;
+            padding: 30px;
+            background: rgba(102, 255, 153, 0.03);
+        }
+
+        .project-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.4em;
+            color: #66FF99;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .project-description {
+            font-size: 0.95em;
+            color: #4ACC7F;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .project-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: rgba(102, 255, 153, 0.05);
+            border: 1px solid #66FF99;
+            overflow: hidden;
+        }
+
+        .project-video iframe,
+        .project-video video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .project-item {
+                padding: 20px;
+            }
+
+            .project-title {
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -580,6 +636,26 @@
                 </div>
 
             </section>
+
+            <section class="section projects-section">
+                <h2 data-translate="projects-title">Projects</h2>
+                
+                <div class="project-item">
+                    <div class="project-title">Alpha Polaris (2011)</div>
+                    <div class="project-description" data-translate="project-alpha-polaris-description">Project description goes here.</div>
+                    <div class="project-video">
+                        <iframe src="https://www.youtube.com/embed/QtmReC5l4h8" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-title">Baking Success (2013)</div>
+                    <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
+                    <div class="project-video">
+                        <iframe src="https://www.youtube.com/embed/mTai954pp-4" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
     <script>
@@ -610,7 +686,10 @@
                 'skill-bonus-narrative': 'Narrative Design',
                 'skill-bonus-game': 'Game Design',
                 'skill-bonus-art': 'Art Direction',
-                'skill-bonus-video': 'Video Editing & Motion Graphics'
+                'skill-bonus-video': 'Video Editing & Motion Graphics',
+                'projects-title': 'Projects',
+                'project-alpha-polaris-description': 'Project description goes here.',
+                'project-baking-success-description': 'Project description goes here.'
             },
             fi: {
                 'subtitle': '2D/3D Pelitaiteilija',
@@ -638,7 +717,10 @@
                 'skill-bonus-narrative': 'Narratiivinen suunnittelu',
                 'skill-bonus-game': 'Pelisuunnittelu',
                 'skill-bonus-art': 'Taiteellinen ohjaus',
-                'skill-bonus-video': 'Videomontointi ja liikkuva grafiikka'
+                'skill-bonus-video': 'Videomontointi ja liikkuva grafiikka',
+                'projects-title': 'Projektit',
+                'project-alpha-polaris-description': 'Projektin kuvaus tähän.',
+                'project-baking-success-description': 'Projektin kuvaus tähän.'
             }
         };
 

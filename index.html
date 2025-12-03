@@ -261,7 +261,8 @@
         }
 
         .lightbox-content img,
-        .lightbox-content video {
+        .lightbox-content video,
+        .lightbox-content iframe {
             max-width: 100%;
             max-height: 80vh;
             display: block;
@@ -270,6 +271,22 @@
             height: auto;
             border: 2px solid #66FF99;
             box-sizing: border-box;
+        }
+
+        .lightbox-content iframe {
+            width: 640px;
+            height: 480px;
+            min-width: 320px;
+            min-height: 240px;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-content iframe {
+                width: 100%;
+                height: 400px;
+                min-width: 100%;
+                min-height: 300px;
+            }
         }
 
 
@@ -1018,6 +1035,7 @@
                     <div class="lightbox-loading">Loading</div>
                     <img src="" alt="" style="display: none;">
                     <video controls style="display: none;"></video>
+                    <iframe src="" frameborder="0" allow="autoplay; fullscreen; vr" allowfullscreen style="display: none;"></iframe>
                 </div>
                 <div class="lightbox-description"></div>
                 <div class="lightbox-nav-container">
@@ -1030,6 +1048,7 @@
 
         const lightboxImg = lightbox.querySelector('img');
         const lightboxVideo = lightbox.querySelector('video');
+        const lightboxIframe = lightbox.querySelector('iframe');
         const lightboxDescription = lightbox.querySelector('.lightbox-description');
         const lightboxLoading = lightbox.querySelector('.lightbox-loading');
         const lightboxClose = lightbox.querySelector('.lightbox-close');
@@ -1038,7 +1057,15 @@
         const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
 
         function matchDescriptionWidth() {
-            const activeElement = lightboxImg.style.display !== 'none' ? lightboxImg : lightboxVideo;
+            let activeElement = null;
+            if (lightboxImg.style.display !== 'none') {
+                activeElement = lightboxImg;
+            } else if (lightboxVideo.style.display !== 'none') {
+                activeElement = lightboxVideo;
+            } else if (lightboxIframe.style.display !== 'none') {
+                activeElement = lightboxIframe;
+            }
+            
             if (activeElement) {
                 const rect = activeElement.getBoundingClientRect();
                 const width = rect.width;
@@ -1052,20 +1079,53 @@
         function showItem(index) {
             if (currentGalleryItems.length === 0) return;
             
-            // Pause video if switching items
+            // Pause video and hide iframe if switching items
             if (lightboxVideo.style.display !== 'none') {
                 lightboxVideo.pause();
+            }
+            if (lightboxIframe.style.display !== 'none') {
+                lightboxIframe.src = '';
             }
             
             currentItemIndex = index;
             const item = currentGalleryItems[currentItemIndex];
             
-            // Check if it's a video thumbnail (has data-video attribute)
-            const videoSrc = item.getAttribute('data-video');
+            // Check if it's a Sketchfab embed (has data-sketchfab attribute)
+            const sketchfabUrl = item.getAttribute('data-sketchfab');
             
-            if (videoSrc) {
-                // Show video, hide image
+            if (sketchfabUrl) {
+                // Show Sketchfab iframe, hide image and video
                 lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'none';
+                lightboxIframe.style.display = 'block';
+                lightboxIframe.src = sketchfabUrl;
+                
+                // Show loading indicator
+                lightboxLoading.classList.add('active');
+                
+                // Get description from data-description or alt
+                const description = item.getAttribute('data-description') || item.alt || '';
+                lightboxDescription.textContent = description;
+                lightboxDescription.style.display = description ? 'block' : 'none';
+                
+                // Hide loading indicator when iframe loads
+                lightboxIframe.onload = function() {
+                    lightboxLoading.classList.remove('active');
+                    matchDescriptionWidth();
+                };
+                
+                // Also hide loading on error
+                lightboxIframe.onerror = function() {
+                    lightboxLoading.classList.remove('active');
+                };
+            } else {
+                // Check if it's a video thumbnail (has data-video attribute)
+                const videoSrc = item.getAttribute('data-video');
+                
+                if (videoSrc) {
+                // Show video, hide image and iframe
+                lightboxImg.style.display = 'none';
+                lightboxIframe.style.display = 'none';
                 lightboxVideo.style.display = 'block';
                 
                 // Set placeholder dimensions to prevent layout shift
@@ -1110,13 +1170,14 @@
                 lightboxVideo.onerror = function() {
                     lightboxLoading.classList.remove('active');
                 };
-            } else {
-                // Show image, hide video
-                lightboxVideo.style.display = 'none';
-                lightboxLoading.classList.remove('active');
-                lightboxImg.style.display = 'block';
-                lightboxImg.src = item.src;
-                lightboxImg.alt = item.alt;
+                } else {
+                    // Show image, hide video and iframe
+                    lightboxVideo.style.display = 'none';
+                    lightboxIframe.style.display = 'none';
+                    lightboxLoading.classList.remove('active');
+                    lightboxImg.style.display = 'block';
+                    lightboxImg.src = item.src;
+                    lightboxImg.alt = item.alt;
                 
                 // Set description from alt text
                 const description = item.alt || '';
@@ -1129,6 +1190,7 @@
                 };
                 if (lightboxImg.complete) {
                     matchDescriptionWidth();
+                }
                 }
             }
             

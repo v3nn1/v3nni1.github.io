@@ -838,6 +838,12 @@
                                 <img src="images/3d/Hallyu_Joo_won.jpg" alt="3D sculpt of actor Joo Won (Zbrush & Blender)">
                             </div>
                             <div class="gallery-item">
+                                <img src="images/3d/UAS_FFH_gif.gif" 
+                                     alt="UAS FFH" 
+                                     data-full-image="images/3d/UAS_FFH.png"
+                                     data-description="UAS FFH">
+                            </div>
+                            <div class="gallery-item">
                                 <img src="videos/3d/car_wreck_03_gif.gif" 
                                      alt="Car Wreck" 
                                      data-video="videos/3d/car_wreck_03_video.mp4"
@@ -1176,7 +1182,9 @@
                     lightboxIframe.style.display = 'none';
                     lightboxLoading.classList.remove('active');
                     lightboxImg.style.display = 'block';
-                    lightboxImg.src = item.src;
+                    // Use data-full-image if available, otherwise use src
+                    const fullImageSrc = item.getAttribute('data-full-image') || item.src;
+                    lightboxImg.src = fullImageSrc;
                     lightboxImg.alt = item.alt;
                 
                 // Set description from alt text

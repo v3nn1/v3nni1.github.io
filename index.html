@@ -1087,6 +1087,33 @@
         const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
         const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
 
+        // Preload adjacent images for smoother navigation
+        function preloadAdjacentImages() {
+            if (currentGalleryItems.length === 0) return;
+            
+            // Preload next image
+            const nextIndex = (currentItemIndex + 1) % currentGalleryItems.length;
+            const nextItem = currentGalleryItems[nextIndex];
+            if (nextItem) {
+                const nextImageSrc = nextItem.getAttribute('data-full-image') || nextItem.getAttribute('data-video') || nextItem.src;
+                if (nextImageSrc && !nextItem.getAttribute('data-video') && !nextItem.getAttribute('data-sketchfab')) {
+                    const preloadNext = new Image();
+                    preloadNext.src = nextImageSrc;
+                }
+            }
+            
+            // Preload previous image
+            const prevIndex = (currentItemIndex - 1 + currentGalleryItems.length) % currentGalleryItems.length;
+            const prevItem = currentGalleryItems[prevIndex];
+            if (prevItem) {
+                const prevImageSrc = prevItem.getAttribute('data-full-image') || prevItem.getAttribute('data-video') || prevItem.src;
+                if (prevImageSrc && !prevItem.getAttribute('data-video') && !prevItem.getAttribute('data-sketchfab')) {
+                    const preloadPrev = new Image();
+                    preloadPrev.src = prevImageSrc;
+                }
+            }
+        }
+
         function matchDescriptionWidth() {
             let activeElement = null;
             if (lightboxImg.style.display !== 'none') {
@@ -1222,31 +1249,67 @@
                     // Show image, hide video and iframe
                     lightboxVideo.style.display = 'none';
                     lightboxIframe.style.display = 'none';
-                    lightboxLoading.classList.remove('active');
-                    lightboxImg.style.display = 'block';
+                    
                     // Use data-full-image if available, otherwise use src
                     const fullImageSrc = item.getAttribute('data-full-image') || item.src;
-                    lightboxImg.src = fullImageSrc;
-                    lightboxImg.alt = item.alt;
+                    
+                    // Hide the image initially and show loading indicator
+                    lightboxImg.style.display = 'none';
+                    lightboxImg.src = ''; // Clear previous image to avoid showing old image
+                    lightboxLoading.classList.add('active');
+                    
+                    // Preload the image before setting src to ensure it loads quickly
+                    const preloadImg = new Image();
+                    preloadImg.onload = function() {
+                        // Image is loaded, now set it to the lightbox image and show it
+                        lightboxImg.src = fullImageSrc;
+                        lightboxImg.alt = item.alt;
+                        lightboxImg.style.display = 'block';
+                        lightboxLoading.classList.remove('active');
+                        matchDescriptionWidth();
+                    };
+                    preloadImg.onerror = function() {
+                        // If preload fails, still try to set the src
+                        lightboxImg.src = fullImageSrc;
+                        lightboxImg.alt = item.alt;
+                        lightboxImg.style.display = 'block';
+                        lightboxLoading.classList.remove('active');
+                    };
+                    preloadImg.src = fullImageSrc;
+                    
+                    // Also handle the case where the image is already cached
+                    if (preloadImg.complete) {
+                        lightboxImg.src = fullImageSrc;
+                        lightboxImg.alt = item.alt;
+                        lightboxImg.style.display = 'block';
+                        lightboxLoading.classList.remove('active');
+                        matchDescriptionWidth();
+                    }
                 
-                // Set description from alt text
-                const description = item.alt || '';
-                lightboxDescription.textContent = description;
-                lightboxDescription.style.display = description ? 'block' : 'none';
+                    // Set description from alt text
+                    const description = item.alt || '';
+                    lightboxDescription.textContent = description;
+                    lightboxDescription.style.display = description ? 'block' : 'none';
                 
-                // Match description width to image width after image loads
-                lightboxImg.onload = function() {
-                    matchDescriptionWidth();
-                };
-                if (lightboxImg.complete) {
-                    matchDescriptionWidth();
-                }
+                    // Match description width to image width after image loads
+                    lightboxImg.onload = function() {
+                        matchDescriptionWidth();
+                        // Preload adjacent images after current image loads
+                        preloadAdjacentImages();
+                    };
+                    if (lightboxImg.complete) {
+                        matchDescriptionWidth();
+                        preloadAdjacentImages();
+                    }
                 }
             }
             
                 // Show/hide navigation buttons
                 lightboxPrev.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
                 lightboxNext.style.display = currentGalleryItems.length > 1 ? 'flex' : 'none';
+                
+                // Preload adjacent images immediately
+                preloadAdjacentImages();
             } catch (error) {
                 console.error('Error in showItem:', error);
                 // Keep lightbox open even if there's an error

@@ -711,6 +711,7 @@
                                 <img src="videos/3d/car_wreck_03_gif.gif" 
                                      alt="Car Wreck" 
                                      data-video="videos/3d/car_wreck_03_video.mp4"
+                                     data-loop="true"
                                      data-description="Car Wreck">
                             </div>
                             <div class="gallery-item">
@@ -953,6 +954,12 @@
                 lightboxVideo.loop = shouldLoop;
                 
                 lightboxVideo.load();
+                
+                // Autoplay the video
+                lightboxVideo.play().catch(e => {
+                    // Autoplay may be blocked by browser, ignore error
+                    console.log('Autoplay prevented:', e);
+                });
                 
                 // Get description from data-description or alt
                 const description = item.getAttribute('data-description') || item.alt || '';

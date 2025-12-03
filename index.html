@@ -280,6 +280,34 @@
             display: block;
         }
 
+        .lightbox-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #66FF99;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1em;
+            text-align: center;
+            z-index: 10;
+            display: none;
+        }
+
+        .lightbox-loading.active {
+            display: block;
+        }
+
+        .lightbox-loading::after {
+            content: '...';
+            animation: loading-dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes loading-dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
         .lightbox-nav {
             position: absolute;
             top: 50%;
@@ -903,6 +931,7 @@
                 <button class="lightbox-close">×</button>
                 <button class="lightbox-nav prev">‹</button>
                 <button class="lightbox-nav next">›</button>
+                <div class="lightbox-loading">Loading</div>
                 <img src="" alt="" style="display: none;">
                 <video controls style="display: none;"></video>
                 <div class="lightbox-description"></div>
@@ -913,6 +942,7 @@
         const lightboxImg = lightbox.querySelector('img');
         const lightboxVideo = lightbox.querySelector('video');
         const lightboxDescription = lightbox.querySelector('.lightbox-description');
+        const lightboxLoading = lightbox.querySelector('.lightbox-loading');
         const lightboxClose = lightbox.querySelector('.lightbox-close');
         const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
         const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
@@ -949,6 +979,9 @@
                 lightboxVideo.style.display = 'block';
                 lightboxVideo.src = videoSrc;
                 
+                // Show loading indicator
+                lightboxLoading.classList.add('active');
+                
                 // Check if video should loop
                 const shouldLoop = item.getAttribute('data-loop') === 'true';
                 lightboxVideo.loop = shouldLoop;
@@ -966,13 +999,20 @@
                 lightboxDescription.textContent = description;
                 lightboxDescription.style.display = description ? 'block' : 'none';
                 
-                // Match width after video loads
-                lightboxVideo.onloadedmetadata = function() {
+                // Hide loading indicator when video can play
+                lightboxVideo.oncanplay = function() {
+                    lightboxLoading.classList.remove('active');
                     matchDescriptionWidth();
+                };
+                
+                // Also hide loading on error
+                lightboxVideo.onerror = function() {
+                    lightboxLoading.classList.remove('active');
                 };
             } else {
                 // Show image, hide video
                 lightboxVideo.style.display = 'none';
+                lightboxLoading.classList.remove('active');
                 lightboxImg.style.display = 'block';
                 lightboxImg.src = item.src;
                 lightboxImg.alt = item.alt;

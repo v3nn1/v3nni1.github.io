@@ -422,18 +422,43 @@
             background: rgba(102, 255, 153, 0.03);
         }
 
+        .project-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .project-poster {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            border: 1px solid #66FF99;
+            background: rgba(102, 255, 153, 0.05);
+            overflow: hidden;
+        }
+
+        .project-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
         .project-title {
             font-family: 'Share Tech Mono', monospace;
             font-size: 1.2em;
             color: #66FF99;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: 400;
         }
 
         .project-description {
             font-size: 0.9em;
             color: #4ACC7F;
-            margin-bottom: 15px;
             line-height: 1.6;
         }
 
@@ -464,6 +489,15 @@
 
             .project-item {
                 padding: 20px;
+            }
+
+            .project-header {
+                gap: 15px;
+            }
+
+            .project-poster {
+                width: 100px;
+                height: 100px;
             }
 
             .project-title {
@@ -652,16 +686,30 @@
                 
                 <div class="projects-grid">
                     <div class="project-item">
-                        <div class="project-title">Alpha Polaris (2011)</div>
-                        <div class="project-description" data-translate="project-alpha-polaris-description">Project description goes here.</div>
+                        <div class="project-header">
+                            <div class="project-poster">
+                                <img src="images/projects/alpha_Polaris.jpg" alt="Alpha Polaris">
+                            </div>
+                            <div class="project-info">
+                                <div class="project-title">Alpha Polaris (2011)</div>
+                                <div class="project-description" data-translate="project-alpha-polaris-description">Project description goes here.</div>
+                            </div>
+                        </div>
                         <div class="project-video">
                             <iframe src="https://www.youtube.com/embed/QtmReC5l4h8?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                     </div>
 
                     <div class="project-item">
-                        <div class="project-title">Baking Success (2013)</div>
-                        <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
+                        <div class="project-header">
+                            <div class="project-poster">
+                                <img src="images/projects/baking_success.jpg" alt="Baking Success">
+                            </div>
+                            <div class="project-info">
+                                <div class="project-title">Baking Success (2013)</div>
+                                <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
+                            </div>
+                        </div>
                         <div class="project-video">
                             <iframe src="https://www.youtube.com/embed/mTai954pp-4?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>

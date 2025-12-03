@@ -941,6 +941,11 @@
                 lightboxImg.style.display = 'none';
                 lightboxVideo.style.display = 'block';
                 lightboxVideo.src = videoSrc;
+                
+                // Check if video should loop
+                const shouldLoop = item.getAttribute('data-loop') === 'true';
+                lightboxVideo.loop = shouldLoop;
+                
                 lightboxVideo.load();
                 
                 // Get description from data-description or alt

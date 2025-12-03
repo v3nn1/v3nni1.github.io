@@ -272,6 +272,7 @@
             box-sizing: border-box;
         }
 
+
         .lightbox-description {
             margin-top: 0;
             padding: 10px 15px;
@@ -1064,6 +1065,14 @@
                 // Show video, hide image
                 lightboxImg.style.display = 'none';
                 lightboxVideo.style.display = 'block';
+                
+                // Set placeholder dimensions to prevent layout shift
+                // Use a common 16:9 aspect ratio size
+                const placeholderWidth = Math.min(640, window.innerWidth * 0.9);
+                const placeholderHeight = (placeholderWidth * 9) / 16;
+                lightboxVideo.style.width = placeholderWidth + 'px';
+                lightboxVideo.style.height = placeholderHeight + 'px';
+                
                 lightboxVideo.src = videoSrc;
                 
                 // Show loading indicator
@@ -1089,6 +1098,9 @@
                 // Hide loading indicator when video can play
                 lightboxVideo.oncanplay = function() {
                     lightboxLoading.classList.remove('active');
+                    // Reset to auto sizing once video metadata is loaded
+                    lightboxVideo.style.width = 'auto';
+                    lightboxVideo.style.height = 'auto';
                     matchDescriptionWidth();
                 };
                 

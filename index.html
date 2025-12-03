@@ -428,6 +428,10 @@
             margin-bottom: 15px;
         }
 
+        .project-info {
+            flex: 1;
+        }
+
         .project-poster {
             flex-shrink: 0;
             width: 120px;
@@ -435,6 +439,12 @@
             border: 1px solid #66FF99;
             background: rgba(102, 255, 153, 0.05);
             overflow: hidden;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-poster:hover {
+            opacity: 0.8;
         }
 
         .project-poster img {
@@ -444,8 +454,59 @@
             display: block;
         }
 
-        .project-info {
-            flex: 1;
+        /* Poster Lightbox */
+        .poster-lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .poster-lightbox.active {
+            display: flex;
+        }
+
+        .poster-lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .poster-lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border: 2px solid #66FF99;
+            display: block;
+        }
+
+        .poster-lightbox-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: #66FF99;
+            color: #000;
+            border: 2px solid #66FF99;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .poster-lightbox-close:hover {
+            background: #4ACC7F;
         }
 
         .project-title {
@@ -687,12 +748,12 @@
                 <div class="projects-grid">
                     <div class="project-item">
                         <div class="project-header">
-                            <div class="project-poster">
-                                <img src="images/projects/alpha_Polaris.jpg" alt="Alpha Polaris">
-                            </div>
                             <div class="project-info">
                                 <div class="project-title">Alpha Polaris (2011)</div>
                                 <div class="project-description" data-translate="project-alpha-polaris-description">Project description goes here.</div>
+                            </div>
+                            <div class="project-poster" data-poster="images/projects/alpha_Polaris.jpg">
+                                <img src="images/projects/alpha_Polaris.jpg" alt="Alpha Polaris">
                             </div>
                         </div>
                         <div class="project-video">
@@ -702,12 +763,12 @@
 
                     <div class="project-item">
                         <div class="project-header">
-                            <div class="project-poster">
-                                <img src="images/projects/baking_success.jpg" alt="Baking Success">
-                            </div>
                             <div class="project-info">
                                 <div class="project-title">Baking Success (2013)</div>
                                 <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
+                            </div>
+                            <div class="project-poster" data-poster="images/projects/baking_success.jpg">
+                                <img src="images/projects/baking_success.jpg" alt="Baking Success">
                             </div>
                         </div>
                         <div class="project-video">
@@ -941,6 +1002,49 @@
                 showPrev();
             } else if (e.key === 'ArrowRight') {
                 showNext();
+            }
+        });
+
+        // Poster Lightbox
+        const posterLightbox = document.createElement('div');
+        posterLightbox.className = 'poster-lightbox';
+        posterLightbox.innerHTML = `
+            <div class="poster-lightbox-content">
+                <button class="poster-lightbox-close">&times;</button>
+                <img src="" alt="">
+            </div>
+        `;
+        document.body.appendChild(posterLightbox);
+
+        const posterLightboxImg = posterLightbox.querySelector('img');
+        const posterLightboxClose = posterLightbox.querySelector('.poster-lightbox-close');
+
+        // Open poster lightbox when clicking on poster
+        document.querySelectorAll('.project-poster').forEach(poster => {
+            poster.addEventListener('click', () => {
+                const posterSrc = poster.getAttribute('data-poster');
+                const posterAlt = poster.querySelector('img').alt;
+                posterLightboxImg.src = posterSrc;
+                posterLightboxImg.alt = posterAlt;
+                posterLightbox.classList.add('active');
+            });
+        });
+
+        // Close poster lightbox
+        posterLightboxClose.addEventListener('click', () => {
+            posterLightbox.classList.remove('active');
+        });
+
+        posterLightbox.addEventListener('click', (e) => {
+            if (e.target === posterLightbox) {
+                posterLightbox.classList.remove('active');
+            }
+        });
+
+        // Close poster lightbox with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && posterLightbox.classList.contains('active')) {
+                posterLightbox.classList.remove('active');
             }
         });
     </script>

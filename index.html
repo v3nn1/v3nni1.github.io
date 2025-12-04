@@ -134,99 +134,95 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Create pixelated rain using box-shadow-like patterns with gradients */
+            /* Create pixelated rain using repeating gradients - more visible blocks */
             background-image: 
-                /* Column 1 - Pixel blocks in cyan (8x8 pixel blocks) */
+                /* Column 1 - Pixel blocks in cyan (larger, more visible) */
                 repeating-linear-gradient(
                     180deg,
                     transparent 0px,
-                    transparent 4px,
-                    rgba(0, 255, 255, 0.25) 4px,
-                    rgba(0, 255, 255, 0.25) 8px,
-                    transparent 8px,
-                    transparent 12px,
-                    rgba(0, 255, 255, 0.2) 12px,
-                    rgba(0, 255, 255, 0.2) 16px,
-                    transparent 16px,
-                    transparent 20px
+                    transparent 3px,
+                    rgba(0, 255, 255, 0.4) 3px,
+                    rgba(0, 255, 255, 0.4) 7px,
+                    transparent 7px,
+                    transparent 10px,
+                    rgba(0, 255, 255, 0.35) 10px,
+                    rgba(0, 255, 255, 0.35) 14px,
+                    transparent 14px,
+                    transparent 17px
                 ),
                 /* Column 2 - Pixel blocks in yellow */
                 repeating-linear-gradient(
                     180deg,
                     transparent 0px,
-                    transparent 6px,
-                    rgba(255, 255, 0, 0.2) 6px,
-                    rgba(255, 255, 0, 0.2) 10px,
-                    transparent 10px,
-                    transparent 14px,
-                    rgba(255, 255, 0, 0.15) 14px,
-                    rgba(255, 255, 0, 0.15) 18px,
-                    transparent 18px,
-                    transparent 22px
+                    transparent 4px,
+                    rgba(255, 255, 0, 0.35) 4px,
+                    rgba(255, 255, 0, 0.35) 8px,
+                    transparent 8px,
+                    transparent 11px,
+                    rgba(255, 255, 0, 0.3) 11px,
+                    rgba(255, 255, 0, 0.3) 15px,
+                    transparent 15px,
+                    transparent 18px
                 ),
                 /* Column 3 - Pixel blocks in green */
                 repeating-linear-gradient(
                     180deg,
                     transparent 0px,
                     transparent 5px,
-                    rgba(0, 255, 0, 0.18) 5px,
-                    rgba(0, 255, 0, 0.18) 9px,
+                    rgba(0, 255, 0, 0.4) 5px,
+                    rgba(0, 255, 0, 0.4) 9px,
                     transparent 9px,
-                    transparent 13px,
-                    rgba(0, 255, 0, 0.12) 13px,
-                    rgba(0, 255, 0, 0.12) 17px,
-                    transparent 17px,
-                    transparent 21px
+                    transparent 12px,
+                    rgba(0, 255, 0, 0.3) 12px,
+                    rgba(0, 255, 0, 0.3) 16px,
+                    transparent 16px,
+                    transparent 19px
                 ),
                 /* Column 4 - Pixel blocks in magenta */
                 repeating-linear-gradient(
                     180deg,
                     transparent 0px,
-                    transparent 7px,
-                    rgba(255, 0, 255, 0.15) 7px,
-                    rgba(255, 0, 255, 0.15) 11px,
-                    transparent 11px,
-                    transparent 15px,
-                    rgba(255, 0, 255, 0.1) 15px,
-                    rgba(255, 0, 255, 0.1) 19px,
-                    transparent 19px,
-                    transparent 23px
+                    transparent 6px,
+                    rgba(255, 0, 255, 0.3) 6px,
+                    rgba(255, 0, 255, 0.3) 10px,
+                    transparent 10px,
+                    transparent 13px,
+                    rgba(255, 0, 255, 0.25) 13px,
+                    rgba(255, 0, 255, 0.25) 17px,
+                    transparent 17px,
+                    transparent 20px
                 ),
                 /* Column 5 - Pixel blocks in cyan (variation) */
                 repeating-linear-gradient(
                     180deg,
                     transparent 0px,
-                    transparent 8px,
-                    rgba(0, 255, 255, 0.22) 8px,
-                    rgba(0, 255, 255, 0.22) 12px,
-                    transparent 12px,
-                    transparent 16px,
-                    rgba(0, 255, 255, 0.18) 16px,
-                    rgba(0, 255, 255, 0.18) 20px,
-                    transparent 20px,
-                    transparent 24px
+                    transparent 7px,
+                    rgba(0, 255, 255, 0.35) 7px,
+                    rgba(0, 255, 255, 0.35) 11px,
+                    transparent 11px,
+                    transparent 14px,
+                    rgba(0, 255, 255, 0.3) 14px,
+                    rgba(0, 255, 255, 0.3) 18px,
+                    transparent 18px,
+                    transparent 21px
                 );
-            background-size: 60px 100%, 80px 100%, 70px 100%, 65px 100%, 75px 100%;
-            background-position: 8% 0, 25% 0, 45% 0, 68% 0, 88% 0;
+            background-size: 50px 100%, 70px 100%, 60px 100%, 55px 100%, 65px 100%;
+            background-position: 10% 0, 28% 0, 48% 0, 70% 0, 90% 0;
             background-repeat: repeat-y, repeat-y, repeat-y, repeat-y, repeat-y;
-            opacity: 0.5;
-            animation: pixel-rain 12s linear infinite;
+            opacity: 0.7;
+            animation: pixel-rain 10s linear infinite;
             pointer-events: none;
-            /* Fade edges for subtle effect */
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 5%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0.4) 95%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 5%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0.4) 95%, transparent 100%);
-            /* Pixelated look */
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
+            /* Less aggressive fade for more visibility */
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 3%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.2) 97%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 3%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.2) 97%, transparent 100%);
         }
 
         @keyframes pixel-rain {
             0% { 
-                background-position: 8% 0, 25% 0, 45% 0, 68% 0, 88% 0;
+                background-position: 10% 0, 28% 0, 48% 0, 70% 0, 90% 0;
             }
             100% { 
-                background-position: 8% 200vh, 25% 180vh, 45% 220vh, 68% 190vh, 88% 210vh;
+                background-position: 10% 200vh, 28% 180vh, 48% 220vh, 70% 190vh, 90% 210vh;
             }
         }
 

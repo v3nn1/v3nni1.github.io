@@ -540,11 +540,17 @@
             border: 1px solid #66FF99;
             background: rgba(102, 255, 153, 0.05);
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            display: inline-block;
+            line-height: 0;
+            font-size: 0;
             padding: 0;
             margin: 0;
+            vertical-align: top;
+            box-sizing: border-box;
+        }
+
+        .project-poster:not(.square) {
+            height: fit-content;
         }
 
         .project-poster img {
@@ -555,7 +561,7 @@
             padding: 0;
             border: none;
             outline: none;
-            flex-shrink: 0;
+            vertical-align: bottom;
         }
 
         .project-poster.square {

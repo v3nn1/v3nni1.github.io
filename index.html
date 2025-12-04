@@ -776,6 +776,14 @@
                                      loading="lazy"
                                      decoding="async">
                             </div>
+                            <div class="gallery-item">
+                                <img src="videos/2d/youtube_HAOjQEE00BI_gif.gif" 
+                                     alt="YouTube Video" 
+                                     data-youtube="https://youtu.be/HAOjQEE00BI"
+                                     data-description="YouTube Video"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1086,7 +1094,7 @@
                     <div class="lightbox-loading">Loading</div>
                     <img src="" alt="" style="display: none;">
                     <video controls style="display: none;"></video>
-                    <iframe src="" frameborder="0" allow="autoplay; fullscreen; vr" allowfullscreen style="display: none;"></iframe>
+                    <iframe src="" frameborder="0" allow="autoplay; fullscreen; vr; accelerometer; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
                 </div>
                 <div class="lightbox-description"></div>
                 <div class="lightbox-nav-container">
@@ -1114,9 +1122,9 @@
             // Preload next image
             const nextIndex = (currentItemIndex + 1) % currentGalleryItems.length;
             const nextItem = currentGalleryItems[nextIndex];
-            if (nextItem) {
+                if (nextItem) {
                 const nextImageSrc = nextItem.getAttribute('data-full-image') || nextItem.getAttribute('data-video') || nextItem.src;
-                if (nextImageSrc && !nextItem.getAttribute('data-video') && !nextItem.getAttribute('data-sketchfab')) {
+                if (nextImageSrc && !nextItem.getAttribute('data-video') && !nextItem.getAttribute('data-sketchfab') && !nextItem.getAttribute('data-youtube')) {
                     const preloadNext = new Image();
                     preloadNext.src = nextImageSrc;
                 }
@@ -1125,9 +1133,9 @@
             // Preload previous image
             const prevIndex = (currentItemIndex - 1 + currentGalleryItems.length) % currentGalleryItems.length;
             const prevItem = currentGalleryItems[prevIndex];
-            if (prevItem) {
+                if (prevItem) {
                 const prevImageSrc = prevItem.getAttribute('data-full-image') || prevItem.getAttribute('data-video') || prevItem.src;
-                if (prevImageSrc && !prevItem.getAttribute('data-video') && !prevItem.getAttribute('data-sketchfab')) {
+                if (prevImageSrc && !prevItem.getAttribute('data-video') && !prevItem.getAttribute('data-sketchfab') && !prevItem.getAttribute('data-youtube')) {
                     const preloadPrev = new Image();
                     preloadPrev.src = prevImageSrc;
                 }
@@ -1184,6 +1192,9 @@
             // Check if it's a Sketchfab embed (has data-sketchfab attribute)
             const sketchfabUrl = item.getAttribute('data-sketchfab');
             
+            // Check if it's a YouTube embed (has data-youtube attribute)
+            const youtubeUrl = item.getAttribute('data-youtube');
+            
             if (sketchfabUrl) {
                 // Show Sketchfab iframe, hide image and video
                 lightboxImg.style.display = 'none';
@@ -1210,6 +1221,46 @@
                     lightboxLoading.classList.remove('active');
                     // Keep lightbox open even if iframe fails to load
                     console.error('Iframe failed to load:', sketchfabUrl);
+                };
+            } else if (youtubeUrl) {
+                // Show YouTube iframe, hide image and video
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'none';
+                lightboxIframe.style.display = 'block';
+                
+                // Convert YouTube URL to embed format
+                let embedUrl = youtubeUrl;
+                if (youtubeUrl.includes('youtu.be/')) {
+                    const videoId = youtubeUrl.split('youtu.be/')[1].split('?')[0];
+                    embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
+                } else if (youtubeUrl.includes('youtube.com/watch?v=')) {
+                    const videoId = youtubeUrl.split('v=')[1].split('&')[0];
+                    embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
+                } else if (youtubeUrl.includes('youtube.com/embed/')) {
+                    embedUrl = youtubeUrl.includes('?') ? youtubeUrl : `${youtubeUrl}?rel=0`;
+                }
+                
+                lightboxIframe.src = embedUrl;
+                
+                // Show loading indicator
+                lightboxLoading.classList.add('active');
+                
+                // Get description from data-description or alt
+                const description = item.getAttribute('data-description') || item.alt || '';
+                lightboxDescription.textContent = description;
+                lightboxDescription.style.display = description ? 'block' : 'none';
+                
+                // Hide loading indicator when iframe loads
+                lightboxIframe.onload = function() {
+                    lightboxLoading.classList.remove('active');
+                    matchDescriptionWidth();
+                };
+                
+                // Also hide loading on error
+                lightboxIframe.onerror = function() {
+                    lightboxLoading.classList.remove('active');
+                    // Keep lightbox open even if iframe fails to load
+                    console.error('Iframe failed to load:', embedUrl);
                 };
             } else {
                 // Check if it's a video thumbnail (has data-video attribute)

@@ -1103,7 +1103,7 @@
                 <div class="lightbox-media-container">
                     <button class="lightbox-close">×</button>
                     <div class="lightbox-loading">Loading</div>
-                    <img src="" alt="" style="display: none;">
+                    <img src="" alt="" style="display: none;" id="lightbox-img">
                     <video controls style="display: none;"></video>
                     <iframe src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display: none;"></iframe>
                 </div>
@@ -1357,31 +1357,30 @@
                     // Show loading indicator
                     lightboxLoading.classList.add('active');
                     
-                    // Preload the image before setting src to ensure it loads quickly
+                    // Set the image source and alt text
+                    lightboxImg.src = fullImageSrc;
+                    lightboxImg.alt = item.alt || '';
+                    
+                    // Preload the image before showing it
                     const preloadImg = new Image();
                     preloadImg.onload = function() {
-                        // Image is loaded, now set it to the lightbox image and show it
-                        lightboxImg.src = fullImageSrc;
-                        lightboxImg.alt = item.alt;
+                        // Image is loaded, show it
                         lightboxImg.style.display = 'block';
                         lightboxLoading.classList.remove('active');
                         console.log('Image loaded and displayed');
                         matchDescriptionWidth();
                     };
                     preloadImg.onerror = function() {
-                        // If preload fails, still try to set the src
-                        lightboxImg.src = fullImageSrc;
-                        lightboxImg.alt = item.alt;
+                        // If preload fails, still try to show it
                         lightboxImg.style.display = 'block';
                         lightboxLoading.classList.remove('active');
                         console.log('Image preload failed, trying direct load');
+                        matchDescriptionWidth();
                     };
                     preloadImg.src = fullImageSrc;
                     
-                    // Also handle the case where the image is already cached
+                    // If image is already cached, show it immediately
                     if (preloadImg.complete) {
-                        lightboxImg.src = fullImageSrc;
-                        lightboxImg.alt = item.alt;
                         lightboxImg.style.display = 'block';
                         lightboxLoading.classList.remove('active');
                         console.log('Image already cached, displaying immediately');

@@ -1352,10 +1352,9 @@
                     
                     // Use data-full-image if available, otherwise use src
                     const fullImageSrc = item.getAttribute('data-full-image') || item.src;
+                    console.log('Showing image:', fullImageSrc);
                     
-                    // Hide the image initially and show loading indicator
-                    lightboxImg.style.display = 'none';
-                    lightboxImg.src = ''; // Clear previous image to avoid showing old image
+                    // Show loading indicator
                     lightboxLoading.classList.add('active');
                     
                     // Preload the image before setting src to ensure it loads quickly
@@ -1366,6 +1365,7 @@
                         lightboxImg.alt = item.alt;
                         lightboxImg.style.display = 'block';
                         lightboxLoading.classList.remove('active');
+                        console.log('Image loaded and displayed');
                         matchDescriptionWidth();
                     };
                     preloadImg.onerror = function() {
@@ -1374,6 +1374,7 @@
                         lightboxImg.alt = item.alt;
                         lightboxImg.style.display = 'block';
                         lightboxLoading.classList.remove('active');
+                        console.log('Image preload failed, trying direct load');
                     };
                     preloadImg.src = fullImageSrc;
                     
@@ -1383,6 +1384,7 @@
                         lightboxImg.alt = item.alt;
                         lightboxImg.style.display = 'block';
                         lightboxLoading.classList.remove('active');
+                        console.log('Image already cached, displaying immediately');
                         matchDescriptionWidth();
                     }
                 
@@ -1436,6 +1438,7 @@
                 img.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    console.log('Gallery image clicked');
                     // Find the parent skill-item section
                     const skillItem = img.closest('.skill-item');
                     if (skillItem) {
@@ -1443,7 +1446,9 @@
                         // This includes both regular images and video thumbnails (which are also img tags)
                         currentGalleryItems = Array.from(skillItem.querySelectorAll('.gallery-item img'));
                         currentItemIndex = currentGalleryItems.indexOf(img);
+                        console.log('Current item index:', currentItemIndex, 'Total items:', currentGalleryItems.length);
                         if (currentItemIndex !== -1 && currentGalleryItems.length > 0) {
+                            console.log('Opening lightbox');
                             lightbox.classList.add('active');
                             showItem(currentItemIndex);
                         }

@@ -1431,26 +1431,33 @@
         }
 
         // Open lightbox on gallery item click - handles both images and video thumbnails
-        // Use event delegation for better reliability
-        document.addEventListener('click', (e) => {
-            const img = e.target.closest('.gallery-item img');
-            if (img) {
-                e.preventDefault();
-                e.stopPropagation();
-                // Find the parent skill-item section
-                const skillItem = img.closest('.skill-item');
-                if (skillItem) {
-                    // Get all images from this section's gallery only
-                    // This includes both regular images and video thumbnails (which are also img tags)
-                    currentGalleryItems = Array.from(skillItem.querySelectorAll('.gallery-item img'));
-                    currentItemIndex = currentGalleryItems.indexOf(img);
-                    if (currentItemIndex !== -1 && currentGalleryItems.length > 0) {
-                        lightbox.classList.add('active');
-                        showItem(currentItemIndex);
+        function setupGalleryClickHandlers() {
+            document.querySelectorAll('.gallery-item img').forEach((img) => {
+                img.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Find the parent skill-item section
+                    const skillItem = img.closest('.skill-item');
+                    if (skillItem) {
+                        // Get all images from this section's gallery only
+                        // This includes both regular images and video thumbnails (which are also img tags)
+                        currentGalleryItems = Array.from(skillItem.querySelectorAll('.gallery-item img'));
+                        currentItemIndex = currentGalleryItems.indexOf(img);
+                        if (currentItemIndex !== -1 && currentGalleryItems.length > 0) {
+                            lightbox.classList.add('active');
+                            showItem(currentItemIndex);
+                        }
                     }
-                }
-            }
-        });
+                });
+            });
+        }
+
+        // Setup gallery click handlers when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupGalleryClickHandlers);
+        } else {
+            setupGalleryClickHandlers();
+        }
 
         // Navigation buttons
         lightboxNext.addEventListener('click', (e) => {

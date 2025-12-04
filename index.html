@@ -635,13 +635,15 @@
         }
 
         .project-video iframe,
-        .project-video video {
+        .project-video video,
+        .project-video img {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             border: none;
+            object-fit: cover;
         }
 
         @media (max-width: 768px) {
@@ -994,6 +996,21 @@
                             <iframe src="https://www.youtube.com/embed/mTai954pp-4?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
+
+                    <div class="project-item">
+                        <div class="project-header">
+                            <div class="project-info">
+                                <div class="project-title">VR</div>
+                                <div class="project-description" data-translate="project-vr-description">Project description goes here.</div>
+                            </div>
+                            <div class="project-poster" data-poster="images/projects/VR.jpg">
+                                <img src="images/projects/VR.jpg" alt="VR" fetchpriority="high" decoding="async">
+                            </div>
+                        </div>
+                        <div class="project-video">
+                            <img src="images/projects/VR.jpg" alt="VR" loading="lazy" decoding="async">
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1041,7 +1058,8 @@
                 'skill-bonus-video': 'Video Editing & Motion Graphics',
                 'projects-title': 'Projects',
                 'project-alpha-polaris-description': 'Project description goes here.',
-                'project-baking-success-description': 'Project description goes here.'
+                'project-baking-success-description': 'Project description goes here.',
+                'project-vr-description': 'Project description goes here.'
             },
             fi: {
                 'subtitle': '2D/3D Pelitaiteilija',
@@ -1074,7 +1092,8 @@
                 'skill-bonus-video': 'Videomontointi ja liikkuva grafiikka',
                 'projects-title': 'Projektit',
                 'project-alpha-polaris-description': 'Projektin kuvaus tähän.',
-                'project-baking-success-description': 'Projektin kuvaus tähän.'
+                'project-baking-success-description': 'Projektin kuvaus tähän.',
+                'project-vr-description': 'Projektin kuvaus tähän.'
             }
         };
 

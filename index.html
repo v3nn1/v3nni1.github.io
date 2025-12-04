@@ -1094,7 +1094,7 @@
                     <div class="lightbox-loading">Loading</div>
                     <img src="" alt="" style="display: none;">
                     <video controls style="display: none;"></video>
-                    <iframe src="" frameborder="0" allow="autoplay; fullscreen; vr; accelerometer; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
+                    <iframe src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display: none;"></iframe>
                 </div>
                 <div class="lightbox-description"></div>
                 <div class="lightbox-nav-container">
@@ -1229,16 +1229,17 @@
                 lightboxIframe.style.display = 'block';
                 
                 // Convert YouTube URL to embed format
-                let embedUrl = youtubeUrl;
+                let videoId = '';
                 if (youtubeUrl.includes('youtu.be/')) {
-                    const videoId = youtubeUrl.split('youtu.be/')[1].split('?')[0];
-                    embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
+                    videoId = youtubeUrl.split('youtu.be/')[1].split('?')[0].split('&')[0];
                 } else if (youtubeUrl.includes('youtube.com/watch?v=')) {
-                    const videoId = youtubeUrl.split('v=')[1].split('&')[0];
-                    embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
+                    videoId = youtubeUrl.split('v=')[1].split('&')[0];
                 } else if (youtubeUrl.includes('youtube.com/embed/')) {
-                    embedUrl = youtubeUrl.includes('?') ? youtubeUrl : `${youtubeUrl}?rel=0`;
+                    videoId = youtubeUrl.split('embed/')[1].split('?')[0].split('&')[0];
                 }
+                
+                // Build embed URL with proper parameters
+                const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`;
                 
                 lightboxIframe.src = embedUrl;
                 

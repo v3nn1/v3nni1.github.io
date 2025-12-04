@@ -272,10 +272,12 @@
         }
 
         .lightbox-content iframe {
-            width: 640px;
+            width: 854px;
             height: 480px;
             min-width: 320px;
-            min-height: 240px;
+            min-height: 180px;
+            max-width: 90vw;
+            max-height: 90vh;
         }
 
         @media (max-width: 768px) {
@@ -1246,10 +1248,27 @@
                     videoId = youtubeUrl.split('embed/')[1].split('?')[0].split('&')[0];
                 }
                 
-                // Build embed URL with proper parameters
-                const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`;
+                // Validate video ID
+                if (!videoId || videoId.length === 0) {
+                    console.error('Invalid YouTube video ID:', youtubeUrl);
+                    lightboxLoading.classList.remove('active');
+                    return;
+                }
                 
-                lightboxIframe.src = embedUrl;
+                // Build embed URL with proper parameters
+                const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
+                
+                // Set iframe dimensions for YouTube (16:9 aspect ratio)
+                lightboxIframe.style.width = '854px';
+                lightboxIframe.style.height = '480px';
+                
+                // Clear previous src to force reload
+                lightboxIframe.src = '';
+                
+                // Set new src after a brief delay to ensure iframe is ready
+                setTimeout(() => {
+                    lightboxIframe.src = embedUrl;
+                }, 10);
                 
                 // Show loading indicator
                 lightboxLoading.classList.add('active');

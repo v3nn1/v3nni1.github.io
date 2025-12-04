@@ -1429,8 +1429,12 @@
         }
 
         // Open lightbox on gallery item click - handles both images and video thumbnails
-        document.querySelectorAll('.gallery-item img').forEach((img) => {
-            img.addEventListener('click', () => {
+        // Use event delegation for better reliability
+        document.addEventListener('click', (e) => {
+            const img = e.target.closest('.gallery-item img');
+            if (img) {
+                e.preventDefault();
+                e.stopPropagation();
                 // Find the parent skill-item section
                 const skillItem = img.closest('.skill-item');
                 if (skillItem) {
@@ -1443,7 +1447,7 @@
                         showItem(currentItemIndex);
                     }
                 }
-            });
+            }
         });
 
         // Navigation buttons

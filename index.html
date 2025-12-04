@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* Retro arcade game inspired background - CSS only, no JS */
+        /* Retro pixel art inspired background - CSS only, no JS */
         .parallax-background {
             position: fixed;
             top: 0;
@@ -42,29 +42,29 @@
                     0deg,
                     transparent,
                     transparent 1px,
-                    rgba(0, 255, 255, 0.03) 1px,
-                    rgba(0, 255, 255, 0.03) 2px
+                    rgba(0, 255, 255, 0.04) 1px,
+                    rgba(0, 255, 255, 0.04) 2px
                 ),
                 /* Subtle pixel grid */
                 repeating-linear-gradient(
                     90deg,
                     transparent,
                     transparent 19px,
-                    rgba(255, 255, 0, 0.02) 19px,
-                    rgba(255, 255, 0, 0.02) 20px
+                    rgba(255, 255, 0, 0.015) 19px,
+                    rgba(255, 255, 0, 0.015) 20px
                 ),
                 repeating-linear-gradient(
                     0deg,
                     transparent,
                     transparent 19px,
-                    rgba(255, 255, 0, 0.02) 19px,
-                    rgba(255, 255, 0, 0.02) 20px
+                    rgba(255, 255, 0, 0.015) 19px,
+                    rgba(255, 255, 0, 0.015) 20px
                 ),
-                /* Retro arcade glow (Pac-Man yellow, Space Invaders green) */
+                /* Retro arcade glow */
                 radial-gradient(ellipse 1400px 1600px at 50% 40%, 
-                    rgba(255, 255, 0, 0.15) 0%, 
-                    rgba(0, 255, 255, 0.12) 30%,
-                    rgba(0, 255, 0, 0.1) 50%,
+                    rgba(255, 255, 0, 0.12) 0%, 
+                    rgba(0, 255, 255, 0.1) 30%,
+                    rgba(0, 255, 0, 0.08) 50%,
                     transparent 70%
                 ),
                 /* Base dark */
@@ -126,7 +126,7 @@
             100% { transform: translateY(10px); }
         }
 
-        /* Retro digital rain effect - CSS only, subtle and smooth */
+        /* Pixel art digital rain - CSS only, creates 8-bit style falling blocks */
         .parallax-overlay::after {
             content: '';
             position: absolute;
@@ -134,64 +134,99 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Create vertical rain columns using repeating gradients */
+            /* Create pixelated rain using box-shadow-like patterns with gradients */
             background-image: 
-                /* Column 1 - subtle cyan */
+                /* Column 1 - Pixel blocks in cyan (8x8 pixel blocks) */
+                repeating-linear-gradient(
+                    180deg,
+                    transparent 0px,
+                    transparent 4px,
+                    rgba(0, 255, 255, 0.25) 4px,
+                    rgba(0, 255, 255, 0.25) 8px,
+                    transparent 8px,
+                    transparent 12px,
+                    rgba(0, 255, 255, 0.2) 12px,
+                    rgba(0, 255, 255, 0.2) 16px,
+                    transparent 16px,
+                    transparent 20px
+                ),
+                /* Column 2 - Pixel blocks in yellow */
+                repeating-linear-gradient(
+                    180deg,
+                    transparent 0px,
+                    transparent 6px,
+                    rgba(255, 255, 0, 0.2) 6px,
+                    rgba(255, 255, 0, 0.2) 10px,
+                    transparent 10px,
+                    transparent 14px,
+                    rgba(255, 255, 0, 0.15) 14px,
+                    rgba(255, 255, 0, 0.15) 18px,
+                    transparent 18px,
+                    transparent 22px
+                ),
+                /* Column 3 - Pixel blocks in green */
+                repeating-linear-gradient(
+                    180deg,
+                    transparent 0px,
+                    transparent 5px,
+                    rgba(0, 255, 0, 0.18) 5px,
+                    rgba(0, 255, 0, 0.18) 9px,
+                    transparent 9px,
+                    transparent 13px,
+                    rgba(0, 255, 0, 0.12) 13px,
+                    rgba(0, 255, 0, 0.12) 17px,
+                    transparent 17px,
+                    transparent 21px
+                ),
+                /* Column 4 - Pixel blocks in magenta */
+                repeating-linear-gradient(
+                    180deg,
+                    transparent 0px,
+                    transparent 7px,
+                    rgba(255, 0, 255, 0.15) 7px,
+                    rgba(255, 0, 255, 0.15) 11px,
+                    transparent 11px,
+                    transparent 15px,
+                    rgba(255, 0, 255, 0.1) 15px,
+                    rgba(255, 0, 255, 0.1) 19px,
+                    transparent 19px,
+                    transparent 23px
+                ),
+                /* Column 5 - Pixel blocks in cyan (variation) */
                 repeating-linear-gradient(
                     180deg,
                     transparent 0px,
                     transparent 8px,
-                    rgba(0, 255, 255, 0.15) 8px,
-                    rgba(0, 255, 255, 0.15) 10px,
-                    transparent 10px,
-                    transparent 18px
-                ),
-                /* Column 2 - subtle yellow */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
+                    rgba(0, 255, 255, 0.22) 8px,
+                    rgba(0, 255, 255, 0.22) 12px,
                     transparent 12px,
-                    rgba(255, 255, 0, 0.12) 12px,
-                    rgba(255, 255, 0, 0.12) 14px,
-                    transparent 14px,
-                    transparent 22px
-                ),
-                /* Column 3 - subtle green */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
-                    transparent 10px,
-                    rgba(0, 255, 0, 0.1) 10px,
-                    rgba(0, 255, 0, 0.1) 12px,
-                    transparent 12px,
-                    transparent 20px
-                ),
-                /* Column 4 - subtle magenta */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
-                    transparent 14px,
-                    rgba(255, 0, 255, 0.08) 14px,
-                    rgba(255, 0, 255, 0.08) 16px,
                     transparent 16px,
+                    rgba(0, 255, 255, 0.18) 16px,
+                    rgba(0, 255, 255, 0.18) 20px,
+                    transparent 20px,
                     transparent 24px
                 );
-            background-size: 80px 100%, 120px 100%, 100px 100%, 90px 100%;
-            background-position: 10% 0, 30% 0, 60% 0, 85% 0;
-            background-repeat: repeat-y, repeat-y, repeat-y, repeat-y;
-            opacity: 0.4;
-            animation: retro-rain 15s linear infinite;
+            background-size: 60px 100%, 80px 100%, 70px 100%, 65px 100%, 75px 100%;
+            background-position: 8% 0, 25% 0, 45% 0, 68% 0, 88% 0;
+            background-repeat: repeat-y, repeat-y, repeat-y, repeat-y, repeat-y;
+            opacity: 0.5;
+            animation: pixel-rain 12s linear infinite;
             pointer-events: none;
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0.3) 90%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0.3) 90%, transparent 100%);
+            /* Fade edges for subtle effect */
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 5%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0.4) 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 5%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0.4) 95%, transparent 100%);
+            /* Pixelated look */
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
 
-        @keyframes retro-rain {
+        @keyframes pixel-rain {
             0% { 
-                background-position: 10% 0, 30% 0, 60% 0, 85% 0;
+                background-position: 8% 0, 25% 0, 45% 0, 68% 0, 88% 0;
             }
             100% { 
-                background-position: 10% 200vh, 30% 180vh, 60% 220vh, 85% 190vh;
+                background-position: 8% 200vh, 25% 180vh, 45% 220vh, 68% 190vh, 88% 210vh;
             }
         }
 
@@ -1754,45 +1789,8 @@
             }
         });
 
-        // Lightweight parallax effect - CSS handles most animations
+        // Subtle glitch effect only - no parallax
         function initParallaxEffects() {
-            const parallaxBg = document.getElementById('parallaxBg');
-            
-            // Only handle scroll-based parallax (minimal JS)
-            if (parallaxBg) {
-                let ticking = false;
-                let lastScrollY = 0;
-
-                function updateParallax() {
-                    const scrolled = window.pageYOffset;
-                    // Only update if scroll changed significantly
-                    if (Math.abs(scrolled - lastScrollY) > 2) {
-                        const rate = scrolled * 0.2; // Parallax speed
-                        parallaxBg.style.transform = `translate3d(0, ${rate}px, 0)`;
-                        lastScrollY = scrolled;
-                    }
-                    ticking = false;
-                }
-
-                function requestTick() {
-                    if (!ticking) {
-                        window.requestAnimationFrame(updateParallax);
-                        ticking = true;
-                    }
-                }
-
-                // Throttled scroll listener
-                let scrollTimeout;
-                window.addEventListener('scroll', () => {
-                    if (!scrollTimeout) {
-                        requestTick();
-                        scrollTimeout = setTimeout(() => {
-                            scrollTimeout = null;
-                        }, 33); // ~30fps for scroll (less frequent updates)
-                    }
-                }, { passive: true });
-            }
-            
             // Subtle glitch effect - very lightweight
             const glitchOverlay = document.querySelector('.glitch-overlay');
             if (glitchOverlay) {
@@ -1804,7 +1802,7 @@
                             glitchOverlay.style.animation = 'glitch 0.3s';
                         }, 10);
                     }
-                }, 5000); // Check every 5 seconds instead of 2
+                }, 5000); // Check every 5 seconds
             }
         }
         

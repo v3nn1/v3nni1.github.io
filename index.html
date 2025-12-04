@@ -540,16 +540,24 @@
             border: 1px solid #66FF99;
             background: rgba(102, 255, 153, 0.05);
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
+            line-height: 0;
         }
 
         .project-poster img {
             width: 100%;
             height: auto;
-            object-fit: contain;
             display: block;
+        }
+
+        .project-poster.square {
+            height: 120px;
+        }
+
+        .project-poster.square img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
         }
 
 
@@ -932,7 +940,7 @@
                                 <div class="project-title">Baking Success (2013)</div>
                                 <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
                             </div>
-                            <div class="project-poster" data-poster="images/projects/baking_success.jpg">
+                            <div class="project-poster square" data-poster="images/projects/baking_success.jpg">
                                 <img src="images/projects/baking_success.jpg" alt="Baking Success" fetchpriority="high" decoding="async">
                             </div>
                         </div>
@@ -947,7 +955,7 @@
                                 <div class="project-title">VR</div>
                                 <div class="project-description" data-translate="project-vr-description">Project description goes here.</div>
                             </div>
-                            <div class="project-poster" data-poster="images/projects/VR.jpg">
+                            <div class="project-poster square" data-poster="images/projects/VR.jpg">
                                 <img src="images/projects/VR.jpg" alt="VR" fetchpriority="high" decoding="async">
                             </div>
                         </div>

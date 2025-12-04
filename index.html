@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* Matrix/Fallout inspired parallax background */
+        /* Cyberpunk holographic parallax background */
         .parallax-background {
             position: fixed;
             top: 0;
@@ -37,19 +37,52 @@
             width: 100%;
             height: 120%;
             background: 
-                /* Terminal glow - much brighter */
-                radial-gradient(ellipse 1400px 1600px at 50% 40%, rgba(0, 255, 65, 0.4) 0%, rgba(0, 255, 65, 0.15) 40%, transparent 70%),
+                /* Holographic gradient overlay */
+                linear-gradient(135deg, 
+                    rgba(138, 43, 226, 0.15) 0%,
+                    rgba(0, 191, 255, 0.1) 25%,
+                    rgba(255, 20, 147, 0.15) 50%,
+                    rgba(0, 255, 127, 0.1) 75%,
+                    rgba(138, 43, 226, 0.15) 100%
+                ),
+                /* Cyberpunk glow */
+                radial-gradient(ellipse 1400px 1600px at 50% 40%, 
+                    rgba(138, 43, 226, 0.25) 0%, 
+                    rgba(0, 191, 255, 0.2) 30%,
+                    rgba(255, 20, 147, 0.15) 50%,
+                    transparent 70%
+                ),
                 /* Base dark */
                 #000000;
-            background-size: 100% 100%, 100% 100%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
+            background-size: 200% 200%, 100% 100%, 100% 100%;
+            background-position: 0% 0%, center, center;
+            background-repeat: no-repeat, no-repeat, no-repeat;
             opacity: 1;
             z-index: -1;
             pointer-events: none;
             transform: translateZ(0);
             will-change: transform;
             overflow: hidden;
+            animation: holographic-shift 20s ease-in-out infinite;
+        }
+
+        @keyframes holographic-shift {
+            0%, 100% { 
+                background-position: 0% 0%, center, center;
+                filter: hue-rotate(0deg);
+            }
+            25% { 
+                background-position: 100% 0%, center, center;
+                filter: hue-rotate(90deg);
+            }
+            50% { 
+                background-position: 100% 100%, center, center;
+                filter: hue-rotate(180deg);
+            }
+            75% { 
+                background-position: 0% 100%, center, center;
+                filter: hue-rotate(270deg);
+            }
         }
 
         .parallax-overlay {
@@ -63,7 +96,7 @@
             overflow: hidden;
         }
 
-        /* CRT scanlines effect */
+        /* CRT scanlines effect with holographic tint */
         .parallax-overlay::before {
             content: '';
             position: absolute;
@@ -73,8 +106,8 @@
             height: 100%;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.3),
-                rgba(0, 0, 0, 0.3) 1px,
+                rgba(138, 43, 226, 0.1),
+                rgba(138, 43, 226, 0.1) 1px,
                 transparent 1px,
                 transparent 3px
             );
@@ -95,20 +128,26 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
         .rain-column {
             position: absolute;
             top: -100%;
             font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: #00FF41;
-            text-shadow: 0 0 8px #00FF41, 0 0 12px rgba(0, 255, 65, 0.5);
-            line-height: 1.4;
+            font-size: 18px;
+            line-height: 1.1;
             white-space: nowrap;
             animation: fall linear infinite;
             font-weight: bold;
+            letter-spacing: 0.05em;
+            /* Cyberpunk holographic text effect - using color with multi-color glow */
+            color: #8A2BE2; /* Purple base */
+            text-shadow: 
+                0 0 5px rgba(138, 43, 226, 0.8),
+                0 0 10px rgba(0, 191, 255, 0.6),
+                0 0 15px rgba(255, 20, 147, 0.4),
+                0 0 20px rgba(0, 255, 127, 0.3);
         }
 
         @keyframes fall {
@@ -117,7 +156,7 @@
             }
         }
 
-        /* Glitch effect */
+        /* Cyberpunk glitch effect */
         .glitch-overlay {
             position: fixed;
             top: 0;
@@ -132,8 +171,8 @@
                     0deg,
                     transparent,
                     transparent 2px,
-                    rgba(0, 255, 65, 0.03) 2px,
-                    rgba(0, 255, 65, 0.03) 4px
+                    rgba(138, 43, 226, 0.05) 2px,
+                    rgba(138, 43, 226, 0.05) 4px
                 );
             animation: glitch 0.3s infinite;
         }
@@ -1687,52 +1726,75 @@
             const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
             const binaryChars = '01';
             
-            // Create digital rain columns
+            // Create digital rain columns - optimized for performance
             function createDigitalRain() {
                 if (!digitalRain) {
                     console.log('Digital rain container not found');
                     return;
                 }
                 
-                const columnCount = Math.floor(window.innerWidth / 20);
+                // Reduce column count for better performance (wider spacing)
+                const columnCount = Math.floor(window.innerWidth / 35);
                 console.log('Creating', columnCount, 'rain columns');
                 digitalRain.innerHTML = '';
                 
+                // Pre-generate character strings for better performance
+                const preGeneratedColumns = [];
+                for (let i = 0; i < columnCount; i++) {
+                    let text = '';
+                    const charCount = 40 + Math.floor(Math.random() * 30); // Longer columns for rain effect
+                    for (let j = 0; j < charCount; j++) {
+                        const useBinary = Math.random() > 0.4; // More binary for rain look
+                        const charSet = useBinary ? binaryChars : chars;
+                        const char = charSet[Math.floor(Math.random() * charSet.length)];
+                        text += char;
+                        if (j < charCount - 1) text += '<br>';
+                    }
+                    preGeneratedColumns.push(text);
+                }
+                
+                // Create columns with optimized properties
                 for (let i = 0; i < columnCount; i++) {
                     const column = document.createElement('div');
                     column.className = 'rain-column';
                     column.style.left = `${(i * 100) / columnCount}%`;
-                    column.style.animationDuration = `${15 + Math.random() * 10}s`;
-                    column.style.animationDelay = `${Math.random() * 5}s`;
+                    // Faster, more varied speeds for rain effect
+                    const speed = 8 + Math.random() * 12;
+                    column.style.animationDuration = `${speed}s`;
+                    column.style.animationDelay = `${Math.random() * 3}s`;
                     
-                    // Generate random characters
-                    let text = '';
-                    const charCount = 30 + Math.floor(Math.random() * 20);
-                    for (let j = 0; j < charCount; j++) {
-                        const useBinary = Math.random() > 0.3;
-                        const charSet = useBinary ? binaryChars : chars;
-                        const char = charSet[Math.floor(Math.random() * charSet.length)];
-                        text += char + '<br>';
-                    }
-                    column.innerHTML = text;
+                    column.innerHTML = preGeneratedColumns[i];
                     
-                    // Random brightness for some characters
-                    const brightness = 0.5 + Math.random() * 0.5;
-                    column.style.opacity = brightness;
+                    // Varying opacity for depth
+                    const opacity = 0.6 + Math.random() * 0.4;
+                    column.style.opacity = opacity;
+                    
+                    // Add trailing fade effect with gradient mask (rain-like)
+                    column.style.maskImage = 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.8) 35%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%)';
+                    column.style.webkitMaskImage = 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.8) 35%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%)';
+                    
+                    // Add subtle color variation per column for holographic effect
+                    const hueShift = Math.random() * 60 - 30; // -30 to +30 degrees
+                    column.style.filter = `hue-rotate(${hueShift}deg) drop-shadow(0 0 3px rgba(138, 43, 226, 0.5))`;
                     
                     digitalRain.appendChild(column);
                 }
                 console.log('Digital rain created');
             }
         
-            // Parallax effect
+            // Parallax effect - optimized with throttling
             if (parallaxBg) {
                 let ticking = false;
+                let lastScrollY = 0;
 
                 function updateParallax() {
                     const scrolled = window.pageYOffset;
-                    const rate = scrolled * 0.25; // Parallax speed
-                    parallaxBg.style.transform = `translate3d(0, ${rate}px, 0)`;
+                    // Only update if scroll changed significantly (performance optimization)
+                    if (Math.abs(scrolled - lastScrollY) > 1) {
+                        const rate = scrolled * 0.25; // Parallax speed
+                        parallaxBg.style.transform = `translate3d(0, ${rate}px, 0)`;
+                        lastScrollY = scrolled;
+                    }
                     ticking = false;
                 }
 
@@ -1743,7 +1805,16 @@
                     }
                 }
 
-                window.addEventListener('scroll', requestTick);
+                // Throttle scroll events for better performance
+                let scrollTimeout;
+                window.addEventListener('scroll', () => {
+                    if (!scrollTimeout) {
+                        requestTick();
+                        scrollTimeout = setTimeout(() => {
+                            scrollTimeout = null;
+                        }, 16); // ~60fps
+                    }
+                }, { passive: true });
                 console.log('Parallax effect initialized');
             }
             

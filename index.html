@@ -201,6 +201,50 @@
             100% { transform: translateY(10px); }
         }
 
+        /* Matrix-style digital rain with falling characters */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.25;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #00ff41;
+            text-shadow: 0 0 8px #00ff41, 0 0 12px rgba(0, 255, 65, 0.5);
+            white-space: nowrap;
+            animation: matrix-fall linear infinite;
+            transform: translateZ(0);
+            will-change: transform;
+            letter-spacing: 2px;
+        }
+
+        /* Make first character in each column brighter (head of the stream) */
+        .matrix-column br:first-child + *,
+        .matrix-column::first-line {
+            color: #ffffff;
+            text-shadow: 0 0 10px #ffffff, 0 0 15px #00ff41;
+        }
+
+        @keyframes matrix-fall {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
         /* Smooth digital rain effect - CSS only, subtle and performant */
         .parallax-overlay::after {
             content: '';
@@ -210,10 +254,9 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.4;
-            transform: translateZ(0);
-            will-change: background-position;
-            /* Create very dense digital rain - 60 columns spaced every ~1.6% */
+            opacity: 0;
+            display: none;
+            /* Old gradient-based rain - disabled */
             background-image: 
                 /* Pattern repeats: green, cyan, yellow with varied start positions */
                 linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 1%, rgba(102, 255, 153, 0.4) 3%, rgba(102, 255, 153, 0.2) 5%, transparent 7%, transparent 100%),
@@ -1919,5 +1962,46 @@
     <div class="parallax-background" id="parallaxBg"></div>
     <div class="parallax-overlay"></div>
     <div class="glitch-overlay"></div>
+    
+    <!-- Matrix-style digital rain -->
+    <div class="matrix-rain" id="matrixRain"></div>
+    
+    <script>
+        // Generate Matrix rain columns - runs once on page load, no continuous updates
+        (function() {
+            const matrixRain = document.getElementById('matrixRain');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numColumns = 25;
+            const charsPerColumn = 40;
+            
+            for (let i = 0; i < numColumns; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = (i * (100 / numColumns)) + '%';
+                
+                // Create string of random characters for this column
+                let columnText = '';
+                for (let j = 0; j < charsPerColumn; j++) {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    // Make some characters brighter (head of stream effect)
+                    if (j < 3) {
+                        columnText += '<span style="color: #ffffff; text-shadow: 0 0 10px #ffffff;">' + char + '</span><br>';
+                    } else {
+                        columnText += char + '<br>';
+                    }
+                }
+                column.innerHTML = columnText;
+                
+                // Vary animation duration for depth effect (10-20 seconds)
+                const duration = 10 + Math.random() * 10;
+                column.style.animationDuration = duration + 's';
+                
+                // Random delay so columns don't all start at once
+                column.style.animationDelay = (Math.random() * duration) + 's';
+                
+                matrixRain.appendChild(column);
+            }
+        })();
+    </script>
 </body>
 </html>

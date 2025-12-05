@@ -1435,12 +1435,20 @@
             }
 
             .project-header {
+                flex-direction: column;
                 gap: 15px;
             }
 
             .project-poster {
-                width: 100px;
-                height: 100px;
+                width: 100%;
+                max-width: 200px;
+                height: auto;
+                align-self: center;
+            }
+
+            .project-poster.square {
+                height: auto;
+                aspect-ratio: 1;
             }
 
             .project-title {

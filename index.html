@@ -648,12 +648,61 @@
             margin-bottom: 30px;
             position: relative;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             border: 2px solid #E91E63;
             box-shadow: 
-                0 0 10px rgba(233, 30, 99, 0.3),
-                inset 0 0 10px rgba(233, 30, 99, 0.1);
+                0 0 20px rgba(233, 30, 99, 0.5),
+                0 0 40px rgba(233, 30, 99, 0.3),
+                inset 0 0 20px rgba(233, 30, 99, 0.15),
+                inset 0 0 60px rgba(0, 0, 0, 0.8);
             overflow: hidden;
+            filter: brightness(1.05) contrast(1.1);
+            transform: perspective(1000px) rotateX(1deg);
+            border-radius: 2px;
+            animation: screen-flicker 0.15s infinite;
+        }
+
+        /* CRT screen glare/reflection - using wrapper */
+        .skills-list {
+            position: relative;
+        }
+
+        .skills-list::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.03) 25%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.03) 75%,
+                transparent 100%
+            );
+            pointer-events: none;
+            animation: screen-glare 8s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        /* Status indicator overlay */
+        .skills-list::before {
+            content: '[STATUS: ACTIVE]';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.7em;
+            color: #E91E63;
+            opacity: 0.6;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 5px rgba(233, 30, 99, 0.8);
+            z-index: 3;
+            background: none;
+            height: auto;
+            width: auto;
+            animation: none;
         }
 
         .skills-list::before {
@@ -667,17 +716,6 @@
             animation: fallout-scanline 3s linear infinite;
         }
 
-        .skills-list::after {
-            content: '[STATUS: ACTIVE]';
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 0.7em;
-            color: #E91E63;
-            opacity: 0.6;
-            font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 5px rgba(233, 30, 99, 0.8);
-        }
 
         .skills-list h3 {
             font-size: 1em;
@@ -685,8 +723,13 @@
             margin-bottom: 15px;
             text-transform: uppercase;
             position: relative;
-            text-shadow: 0 0 8px rgba(233, 30, 99, 0.8);
+            z-index: 1;
+            text-shadow: 
+                0 0 8px rgba(233, 30, 99, 0.8),
+                0 0 16px rgba(233, 30, 99, 0.6),
+                0 0 24px rgba(233, 30, 99, 0.4);
             animation: fallout-pulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 4px rgba(233, 30, 99, 0.6));
         }
 
         .skills-list h3::before {
@@ -699,8 +742,10 @@
             flex-wrap: wrap;
             gap: 15px;
             position: relative;
+            z-index: 1;
         }
 
+        /* CRT scanlines */
         .skills::before {
             content: '';
             position: absolute;
@@ -711,12 +756,31 @@
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
-                transparent 2px,
-                rgba(233, 30, 99, 0.03) 2px,
-                rgba(233, 30, 99, 0.03) 4px
+                transparent 1px,
+                rgba(233, 30, 99, 0.08) 1px,
+                rgba(233, 30, 99, 0.08) 2px
             );
             pointer-events: none;
             animation: fallout-scanline-vertical 4s linear infinite;
+            z-index: 1;
+        }
+
+        /* Vignette effect */
+        .skills::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 0%,
+                transparent 60%,
+                rgba(0, 0, 0, 0.3) 100%
+            );
+            pointer-events: none;
+            z-index: 1;
         }
 
         .skill {
@@ -726,31 +790,86 @@
             font-size: 0.9em;
             color: #E91E63;
             position: relative;
+            z-index: 2;
             box-shadow: 
-                0 0 5px rgba(233, 30, 99, 0.4),
-                inset 0 0 5px rgba(233, 30, 99, 0.1);
+                0 0 8px rgba(233, 30, 99, 0.5),
+                0 0 16px rgba(233, 30, 99, 0.3),
+                inset 0 0 8px rgba(233, 30, 99, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             font-family: 'Share Tech Mono', monospace;
+            text-shadow: 
+                0 0 4px rgba(233, 30, 99, 0.8),
+                0 0 8px rgba(233, 30, 99, 0.4);
+            filter: drop-shadow(0 0 2px rgba(233, 30, 99, 0.6));
         }
 
         .skill:hover {
-            background: rgba(233, 30, 99, 0.25);
+            background: rgba(233, 30, 99, 0.3);
             box-shadow: 
-                0 0 10px rgba(233, 30, 99, 0.6),
-                inset 0 0 8px rgba(233, 30, 99, 0.2);
-            transform: translateY(-1px);
+                0 0 15px rgba(233, 30, 99, 0.8),
+                0 0 30px rgba(233, 30, 99, 0.5),
+                inset 0 0 12px rgba(233, 30, 99, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px) scale(1.02);
+            filter: drop-shadow(0 0 4px rgba(233, 30, 99, 0.8)) brightness(1.1);
         }
 
         .programs-list {
             margin-bottom: 30px;
             position: relative;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             border: 2px solid #FFC107;
             box-shadow: 
-                0 0 10px rgba(255, 193, 7, 0.3),
-                inset 0 0 10px rgba(255, 193, 7, 0.1);
+                0 0 20px rgba(255, 193, 7, 0.5),
+                0 0 40px rgba(255, 193, 7, 0.3),
+                inset 0 0 20px rgba(255, 193, 7, 0.15),
+                inset 0 0 60px rgba(0, 0, 0, 0.8);
             overflow: hidden;
+            filter: brightness(1.05) contrast(1.1);
+            transform: perspective(1000px) rotateX(1deg);
+            border-radius: 2px;
+            animation: screen-flicker 0.15s infinite;
+        }
+
+        /* CRT screen glare/reflection */
+        .programs-list::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.03) 25%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.03) 75%,
+                transparent 100%
+            );
+            pointer-events: none;
+            animation: screen-glare 8.5s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        /* Status indicator overlay */
+        .programs-list::before {
+            content: '[SYSTEM: ONLINE]';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.7em;
+            color: #FFC107;
+            opacity: 0.6;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 5px rgba(255, 193, 7, 0.8);
+            z-index: 3;
+            background: none;
+            height: auto;
+            width: auto;
+            animation: none;
         }
 
         .programs-list::before {
@@ -764,17 +883,6 @@
             animation: fallout-scanline 3.5s linear infinite;
         }
 
-        .programs-list::after {
-            content: '[SYSTEM: ONLINE]';
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 0.7em;
-            color: #FFC107;
-            opacity: 0.6;
-            font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 5px rgba(255, 193, 7, 0.8);
-        }
 
         .programs-list h3 {
             font-size: 1em;
@@ -782,8 +890,13 @@
             margin-bottom: 15px;
             text-transform: uppercase;
             position: relative;
-            text-shadow: 0 0 8px rgba(255, 193, 7, 0.8);
+            z-index: 1;
+            text-shadow: 
+                0 0 8px rgba(255, 193, 7, 0.8),
+                0 0 16px rgba(255, 193, 7, 0.6),
+                0 0 24px rgba(255, 193, 7, 0.4);
             animation: fallout-pulse-yellow 3.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 4px rgba(255, 193, 7, 0.6));
         }
 
         .programs-list h3::before {
@@ -796,8 +909,10 @@
             flex-wrap: wrap;
             gap: 15px;
             position: relative;
+            z-index: 1;
         }
 
+        /* CRT scanlines */
         .programs::before {
             content: '';
             position: absolute;
@@ -808,12 +923,31 @@
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
-                transparent 2px,
-                rgba(255, 193, 7, 0.03) 2px,
-                rgba(255, 193, 7, 0.03) 4px
+                transparent 1px,
+                rgba(255, 193, 7, 0.08) 1px,
+                rgba(255, 193, 7, 0.08) 2px
             );
             pointer-events: none;
             animation: fallout-scanline-vertical 4.5s linear infinite;
+            z-index: 1;
+        }
+
+        /* Vignette effect */
+        .programs::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 0%,
+                transparent 60%,
+                rgba(0, 0, 0, 0.3) 100%
+            );
+            pointer-events: none;
+            z-index: 1;
         }
 
         .program {
@@ -823,19 +957,29 @@
             font-size: 0.9em;
             color: #FFC107;
             position: relative;
+            z-index: 2;
             box-shadow: 
-                0 0 5px rgba(255, 193, 7, 0.4),
-                inset 0 0 5px rgba(255, 193, 7, 0.1);
+                0 0 8px rgba(255, 193, 7, 0.5),
+                0 0 16px rgba(255, 193, 7, 0.3),
+                inset 0 0 8px rgba(255, 193, 7, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             font-family: 'Share Tech Mono', monospace;
+            text-shadow: 
+                0 0 4px rgba(255, 193, 7, 0.8),
+                0 0 8px rgba(255, 193, 7, 0.4);
+            filter: drop-shadow(0 0 2px rgba(255, 193, 7, 0.6));
         }
 
         .program:hover {
-            background: rgba(255, 193, 7, 0.25);
+            background: rgba(255, 193, 7, 0.3);
             box-shadow: 
-                0 0 10px rgba(255, 193, 7, 0.6),
-                inset 0 0 8px rgba(255, 193, 7, 0.2);
-            transform: translateY(-1px);
+                0 0 15px rgba(255, 193, 7, 0.8),
+                0 0 30px rgba(255, 193, 7, 0.5),
+                inset 0 0 12px rgba(255, 193, 7, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px) scale(1.02);
+            filter: drop-shadow(0 0 4px rgba(255, 193, 7, 0.8)) brightness(1.1);
         }
 
         /* Fallout-themed animations */
@@ -860,22 +1004,53 @@
         @keyframes fallout-pulse {
             0%, 100% {
                 opacity: 1;
-                text-shadow: 0 0 8px rgba(233, 30, 99, 0.8);
+                text-shadow: 
+                    0 0 8px rgba(233, 30, 99, 0.8),
+                    0 0 16px rgba(233, 30, 99, 0.6);
             }
             50% {
-                opacity: 0.9;
-                text-shadow: 0 0 12px rgba(233, 30, 99, 1);
+                opacity: 0.95;
+                text-shadow: 
+                    0 0 12px rgba(233, 30, 99, 1),
+                    0 0 24px rgba(233, 30, 99, 0.8);
             }
         }
 
         @keyframes fallout-pulse-yellow {
             0%, 100% {
                 opacity: 1;
-                text-shadow: 0 0 8px rgba(255, 193, 7, 0.8);
+                text-shadow: 
+                    0 0 8px rgba(255, 193, 7, 0.8),
+                    0 0 16px rgba(255, 193, 7, 0.6);
             }
             50% {
-                opacity: 0.9;
-                text-shadow: 0 0 12px rgba(255, 193, 7, 1);
+                opacity: 0.95;
+                text-shadow: 
+                    0 0 12px rgba(255, 193, 7, 1),
+                    0 0 24px rgba(255, 193, 7, 0.8);
+            }
+        }
+
+        /* Screen glare animation */
+        @keyframes screen-glare {
+            0%, 100% {
+                transform: translate(-50%, -50%) rotate(45deg) translateX(-100%);
+            }
+            50% {
+                transform: translate(-50%, -50%) rotate(45deg) translateX(100%);
+            }
+        }
+
+        /* Screen refresh flicker */
+        @keyframes screen-flicker {
+            0%, 100% {
+                opacity: 1;
+            }
+            98% {
+                opacity: 1;
+            }
+            99% {
+                opacity: 0.98;
             }
         }
 

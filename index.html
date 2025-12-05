@@ -254,9 +254,9 @@
 
         /* Terminal column */
         .terminal-column {
-            flex: 1 1 300px;
-            min-width: 280px;
-            max-width: 400px;
+            flex: 1 1 250px;
+            min-width: 250px;
+            max-width: 350px;
             position: relative;
         }
 
@@ -2016,7 +2016,10 @@
             
             // Split text into words for better distribution
             const words = fullText.split(' ');
-            const numColumns = 4; // Number of columns to type simultaneously
+            // Calculate number of columns based on viewport width to ensure full coverage
+            const viewportWidth = window.innerWidth;
+            const columnWidth = 300; // Approximate column width with padding
+            const numColumns = Math.ceil(viewportWidth / columnWidth) + 2; // Add 2 extra columns to ensure overflow coverage
             const wordsPerColumn = Math.ceil(words.length / numColumns);
             
             // Create columns and start typing in each simultaneously

@@ -646,6 +646,37 @@
         .skills-list {
             margin-top: 20px;
             margin-bottom: 30px;
+            position: relative;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #E91E63;
+            box-shadow: 
+                0 0 10px rgba(233, 30, 99, 0.3),
+                inset 0 0 10px rgba(233, 30, 99, 0.1);
+            overflow: hidden;
+        }
+
+        .skills-list::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #E91E63, transparent);
+            animation: fallout-scanline 3s linear infinite;
+        }
+
+        .skills-list::after {
+            content: '[STATUS: ACTIVE]';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.7em;
+            color: #E91E63;
+            opacity: 0.6;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 5px rgba(233, 30, 99, 0.8);
         }
 
         .skills-list h3 {
@@ -653,24 +684,96 @@
             color: #E91E63;
             margin-bottom: 15px;
             text-transform: uppercase;
+            position: relative;
+            text-shadow: 0 0 8px rgba(233, 30, 99, 0.8);
+            animation: fallout-pulse 3s ease-in-out infinite;
+        }
+
+        .skills-list h3::before {
+            content: '> ';
+            opacity: 0.7;
         }
 
         .skills {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
+            position: relative;
+        }
+
+        .skills::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(233, 30, 99, 0.03) 2px,
+                rgba(233, 30, 99, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: fallout-scanline-vertical 4s linear infinite;
         }
 
         .skill {
-            background: rgba(233, 30, 99, 0.1);
+            background: rgba(233, 30, 99, 0.15);
             border: 1px solid #E91E63;
             padding: 10px 15px;
             font-size: 0.9em;
             color: #E91E63;
+            position: relative;
+            box-shadow: 
+                0 0 5px rgba(233, 30, 99, 0.4),
+                inset 0 0 5px rgba(233, 30, 99, 0.1);
+            transition: all 0.3s ease;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .skill:hover {
+            background: rgba(233, 30, 99, 0.25);
+            box-shadow: 
+                0 0 10px rgba(233, 30, 99, 0.6),
+                inset 0 0 8px rgba(233, 30, 99, 0.2);
+            transform: translateY(-1px);
         }
 
         .programs-list {
             margin-bottom: 30px;
+            position: relative;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #FFC107;
+            box-shadow: 
+                0 0 10px rgba(255, 193, 7, 0.3),
+                inset 0 0 10px rgba(255, 193, 7, 0.1);
+            overflow: hidden;
+        }
+
+        .programs-list::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFC107, transparent);
+            animation: fallout-scanline 3.5s linear infinite;
+        }
+
+        .programs-list::after {
+            content: '[SYSTEM: ONLINE]';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.7em;
+            color: #FFC107;
+            opacity: 0.6;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 5px rgba(255, 193, 7, 0.8);
         }
 
         .programs-list h3 {
@@ -678,20 +781,102 @@
             color: #FFC107;
             margin-bottom: 15px;
             text-transform: uppercase;
+            position: relative;
+            text-shadow: 0 0 8px rgba(255, 193, 7, 0.8);
+            animation: fallout-pulse-yellow 3.5s ease-in-out infinite;
+        }
+
+        .programs-list h3::before {
+            content: '> ';
+            opacity: 0.7;
         }
 
         .programs {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
+            position: relative;
+        }
+
+        .programs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 193, 7, 0.03) 2px,
+                rgba(255, 193, 7, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: fallout-scanline-vertical 4.5s linear infinite;
         }
 
         .program {
-            background: rgba(255, 193, 7, 0.1);
+            background: rgba(255, 193, 7, 0.15);
             border: 1px solid #FFC107;
             padding: 10px 15px;
             font-size: 0.9em;
             color: #FFC107;
+            position: relative;
+            box-shadow: 
+                0 0 5px rgba(255, 193, 7, 0.4),
+                inset 0 0 5px rgba(255, 193, 7, 0.1);
+            transition: all 0.3s ease;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .program:hover {
+            background: rgba(255, 193, 7, 0.25);
+            box-shadow: 
+                0 0 10px rgba(255, 193, 7, 0.6),
+                inset 0 0 8px rgba(255, 193, 7, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Fallout-themed animations */
+        @keyframes fallout-scanline {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fallout-scanline-vertical {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        @keyframes fallout-pulse {
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 8px rgba(233, 30, 99, 0.8);
+            }
+            50% {
+                opacity: 0.9;
+                text-shadow: 0 0 12px rgba(233, 30, 99, 1);
+            }
+        }
+
+        @keyframes fallout-pulse-yellow {
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 8px rgba(255, 193, 7, 0.8);
+            }
+            50% {
+                opacity: 0.9;
+                text-shadow: 0 0 12px rgba(255, 193, 7, 1);
+            }
         }
 
         .gallery {

@@ -1967,30 +1967,40 @@
     <div class="matrix-rain" id="matrixRain"></div>
     
     <script>
-        // Generate Matrix rain columns - runs once on page load, no continuous updates
+        // Generate Matrix rain columns with dynamic character changes
         (function() {
             const matrixRain = document.getElementById('matrixRain');
             const chars = '012345678901234567890123456789アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
             const numColumns = 25;
             const charsPerColumn = 40;
+            const columns = [];
             
+            // Create columns
             for (let i = 0; i < numColumns; i++) {
                 const column = document.createElement('div');
                 column.className = 'matrix-column';
                 column.style.left = (i * (100 / numColumns)) + '%';
                 
+                // Store character spans for easy updating
+                column.charSpans = [];
+                
                 // Create string of random characters for this column
                 let columnText = '';
                 for (let j = 0; j < charsPerColumn; j++) {
                     const char = chars[Math.floor(Math.random() * chars.length)];
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    
                     // Make some characters slightly brighter (head of stream effect)
                     if (j < 2) {
-                        columnText += '<span style="color: rgba(255, 255, 255, 0.8); text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);">' + char + '</span><br>';
-                    } else {
-                        columnText += char + '<br>';
+                        span.style.color = 'rgba(255, 255, 255, 0.8)';
+                        span.style.textShadow = '0 0 4px rgba(255, 255, 255, 0.5)';
                     }
+                    
+                    column.appendChild(span);
+                    column.appendChild(document.createElement('br'));
+                    column.charSpans.push(span);
                 }
-                column.innerHTML = columnText;
                 
                 // Vary animation duration for depth effect (12-22 seconds - slower for subtlety)
                 const duration = 12 + Math.random() * 10;
@@ -2000,7 +2010,45 @@
                 column.style.animationDelay = (Math.random() * duration) + 's';
                 
                 matrixRain.appendChild(column);
+                columns.push(column);
             }
+            
+            // Update characters periodically (every 100-200ms for smooth Matrix effect)
+            let lastUpdate = 0;
+            const updateInterval = 150; // milliseconds
+            
+            function updateCharacters(timestamp) {
+                if (timestamp - lastUpdate >= updateInterval) {
+                    lastUpdate = timestamp;
+                    
+                    // Update random characters in random columns
+                    for (let i = 0; i < columns.length; i++) {
+                        const column = columns[i];
+                        // Update 2-4 random characters per column
+                        const numUpdates = 2 + Math.floor(Math.random() * 3);
+                        for (let j = 0; j < numUpdates; j++) {
+                            const randomIndex = Math.floor(Math.random() * column.charSpans.length);
+                            const span = column.charSpans[randomIndex];
+                            const newChar = chars[Math.floor(Math.random() * chars.length)];
+                            span.textContent = newChar;
+                            
+                            // Occasionally make a character brighter (head effect)
+                            if (Math.random() > 0.7 && randomIndex < 5) {
+                                span.style.color = 'rgba(255, 255, 255, 0.8)';
+                                span.style.textShadow = '0 0 4px rgba(255, 255, 255, 0.5)';
+                            } else {
+                                span.style.color = '';
+                                span.style.textShadow = '';
+                            }
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(updateCharacters);
+            }
+            
+            // Start the update loop
+            requestAnimationFrame(updateCharacters);
         })();
     </script>
 </body>

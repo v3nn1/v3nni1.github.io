@@ -979,10 +979,19 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            /* Greyscale with green tint */
+            filter: grayscale(100%) sepia(100%) hue-rotate(90deg) saturate(150%) brightness(0.9);
+            transition: filter 0.3s ease;
         }
 
         .gallery-item img {
             cursor: pointer;
+        }
+
+        /* Restore original colors on hover */
+        .gallery-item:hover img,
+        .gallery-item:hover video {
+            filter: grayscale(0%) sepia(0%) hue-rotate(0deg) saturate(100%) brightness(1);
         }
 
         .gallery-item video {

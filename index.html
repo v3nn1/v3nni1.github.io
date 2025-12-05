@@ -286,6 +286,18 @@
             text-shadow: 0 0 3px rgba(0, 255, 65, 0.5);
         }
 
+        /* Highlighted sentence effect */
+        .terminal-sentence {
+            transition: all 0.8s ease-in-out;
+            opacity: 0.15;
+        }
+
+        .terminal-sentence.highlight {
+            opacity: 0.4;
+            text-shadow: 0 0 8px rgba(0, 255, 65, 0.8), 0 0 12px rgba(0, 255, 65, 0.5);
+            color: #66ff99;
+        }
+
         /* Smooth digital rain effect - CSS only, subtle and performant */
         .parallax-overlay::after {
             content: '';
@@ -2008,57 +2020,79 @@
     <div class="terminal-background" id="terminalBackground"></div>
     
     <script>
-        // Retro terminal typing effect - multiple columns typing simultaneously
+        // Retro terminal effect - text fully visible, sentences highlight and shimmer
         (function() {
             const terminalBackground = document.getElementById('terminalBackground');
             // Lorem ipsum text for testing - will be replaced with user's text later
             const fullText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.`;
             
-            // Split text into words for better distribution
-            const words = fullText.split(' ');
-            // Calculate number of columns based on viewport width to ensure full coverage
-            const viewportWidth = window.innerWidth;
-            const columnWidth = 300; // Approximate column width with padding
-            const numColumns = Math.ceil(viewportWidth / columnWidth) + 2; // Add 2 extra columns to ensure overflow coverage
-            const wordsPerColumn = Math.ceil(words.length / numColumns);
+            // Split text into sentences
+            const sentences = fullText.split(/[.!?]+/).filter(s => s.trim().length > 0);
             
-            // Create columns and start typing in each simultaneously
+            // Calculate number of columns based on viewport width
+            const viewportWidth = window.innerWidth;
+            const columnWidth = 300;
+            const numColumns = Math.ceil(viewportWidth / columnWidth) + 2;
+            const sentencesPerColumn = Math.ceil(sentences.length / numColumns);
+            
+            const allSentenceElements = [];
+            
+            // Create columns with all text immediately visible
             for (let col = 0; col < numColumns; col++) {
                 const column = document.createElement('div');
                 column.className = 'terminal-column';
                 
                 const textDiv = document.createElement('div');
                 textDiv.className = 'terminal-text';
-                textDiv.id = `terminalText${col}`;
                 
-                const cursor = document.createElement('span');
-                cursor.className = 'terminal-cursor';
+                // Get sentences for this column
+                const startIndex = col * sentencesPerColumn;
+                const endIndex = Math.min(startIndex + sentencesPerColumn, sentences.length);
+                const columnSentences = sentences.slice(startIndex, endIndex);
+                
+                // Create sentence elements
+                columnSentences.forEach((sentence, idx) => {
+                    const sentenceSpan = document.createElement('span');
+                    sentenceSpan.className = 'terminal-sentence';
+                    sentenceSpan.textContent = sentence.trim() + '. ';
+                    textDiv.appendChild(sentenceSpan);
+                    allSentenceElements.push(sentenceSpan);
+                });
                 
                 column.appendChild(textDiv);
-                column.appendChild(cursor);
                 terminalBackground.appendChild(column);
+            }
+            
+            // Animate sentences highlighting and shimmering
+            function highlightRandomSentences() {
+                // Remove previous highlights
+                allSentenceElements.forEach(el => el.classList.remove('highlight'));
                 
-                // Get words for this column
-                const startIndex = col * wordsPerColumn;
-                const endIndex = Math.min(startIndex + wordsPerColumn, words.length);
-                const columnWords = words.slice(startIndex, endIndex);
-                const columnText = columnWords.join(' ');
+                // Highlight 3-5 random sentences
+                const numToHighlight = 3 + Math.floor(Math.random() * 3);
+                const highlighted = [];
                 
-                // Type in this column
-                let currentIndex = 0;
-                const typingSpeed = 25; // milliseconds per character
-                
-                function typeNextCharacter() {
-                    if (currentIndex < columnText.length) {
-                        textDiv.textContent = columnText.substring(0, currentIndex + 1);
-                        currentIndex++;
-                        setTimeout(typeNextCharacter, typingSpeed);
-                    }
+                for (let i = 0; i < numToHighlight; i++) {
+                    let randomIndex;
+                    do {
+                        randomIndex = Math.floor(Math.random() * allSentenceElements.length);
+                    } while (highlighted.includes(randomIndex));
+                    
+                    highlighted.push(randomIndex);
+                    allSentenceElements[randomIndex].classList.add('highlight');
                 }
                 
-                // Stagger column starts slightly for more natural effect
-                setTimeout(typeNextCharacter, col * 200);
+                // Remove highlights after 2-3 seconds
+                setTimeout(() => {
+                    highlighted.forEach(idx => {
+                        allSentenceElements[idx].classList.remove('highlight');
+                    });
+                }, 2000 + Math.random() * 1000);
             }
+            
+            // Start highlighting cycle
+            highlightRandomSentences();
+            setInterval(highlightRandomSentences, 3500); // New highlight every 3.5 seconds
         })();
     </script>
 </body>

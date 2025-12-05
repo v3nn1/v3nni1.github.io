@@ -223,10 +223,12 @@
             color: #00ff41;
             text-shadow: 0 0 3px rgba(0, 255, 65, 0.4), 0 0 6px rgba(0, 255, 65, 0.2);
             white-space: nowrap;
-            animation: matrix-fall linear infinite;
+            animation: matrix-fall linear infinite, matrix-fade 6s ease-in-out infinite;
             transform: translateZ(0);
-            will-change: transform;
+            will-change: transform, opacity;
             letter-spacing: 1px;
+            opacity: 0;
+            animation-delay: 0s, var(--fade-delay, 0s);
         }
 
         /* Make first character in each column slightly brighter (head of the stream) */
@@ -242,6 +244,18 @@
             }
             100% {
                 transform: translateY(100vh);
+            }
+        }
+
+        @keyframes matrix-fade {
+            0%, 100% {
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
             }
         }
 
@@ -1971,7 +1985,7 @@
         (function() {
             const matrixRain = document.getElementById('matrixRain');
             const chars = '012345678901234567890123456789アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const numColumns = 25;
+            const numColumns = 40; // Increased from 25 for denser rain
             const charsPerColumn = 40;
             const columns = [];
             
@@ -2006,8 +2020,11 @@
                 const duration = 12 + Math.random() * 10;
                 column.style.animationDuration = duration + 's';
                 
-                // Random delay so columns don't all start at once
-                column.style.animationDelay = (Math.random() * duration) + 's';
+                // Start immediately - no delay, but stagger fade-in slightly for smooth effect
+                column.style.animationDelay = (Math.random() * 0.5) + 's';
+                
+                // Set fade animation delay to match fall animation
+                column.style.setProperty('--fade-delay', (Math.random() * 0.3) + 's');
                 
                 matrixRain.appendChild(column);
                 columns.push(column);

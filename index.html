@@ -201,7 +201,7 @@
             100% { transform: translateY(10px); }
         }
 
-        /* Matrix-style digital rain with falling characters */
+        /* Matrix-style digital rain with falling characters - subtle */
         .matrix-rain {
             position: fixed;
             top: 0;
@@ -211,29 +211,29 @@
             z-index: -1;
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.25;
+            opacity: 0.12;
         }
 
         .matrix-column {
             position: absolute;
             top: -100%;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 16px;
-            line-height: 1.4;
+            font-size: 14px;
+            line-height: 1.3;
             color: #00ff41;
-            text-shadow: 0 0 8px #00ff41, 0 0 12px rgba(0, 255, 65, 0.5);
+            text-shadow: 0 0 3px rgba(0, 255, 65, 0.4), 0 0 6px rgba(0, 255, 65, 0.2);
             white-space: nowrap;
             animation: matrix-fall linear infinite;
             transform: translateZ(0);
             will-change: transform;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
-        /* Make first character in each column brighter (head of the stream) */
+        /* Make first character in each column slightly brighter (head of the stream) */
         .matrix-column br:first-child + *,
         .matrix-column::first-line {
-            color: #ffffff;
-            text-shadow: 0 0 10px #ffffff, 0 0 15px #00ff41;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.5), 0 0 8px rgba(0, 255, 65, 0.3);
         }
 
         @keyframes matrix-fall {
@@ -1970,7 +1970,7 @@
         // Generate Matrix rain columns - runs once on page load, no continuous updates
         (function() {
             const matrixRain = document.getElementById('matrixRain');
-            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const chars = '012345678901234567890123456789アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
             const numColumns = 25;
             const charsPerColumn = 40;
             
@@ -1983,17 +1983,17 @@
                 let columnText = '';
                 for (let j = 0; j < charsPerColumn; j++) {
                     const char = chars[Math.floor(Math.random() * chars.length)];
-                    // Make some characters brighter (head of stream effect)
-                    if (j < 3) {
-                        columnText += '<span style="color: #ffffff; text-shadow: 0 0 10px #ffffff;">' + char + '</span><br>';
+                    // Make some characters slightly brighter (head of stream effect)
+                    if (j < 2) {
+                        columnText += '<span style="color: rgba(255, 255, 255, 0.8); text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);">' + char + '</span><br>';
                     } else {
                         columnText += char + '<br>';
                     }
                 }
                 column.innerHTML = columnText;
                 
-                // Vary animation duration for depth effect (10-20 seconds)
-                const duration = 10 + Math.random() * 10;
+                // Vary animation duration for depth effect (12-22 seconds - slower for subtlety)
+                const duration = 12 + Math.random() * 10;
                 column.style.animationDuration = duration + 's';
                 
                 // Random delay so columns don't all start at once

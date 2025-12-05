@@ -213,134 +213,49 @@
             opacity: 0.4;
             transform: translateZ(0);
             will-change: background-position;
-            /* Create multiple columns of digital rain with varying speeds */
+            /* Create dense digital rain with many columns */
             background-image: 
-                /* Column 1 - 10% width, slow */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    rgba(102, 255, 153, 0.15) 2%,
-                    rgba(102, 255, 153, 0.3) 4%,
-                    rgba(102, 255, 153, 0.15) 6%,
-                    transparent 8%,
-                    transparent 100%
-                ),
-                /* Column 2 - 15% width, medium */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 5%,
-                    rgba(0, 255, 255, 0.15) 7%,
-                    rgba(0, 255, 255, 0.3) 9%,
-                    rgba(0, 255, 255, 0.15) 11%,
-                    transparent 13%,
-                    transparent 100%
-                ),
-                /* Column 3 - 20% width, fast */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 10%,
-                    rgba(255, 255, 0, 0.15) 12%,
-                    rgba(255, 255, 0, 0.3) 14%,
-                    rgba(255, 255, 0, 0.15) 16%,
-                    transparent 18%,
-                    transparent 100%
-                ),
-                /* Column 4 - 25% width, slow */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    rgba(102, 255, 153, 0.15) 3%,
-                    rgba(102, 255, 153, 0.3) 5%,
-                    rgba(102, 255, 153, 0.15) 7%,
-                    transparent 9%,
-                    transparent 100%
-                ),
-                /* Column 5 - 30% width, medium */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 8%,
-                    rgba(0, 255, 255, 0.15) 10%,
-                    rgba(0, 255, 255, 0.3) 12%,
-                    rgba(0, 255, 255, 0.15) 14%,
-                    transparent 16%,
-                    transparent 100%
-                ),
-                /* Column 6 - 35% width, fast */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 12%,
-                    rgba(255, 255, 0, 0.15) 14%,
-                    rgba(255, 255, 0, 0.3) 16%,
-                    rgba(255, 255, 0, 0.15) 18%,
-                    transparent 20%,
-                    transparent 100%
-                ),
-                /* Column 7 - 40% width, slow */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    rgba(102, 255, 153, 0.15) 4%,
-                    rgba(102, 255, 153, 0.3) 6%,
-                    rgba(102, 255, 153, 0.15) 8%,
-                    transparent 10%,
-                    transparent 100%
-                ),
-                /* Column 8 - 50% width, medium */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 6%,
-                    rgba(0, 255, 255, 0.15) 8%,
-                    rgba(0, 255, 255, 0.3) 10%,
-                    rgba(0, 255, 255, 0.15) 12%,
-                    transparent 14%,
-                    transparent 100%
-                ),
-                /* Column 9 - 60% width, fast */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 11%,
-                    rgba(255, 255, 0, 0.15) 13%,
-                    rgba(255, 255, 0, 0.3) 15%,
-                    rgba(255, 255, 0, 0.15) 17%,
-                    transparent 19%,
-                    transparent 100%
-                ),
-                /* Column 10 - 70% width, slow */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    rgba(102, 255, 153, 0.15) 2%,
-                    rgba(102, 255, 153, 0.3) 4%,
-                    rgba(102, 255, 153, 0.15) 6%,
-                    transparent 8%,
-                    transparent 100%
-                ),
-                /* Column 11 - 80% width, medium */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 7%,
-                    rgba(0, 255, 255, 0.15) 9%,
-                    rgba(0, 255, 255, 0.3) 11%,
-                    rgba(0, 255, 255, 0.15) 13%,
-                    transparent 15%,
-                    transparent 100%
-                ),
-                /* Column 12 - 90% width, fast */
-                linear-gradient(180deg, 
-                    transparent 0%,
-                    transparent 13%,
-                    rgba(255, 255, 0, 0.15) 15%,
-                    rgba(255, 255, 0, 0.3) 17%,
-                    rgba(255, 255, 0, 0.15) 19%,
-                    transparent 21%,
-                    transparent 100%
-                );
+                /* Columns every 3-4% for heavy rain effect */
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 1%, rgba(102, 255, 153, 0.4) 3%, rgba(102, 255, 153, 0.2) 5%, transparent 7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2%, rgba(0, 255, 255, 0.2) 4%, rgba(0, 255, 255, 0.4) 6%, rgba(0, 255, 255, 0.2) 8%, transparent 10%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4%, rgba(255, 255, 0, 0.2) 6%, rgba(255, 255, 0, 0.4) 8%, rgba(255, 255, 0, 0.2) 10%, transparent 12%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 1.5%, rgba(102, 255, 153, 0.4) 3.5%, rgba(102, 255, 153, 0.2) 5.5%, transparent 7.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3%, rgba(0, 255, 255, 0.2) 5%, rgba(0, 255, 255, 0.4) 7%, rgba(0, 255, 255, 0.2) 9%, transparent 11%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5%, rgba(255, 255, 0, 0.2) 7%, rgba(255, 255, 0, 0.4) 9%, rgba(255, 255, 0, 0.2) 11%, transparent 13%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 2%, rgba(102, 255, 153, 0.4) 4%, rgba(102, 255, 153, 0.2) 6%, transparent 8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1%, rgba(0, 255, 255, 0.2) 3%, rgba(0, 255, 255, 0.4) 5%, rgba(0, 255, 255, 0.2) 7%, transparent 9%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 6%, rgba(255, 255, 0, 0.2) 8%, rgba(255, 255, 0, 0.4) 10%, rgba(255, 255, 0, 0.2) 12%, transparent 14%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 0.5%, rgba(102, 255, 153, 0.4) 2.5%, rgba(102, 255, 153, 0.2) 4.5%, transparent 6.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.5%, rgba(0, 255, 255, 0.2) 4.5%, rgba(0, 255, 255, 0.4) 6.5%, rgba(0, 255, 255, 0.2) 8.5%, transparent 10.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4.5%, rgba(255, 255, 0, 0.2) 6.5%, rgba(255, 255, 0, 0.4) 8.5%, rgba(255, 255, 0, 0.2) 10.5%, transparent 12.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 1.2%, rgba(102, 255, 153, 0.4) 3.2%, rgba(102, 255, 153, 0.2) 5.2%, transparent 7.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3.5%, rgba(0, 255, 255, 0.2) 5.5%, rgba(0, 255, 255, 0.4) 7.5%, rgba(0, 255, 255, 0.2) 9.5%, transparent 11.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.5%, rgba(255, 255, 0, 0.2) 7.5%, rgba(255, 255, 0, 0.4) 9.5%, rgba(255, 255, 0, 0.2) 11.5%, transparent 13.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 0.8%, rgba(102, 255, 153, 0.4) 2.8%, rgba(102, 255, 153, 0.2) 4.8%, transparent 6.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1.5%, rgba(0, 255, 255, 0.2) 3.5%, rgba(0, 255, 255, 0.4) 5.5%, rgba(0, 255, 255, 0.2) 7.5%, transparent 9.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4%, rgba(255, 255, 0, 0.2) 6%, rgba(255, 255, 0, 0.4) 8%, rgba(255, 255, 0, 0.2) 10%, transparent 12%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 1.8%, rgba(102, 255, 153, 0.4) 3.8%, rgba(102, 255, 153, 0.2) 5.8%, transparent 7.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.2%, rgba(0, 255, 255, 0.2) 4.2%, rgba(0, 255, 255, 0.4) 6.2%, rgba(0, 255, 255, 0.2) 8.2%, transparent 10.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.2%, rgba(255, 255, 0, 0.2) 7.2%, rgba(255, 255, 0, 0.4) 9.2%, rgba(255, 255, 0, 0.2) 11.2%, transparent 13.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 0.3%, rgba(102, 255, 153, 0.4) 2.3%, rgba(102, 255, 153, 0.2) 4.3%, transparent 6.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3.2%, rgba(0, 255, 255, 0.2) 5.2%, rgba(0, 255, 255, 0.4) 7.2%, rgba(0, 255, 255, 0.2) 9.2%, transparent 11.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 6.2%, rgba(255, 255, 0, 0.2) 8.2%, rgba(255, 255, 0, 0.4) 10.2%, rgba(255, 255, 0, 0.2) 12.2%, transparent 14.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(102, 255, 153, 0.2) 1.6%, rgba(102, 255, 153, 0.4) 3.6%, rgba(102, 255, 153, 0.2) 5.6%, transparent 7.6%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1.8%, rgba(0, 255, 255, 0.2) 3.8%, rgba(0, 255, 255, 0.4) 5.8%, rgba(0, 255, 255, 0.2) 7.8%, transparent 9.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4.8%, rgba(255, 255, 0, 0.2) 6.8%, rgba(255, 255, 0, 0.4) 8.8%, rgba(255, 255, 0, 0.2) 10.8%, transparent 12.8%, transparent 100%);
             background-size: 
-                2px 400%, 2px 350%, 2px 450%,
-                2px 400%, 2px 350%, 2px 450%,
-                2px 400%, 2px 350%, 2px 450%,
-                2px 400%, 2px 350%, 2px 450%;
+                2px 400%, 2px 350%, 2px 450%, 2px 400%, 2px 350%, 2px 450%,
+                2px 400%, 2px 350%, 2px 450%, 2px 400%, 2px 350%, 2px 450%,
+                2px 400%, 2px 350%, 2px 450%, 2px 400%, 2px 350%, 2px 450%,
+                2px 400%, 2px 350%, 2px 450%, 2px 400%, 2px 350%, 2px 450%,
+                2px 400%, 2px 350%, 2px 450%, 2px 400%, 2px 350%, 2px 450%;
             background-position: 
-                10% 0%, 15% 0%, 20% 0%,
-                25% 0%, 30% 0%, 35% 0%,
-                40% 0%, 50% 0%, 60% 0%,
-                70% 0%, 80% 0%, 90% 0%;
+                3% 0%, 6% 0%, 9% 0%, 12% 0%, 15% 0%, 18% 0%,
+                21% 0%, 24% 0%, 27% 0%, 30% 0%, 33% 0%, 36% 0%,
+                39% 0%, 42% 0%, 45% 0%, 48% 0%, 51% 0%, 54% 0%,
+                57% 0%, 60% 0%, 63% 0%, 66% 0%, 69% 0%, 72% 0%,
+                75% 0%, 78% 0%, 81% 0%, 84% 0%, 87% 0%, 90% 0%,
+                93% 0%, 96% 0%;
             background-repeat: repeat-y;
             animation: digital-rain 18s linear infinite;
         }
@@ -348,17 +263,21 @@
         @keyframes digital-rain {
             0% {
                 background-position: 
-                    10% 0%, 15% 0%, 20% 0%,
-                    25% 0%, 30% 0%, 35% 0%,
-                    40% 0%, 50% 0%, 60% 0%,
-                    70% 0%, 80% 0%, 90% 0%;
+                    3% 0%, 6% 0%, 9% 0%, 12% 0%, 15% 0%, 18% 0%,
+                    21% 0%, 24% 0%, 27% 0%, 30% 0%, 33% 0%, 36% 0%,
+                    39% 0%, 42% 0%, 45% 0%, 48% 0%, 51% 0%, 54% 0%,
+                    57% 0%, 60% 0%, 63% 0%, 66% 0%, 69% 0%, 72% 0%,
+                    75% 0%, 78% 0%, 81% 0%, 84% 0%, 87% 0%, 90% 0%,
+                    93% 0%, 96% 0%;
             }
             100% {
                 background-position: 
-                    10% 400%, 15% 350%, 20% 450%,
-                    25% 400%, 30% 350%, 35% 450%,
-                    40% 400%, 50% 350%, 60% 450%,
-                    70% 400%, 80% 350%, 90% 450%;
+                    3% 400%, 6% 350%, 9% 450%, 12% 400%, 15% 350%, 18% 450%,
+                    21% 400%, 24% 350%, 27% 450%, 30% 400%, 33% 350%, 36% 450%,
+                    39% 400%, 42% 350%, 45% 450%, 48% 400%, 51% 350%, 54% 450%,
+                    57% 400%, 60% 350%, 63% 450%, 66% 400%, 69% 350%, 72% 450%,
+                    75% 400%, 78% 350%, 81% 450%, 84% 400%, 87% 350%, 90% 450%,
+                    93% 400%, 96% 350%;
             }
         }
 

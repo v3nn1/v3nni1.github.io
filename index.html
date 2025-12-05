@@ -37,58 +37,85 @@
             width: 100%;
             height: 120%;
             background: 
+                /* Animated gradient mesh - subtle color shifts */
+                radial-gradient(ellipse 800px 600px at 20% 30%, rgba(102, 255, 153, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 700px 500px at 80% 70%, rgba(0, 255, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse 600px 700px at 50% 50%, rgba(255, 255, 0, 0.05) 0%, transparent 50%),
                 /* Retro arcade scanlines */
                 repeating-linear-gradient(
                     0deg,
                     transparent,
                     transparent 1px,
-                    rgba(0, 255, 255, 0.04) 1px,
-                    rgba(0, 255, 255, 0.04) 2px
+                    rgba(0, 255, 255, 0.03) 1px,
+                    rgba(0, 255, 255, 0.03) 2px
                 ),
                 /* Subtle pixel grid */
                 repeating-linear-gradient(
                     90deg,
                     transparent,
                     transparent 19px,
-                    rgba(255, 255, 0, 0.015) 19px,
-                    rgba(255, 255, 0, 0.015) 20px
+                    rgba(255, 255, 0, 0.01) 19px,
+                    rgba(255, 255, 0, 0.01) 20px
                 ),
                 repeating-linear-gradient(
                     0deg,
                     transparent,
                     transparent 19px,
-                    rgba(255, 255, 0, 0.015) 19px,
-                    rgba(255, 255, 0, 0.015) 20px
-                ),
-                /* Retro arcade glow */
-                radial-gradient(ellipse 1400px 1600px at 50% 40%, 
-                    rgba(255, 255, 0, 0.12) 0%, 
-                    rgba(0, 255, 255, 0.1) 30%,
-                    rgba(0, 255, 0, 0.08) 50%,
-                    transparent 70%
+                    rgba(255, 255, 0, 0.01) 19px,
+                    rgba(255, 255, 0, 0.01) 20px
                 ),
                 /* Base dark */
                 #000000;
-            background-size: 100% 4px, 20px 20px, 20px 20px, 100% 100%, 100% 100%;
-            background-position: 0 0, 0 0, 0 0, center, center;
-            background-repeat: repeat, repeat, repeat, no-repeat, no-repeat;
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%,
+                100% 4px, 20px 20px, 20px 20px,
+                100% 100%;
+            background-position: 
+                0% 0%, 100% 100%, 50% 50%,
+                0 0, 0 0, 0 0,
+                center;
+            background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat, repeat, no-repeat;
             opacity: 1;
             z-index: -1;
             pointer-events: none;
             transform: translateZ(0);
             will-change: background-position;
             overflow: hidden;
-            animation: retro-scanline 8s linear infinite, retro-grid 30s linear infinite;
+            animation: 
+                gradient-mesh 20s ease-in-out infinite,
+                retro-scanline 8s linear infinite, 
+                retro-grid 30s linear infinite;
+        }
+
+        @keyframes gradient-mesh {
+            0%, 100% { 
+                background-position: 
+                    0% 0%, 100% 100%, 50% 50%,
+                    0 0, 0 0, 0 0,
+                    center;
+            }
+            33% { 
+                background-position: 
+                    30% 20%, 70% 80%, 60% 40%,
+                    0 0, 0 0, 0 0,
+                    center;
+            }
+            66% { 
+                background-position: 
+                    20% 40%, 80% 60%, 40% 60%,
+                    0 0, 0 0, 0 0,
+                    center;
+            }
         }
 
         @keyframes retro-scanline {
-            0% { background-position: 0 0, 0 0, 0 0, center, center; }
-            100% { background-position: 0 4px, 0 0, 0 0, center, center; }
+            0% { background-position: 0% 0%, 100% 100%, 50% 50%, 0 0, 0 0, 0 0, center; }
+            100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0 4px, 0 0, 0 0, center; }
         }
 
         @keyframes retro-grid {
-            0% { background-position: 0 0, 0 0, 0 0, center, center; }
-            100% { background-position: 0 0, 20px 20px, -20px -20px, center, center; }
+            0% { background-position: 0% 0%, 100% 100%, 50% 50%, 0 0, 0 0, 0 0, center; }
+            100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0 0, 20px 20px, -20px -20px, center; }
         }
 
         .parallax-overlay {
@@ -102,7 +129,7 @@
             overflow: hidden;
         }
 
-        /* Retro CRT scanlines effect */
+        /* Floating particles - CSS only, very lightweight */
         .parallax-overlay::before {
             content: '';
             position: absolute;
@@ -110,15 +137,63 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.2),
-                rgba(0, 0, 0, 0.2) 1px,
-                transparent 1px,
-                transparent 2px
-            );
+            background-image: 
+                /* Small floating particles */
+                radial-gradient(2px 2px at 15% 25%, rgba(102, 255, 153, 0.4), transparent),
+                radial-gradient(1.5px 1.5px at 35% 45%, rgba(0, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 55% 15%, rgba(255, 255, 0, 0.35), transparent),
+                radial-gradient(1.5px 1.5px at 75% 65%, rgba(102, 255, 153, 0.3), transparent),
+                radial-gradient(2px 2px at 25% 75%, rgba(0, 255, 255, 0.4), transparent),
+                radial-gradient(1.5px 1.5px at 65% 85%, rgba(255, 255, 0, 0.3), transparent),
+                radial-gradient(2px 2px at 85% 35%, rgba(102, 255, 153, 0.35), transparent),
+                radial-gradient(1.5px 1.5px at 45% 55%, rgba(0, 255, 255, 0.4), transparent),
+                /* Retro CRT scanlines effect */
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            background-size: 
+                200% 200%, 180% 180%, 220% 220%, 190% 190%,
+                210% 210%, 200% 200%, 180% 180%, 190% 190%,
+                100% 100%;
+            background-position: 
+                0% 0%, 0% 0%, 0% 0%, 0% 0%,
+                0% 0%, 0% 0%, 0% 0%, 0% 0%,
+                0 0;
+            animation: 
+                particles-float 25s ease-in-out infinite,
+                scanline 8s linear infinite;
             pointer-events: none;
-            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes particles-float {
+            0%, 100% {
+                background-position: 
+                    0% 0%, 0% 0%, 0% 0%, 0% 0%,
+                    0% 0%, 0% 0%, 0% 0%, 0% 0%,
+                    0 0;
+            }
+            25% {
+                background-position: 
+                    10% 5%, -5% 10%, 8% -3%, -8% 7%,
+                    5% 12%, -10% 8%, 12% -5%, -7% 10%,
+                    0 0;
+            }
+            50% {
+                background-position: 
+                    5% 10%, -10% 5%, 12% 5%, -5% 12%,
+                    10% 8%, -8% 10%, 8% 8%, -12% 5%,
+                    0 0;
+            }
+            75% {
+                background-position: 
+                    -5% 8%, 8% -5%, -10% 8%, 10% -8%,
+                    -8% 10%, 12% 5%, -12% 8%, 5% -10%,
+                    0 0;
+            }
         }
 
         @keyframes scanline {
@@ -126,7 +201,7 @@
             100% { transform: translateY(10px); }
         }
 
-        /* Pixel art digital rain - CSS only, creates 8-bit style falling blocks */
+        /* Retro glowing hearts - drifting, pulsing, and shimmering */
         .parallax-overlay::after {
             content: '';
             position: absolute;
@@ -134,95 +209,124 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Create pixelated rain using repeating gradients - more visible blocks */
+            /* Create retro pixel art hearts with glow using CSS shapes */
             background-image: 
-                /* Column 1 - Pixel blocks in cyan (larger, more visible) */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
-                    transparent 3px,
-                    rgba(0, 255, 255, 0.4) 3px,
-                    rgba(0, 255, 255, 0.4) 7px,
-                    transparent 7px,
-                    transparent 10px,
-                    rgba(0, 255, 255, 0.35) 10px,
-                    rgba(0, 255, 255, 0.35) 14px,
-                    transparent 14px,
-                    transparent 17px
-                ),
-                /* Column 2 - Pixel blocks in yellow */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
-                    transparent 4px,
-                    rgba(255, 255, 0, 0.35) 4px,
-                    rgba(255, 255, 0, 0.35) 8px,
-                    transparent 8px,
-                    transparent 11px,
-                    rgba(255, 255, 0, 0.3) 11px,
-                    rgba(255, 255, 0, 0.3) 15px,
-                    transparent 15px,
-                    transparent 18px
-                ),
-                /* Column 3 - Pixel blocks in green */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
-                    transparent 5px,
-                    rgba(0, 255, 0, 0.4) 5px,
-                    rgba(0, 255, 0, 0.4) 9px,
-                    transparent 9px,
-                    transparent 12px,
-                    rgba(0, 255, 0, 0.3) 12px,
-                    rgba(0, 255, 0, 0.3) 16px,
-                    transparent 16px,
-                    transparent 19px
-                ),
-                /* Column 4 - Pixel blocks in magenta */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
-                    transparent 6px,
-                    rgba(255, 0, 255, 0.3) 6px,
-                    rgba(255, 0, 255, 0.3) 10px,
-                    transparent 10px,
-                    transparent 13px,
-                    rgba(255, 0, 255, 0.25) 13px,
-                    rgba(255, 0, 255, 0.25) 17px,
-                    transparent 17px,
-                    transparent 20px
-                ),
-                /* Column 5 - Pixel blocks in cyan (variation) */
-                repeating-linear-gradient(
-                    180deg,
-                    transparent 0px,
-                    transparent 7px,
-                    rgba(0, 255, 255, 0.35) 7px,
-                    rgba(0, 255, 255, 0.35) 11px,
-                    transparent 11px,
-                    transparent 14px,
-                    rgba(0, 255, 255, 0.3) 14px,
-                    rgba(0, 255, 255, 0.3) 18px,
-                    transparent 18px,
-                    transparent 21px
-                );
-            background-size: 50px 100%, 70px 100%, 60px 100%, 55px 100%, 65px 100%;
-            background-position: 10% 0, 28% 0, 48% 0, 70% 0, 90% 0;
-            background-repeat: repeat-y, repeat-y, repeat-y, repeat-y, repeat-y;
-            opacity: 0.7;
-            animation: pixel-rain 10s linear infinite;
+                /* Heart 1 - cyan */
+                radial-gradient(circle at 15% 20%, rgba(0, 255, 255, 0.3) 0%, transparent 25px),
+                radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.3) 0%, transparent 25px),
+                radial-gradient(circle at 17.5% 25%, rgba(0, 255, 255, 0.3) 0%, transparent 25px),
+                radial-gradient(circle at 17.5% 32%, rgba(0, 255, 255, 0.25) 0%, transparent 30px),
+                /* Heart 2 - yellow */
+                radial-gradient(circle at 45% 35%, rgba(255, 255, 0, 0.28) 0%, transparent 22px),
+                radial-gradient(circle at 50% 35%, rgba(255, 255, 0, 0.28) 0%, transparent 22px),
+                radial-gradient(circle at 47.5% 40%, rgba(255, 255, 0, 0.28) 0%, transparent 22px),
+                radial-gradient(circle at 47.5% 47%, rgba(255, 255, 0, 0.22) 0%, transparent 28px),
+                /* Heart 3 - green */
+                radial-gradient(circle at 75% 25%, rgba(0, 255, 0, 0.3) 0%, transparent 20px),
+                radial-gradient(circle at 80% 25%, rgba(0, 255, 0, 0.3) 0%, transparent 20px),
+                radial-gradient(circle at 77.5% 30%, rgba(0, 255, 0, 0.3) 0%, transparent 20px),
+                radial-gradient(circle at 77.5% 37%, rgba(0, 255, 0, 0.25) 0%, transparent 26px),
+                /* Heart 4 - magenta */
+                radial-gradient(circle at 25% 60%, rgba(255, 0, 255, 0.25) 0%, transparent 18px),
+                radial-gradient(circle at 30% 60%, rgba(255, 0, 255, 0.25) 0%, transparent 18px),
+                radial-gradient(circle at 27.5% 65%, rgba(255, 0, 255, 0.25) 0%, transparent 18px),
+                radial-gradient(circle at 27.5% 72%, rgba(255, 0, 255, 0.2) 0%, transparent 24px),
+                /* Heart 5 - cyan */
+                radial-gradient(circle at 60% 70%, rgba(0, 255, 255, 0.28) 0%, transparent 19px),
+                radial-gradient(circle at 65% 70%, rgba(0, 255, 255, 0.28) 0%, transparent 19px),
+                radial-gradient(circle at 62.5% 75%, rgba(0, 255, 255, 0.28) 0%, transparent 19px),
+                radial-gradient(circle at 62.5% 82%, rgba(0, 255, 255, 0.22) 0%, transparent 25px),
+                /* Heart 6 - yellow */
+                radial-gradient(circle at 85% 55%, rgba(255, 255, 0, 0.26) 0%, transparent 17px),
+                radial-gradient(circle at 90% 55%, rgba(255, 255, 0, 0.26) 0%, transparent 17px),
+                radial-gradient(circle at 87.5% 60%, rgba(255, 255, 0, 0.26) 0%, transparent 17px),
+                radial-gradient(circle at 87.5% 67%, rgba(255, 255, 0, 0.2) 0%, transparent 23px);
+            background-size: 
+                50px 50px, 50px 50px, 50px 50px, 60px 60px,
+                44px 44px, 44px 44px, 44px 44px, 56px 56px,
+                40px 40px, 40px 40px, 40px 40px, 52px 52px,
+                36px 36px, 36px 36px, 36px 36px, 48px 48px,
+                38px 38px, 38px 38px, 38px 38px, 50px 50px,
+                34px 34px, 34px 34px, 34px 34px, 46px 46px;
+            background-position: 
+                15% 20%, 20% 20%, 17.5% 25%, 17.5% 32%,
+                45% 35%, 50% 35%, 47.5% 40%, 47.5% 47%,
+                75% 25%, 80% 25%, 77.5% 30%, 77.5% 37%,
+                25% 60%, 30% 60%, 27.5% 65%, 27.5% 72%,
+                60% 70%, 65% 70%, 62.5% 75%, 62.5% 82%,
+                85% 55%, 90% 55%, 87.5% 60%, 87.5% 67%;
+            background-repeat: no-repeat;
+            opacity: 0.65;
+            animation: 
+                hearts-drift 30s ease-in-out infinite,
+                hearts-pulse 6s ease-in-out infinite,
+                hearts-shimmer 8s ease-in-out infinite;
             pointer-events: none;
-            /* Less aggressive fade for more visibility */
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 3%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.2) 97%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 3%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.2) 97%, transparent 100%);
+            filter: blur(1px);
+            transform: translateZ(0);
+            will-change: background-position, opacity, filter;
         }
 
-        @keyframes pixel-rain {
-            0% { 
-                background-position: 10% 0, 28% 0, 48% 0, 70% 0, 90% 0;
+        @keyframes hearts-drift {
+            0%, 100% {
+                background-position: 
+                    15% 20%, 20% 20%, 17.5% 25%, 17.5% 32%,
+                    45% 35%, 50% 35%, 47.5% 40%, 47.5% 47%,
+                    75% 25%, 80% 25%, 77.5% 30%, 77.5% 37%,
+                    25% 60%, 30% 60%, 27.5% 65%, 27.5% 72%,
+                    60% 70%, 65% 70%, 62.5% 75%, 62.5% 82%,
+                    85% 55%, 90% 55%, 87.5% 60%, 87.5% 67%;
             }
-            100% { 
-                background-position: 10% 200vh, 28% 180vh, 48% 220vh, 70% 190vh, 90% 210vh;
+            25% {
+                background-position: 
+                    18% 22%, 22% 18%, 19% 27%, 19% 34%,
+                    47% 33%, 52% 37%, 49% 42%, 49% 49%,
+                    73% 27%, 78% 23%, 75.5% 32%, 75.5% 39%,
+                    27% 58%, 32% 62%, 29.5% 63%, 29.5% 70%,
+                    62% 68%, 67% 72%, 64.5% 73%, 64.5% 80%,
+                    83% 57%, 88% 53%, 85.5% 62%, 85.5% 69%;
+            }
+            50% {
+                background-position: 
+                    13% 18%, 18% 22%, 16% 23%, 16% 30%,
+                    43% 37%, 48% 33%, 45.5% 38%, 45.5% 45%,
+                    77% 23%, 82% 27%, 79.5% 28%, 79.5% 35%,
+                    23% 62%, 28% 58%, 25.5% 67%, 25.5% 74%,
+                    58% 72%, 63% 68%, 60.5% 77%, 60.5% 84%,
+                    87% 53%, 92% 57%, 89.5% 58%, 89.5% 65%;
+            }
+            75% {
+                background-position: 
+                    17% 21%, 21% 19%, 18.5% 26%, 18.5% 33%,
+                    46% 34%, 51% 36%, 48.5% 41%, 48.5% 48%,
+                    74% 26%, 79% 24%, 76.5% 31%, 76.5% 38%,
+                    26% 59%, 31% 61%, 28.5% 64%, 28.5% 71%,
+                    61% 69%, 66% 71%, 63.5% 74%, 63.5% 81%,
+                    84% 56%, 89% 54%, 86.5% 61%, 86.5% 68%;
+            }
+        }
+
+        @keyframes hearts-pulse {
+            0%, 100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 0.85;
+            }
+        }
+
+        @keyframes hearts-shimmer {
+            0%, 100% {
+                filter: blur(1px) brightness(1);
+            }
+            25% {
+                filter: blur(1.2px) brightness(1.15);
+            }
+            50% {
+                filter: blur(0.8px) brightness(1.1);
+            }
+            75% {
+                filter: blur(1.3px) brightness(1.2);
             }
         }
 

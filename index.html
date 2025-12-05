@@ -201,8 +201,8 @@
             100% { transform: translateY(10px); }
         }
 
-        /* Matrix-style digital rain with falling characters - subtle */
-        .matrix-rain {
+        /* Fallout-themed static background with pulsing and shimmering effects */
+        .fallout-background {
             position: fixed;
             top: 0;
             left: 0;
@@ -211,51 +211,121 @@
             z-index: -1;
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.12;
+            background: #0a0a0a;
         }
 
-        .matrix-column {
+        /* Circuit board pattern - static grid */
+        .fallout-background::before {
+            content: '';
             position: absolute;
-            top: -100%;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 14px;
-            line-height: 1.3;
-            color: #00ff41;
-            text-shadow: 0 0 3px rgba(0, 255, 65, 0.4), 0 0 6px rgba(0, 255, 65, 0.2);
-            white-space: nowrap;
-            animation: matrix-fall linear infinite, matrix-fade 6s ease-in-out infinite;
-            transform: translateZ(0);
-            will-change: transform, opacity;
-            letter-spacing: 1px;
-            opacity: 0;
-            animation-delay: 0s, var(--fade-delay, 0s);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Horizontal circuit lines */
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 19px,
+                    rgba(0, 255, 0, 0.08) 19px,
+                    rgba(0, 255, 0, 0.08) 20px
+                ),
+                /* Vertical circuit lines */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 19px,
+                    rgba(0, 255, 0, 0.08) 19px,
+                    rgba(0, 255, 0, 0.08) 20px
+                ),
+                /* Pip-Boy green glow spots */
+                radial-gradient(ellipse 200px 200px at 20% 30%, rgba(0, 255, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 180px 180px at 70% 60%, rgba(0, 255, 0, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 150px 150px at 45% 75%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                /* Vault-Tec blue accents */
+                radial-gradient(ellipse 120px 120px at 80% 20%, rgba(31, 71, 136, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse 100px 100px at 15% 70%, rgba(31, 71, 136, 0.15) 0%, transparent 50%);
+            background-size: 
+                20px 20px, 20px 20px,
+                100% 100%, 100% 100%, 100% 100%,
+                100% 100%, 100% 100%;
+            background-position: 
+                0 0, 0 0,
+                20% 30%, 70% 60%, 45% 75%,
+                80% 20%, 15% 70%;
+            animation: fallout-pulse 4s ease-in-out infinite;
+            opacity: 0.6;
         }
 
-        /* Make first character in each column slightly brighter (head of the stream) */
-        .matrix-column br:first-child + *,
-        .matrix-column::first-line {
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 0 0 4px rgba(255, 255, 255, 0.5), 0 0 8px rgba(0, 255, 65, 0.3);
+        /* Shimmering highlights and radiation symbols */
+        .fallout-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Radioactive orange/yellow glows - pulsing */
+                radial-gradient(ellipse 250px 250px at 30% 40%, rgba(255, 165, 0, 0.2) 0%, transparent 60%),
+                radial-gradient(ellipse 200px 200px at 60% 25%, rgba(255, 215, 0, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 180px 180px at 75% 80%, rgba(255, 140, 0, 0.15) 0%, transparent 60%),
+                /* Shimmering highlights */
+                linear-gradient(135deg, transparent 0%, rgba(0, 255, 0, 0.1) 25%, transparent 50%, rgba(0, 255, 0, 0.1) 75%, transparent 100%),
+                linear-gradient(45deg, transparent 0%, rgba(255, 215, 0, 0.08) 30%, transparent 60%, rgba(255, 215, 0, 0.08) 90%, transparent 100%);
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%,
+                200% 200%, 200% 200%;
+            background-position: 
+                30% 40%, 60% 25%, 75% 80%,
+                0% 0%, 0% 0%;
+            animation: 
+                fallout-shimmer 8s ease-in-out infinite,
+                fallout-radiation-pulse 3s ease-in-out infinite;
+            opacity: 0.5;
         }
 
-        @keyframes matrix-fall {
-            0% {
-                transform: translateY(-100%);
-            }
-            100% {
-                transform: translateY(100vh);
-            }
-        }
-
-        @keyframes matrix-fade {
+        @keyframes fallout-pulse {
             0%, 100% {
-                opacity: 0;
+                opacity: 0.5;
+                filter: brightness(1);
             }
-            10% {
-                opacity: 1;
+            50% {
+                opacity: 0.7;
+                filter: brightness(1.3);
             }
-            90% {
-                opacity: 1;
+        }
+
+        @keyframes fallout-shimmer {
+            0%, 100% {
+                background-position: 
+                    30% 40%, 60% 25%, 75% 80%,
+                    0% 0%, 0% 0%;
+            }
+            50% {
+                background-position: 
+                    30% 40%, 60% 25%, 75% 80%,
+                    100% 100%, -100% -100%;
+            }
+        }
+
+        @keyframes fallout-radiation-pulse {
+            0%, 100% {
+                opacity: 0.4;
+                filter: brightness(1) blur(0px);
+            }
+            25% {
+                opacity: 0.6;
+                filter: brightness(1.4) blur(1px);
+            }
+            50% {
+                opacity: 0.5;
+                filter: brightness(1.2) blur(0.5px);
+            }
+            75% {
+                opacity: 0.55;
+                filter: brightness(1.3) blur(0.8px);
             }
         }
 
@@ -1977,96 +2047,7 @@
     <div class="parallax-overlay"></div>
     <div class="glitch-overlay"></div>
     
-    <!-- Matrix-style digital rain -->
-    <div class="matrix-rain" id="matrixRain"></div>
-    
-    <script>
-        // Generate Matrix rain columns with dynamic character changes
-        (function() {
-            const matrixRain = document.getElementById('matrixRain');
-            const chars = '012345678901234567890123456789アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const numColumns = 40; // Increased from 25 for denser rain
-            const charsPerColumn = 40;
-            const columns = [];
-            
-            // Create columns
-            for (let i = 0; i < numColumns; i++) {
-                const column = document.createElement('div');
-                column.className = 'matrix-column';
-                column.style.left = (i * (100 / numColumns)) + '%';
-                
-                // Store character spans for easy updating
-                column.charSpans = [];
-                
-                // Create string of random characters for this column
-                let columnText = '';
-                for (let j = 0; j < charsPerColumn; j++) {
-                    const char = chars[Math.floor(Math.random() * chars.length)];
-                    const span = document.createElement('span');
-                    span.textContent = char;
-                    
-                    // Make some characters slightly brighter (head of stream effect)
-                    if (j < 2) {
-                        span.style.color = 'rgba(255, 255, 255, 0.8)';
-                        span.style.textShadow = '0 0 4px rgba(255, 255, 255, 0.5)';
-                    }
-                    
-                    column.appendChild(span);
-                    column.appendChild(document.createElement('br'));
-                    column.charSpans.push(span);
-                }
-                
-                // Vary animation duration for depth effect (12-22 seconds - slower for subtlety)
-                const duration = 12 + Math.random() * 10;
-                column.style.animationDuration = duration + 's';
-                
-                // Start immediately - no delay, but stagger fade-in slightly for smooth effect
-                column.style.animationDelay = (Math.random() * 0.5) + 's';
-                
-                // Set fade animation delay to match fall animation
-                column.style.setProperty('--fade-delay', (Math.random() * 0.3) + 's');
-                
-                matrixRain.appendChild(column);
-                columns.push(column);
-            }
-            
-            // Update characters periodically (every 100-200ms for smooth Matrix effect)
-            let lastUpdate = 0;
-            const updateInterval = 150; // milliseconds
-            
-            function updateCharacters(timestamp) {
-                if (timestamp - lastUpdate >= updateInterval) {
-                    lastUpdate = timestamp;
-                    
-                    // Update random characters in random columns
-                    for (let i = 0; i < columns.length; i++) {
-                        const column = columns[i];
-                        // Update 2-4 random characters per column
-                        const numUpdates = 2 + Math.floor(Math.random() * 3);
-                        for (let j = 0; j < numUpdates; j++) {
-                            const randomIndex = Math.floor(Math.random() * column.charSpans.length);
-                            const span = column.charSpans[randomIndex];
-                            const newChar = chars[Math.floor(Math.random() * chars.length)];
-                            span.textContent = newChar;
-                            
-                            // Occasionally make a character brighter (head effect)
-                            if (Math.random() > 0.7 && randomIndex < 5) {
-                                span.style.color = 'rgba(255, 255, 255, 0.8)';
-                                span.style.textShadow = '0 0 4px rgba(255, 255, 255, 0.5)';
-                            } else {
-                                span.style.color = '';
-                                span.style.textShadow = '';
-                            }
-                        }
-                    }
-                }
-                
-                requestAnimationFrame(updateCharacters);
-            }
-            
-            // Start the update loop
-            requestAnimationFrame(updateCharacters);
-        })();
-    </script>
+    <!-- Fallout-themed background pattern -->
+    <div class="fallout-background"></div>
 </body>
 </html>

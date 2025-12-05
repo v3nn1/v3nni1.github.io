@@ -1422,6 +1422,14 @@
             object-fit: cover;
         }
 
+        .project-video.music-player {
+            padding-bottom: 20%; /* Better aspect ratio for music players (SoundCloud, Spotify, etc.) */
+        }
+
+        .project-video.music-player iframe {
+            object-fit: contain;
+        }
+
         @media (max-width: 768px) {
             .projects-grid {
                 grid-template-columns: 1fr;
@@ -1814,6 +1822,9 @@
                                 <div class="project-title">Music (2004 - present)</div>
                                 <div class="project-description" data-translate="project-music-description">Project description goes here.</div>
                             </div>
+                        </div>
+                        <div class="project-video">
+                            <iframe src="https://www.youtube.com/embed/AdWsV4TrOWc?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
                 </div>

@@ -298,6 +298,68 @@
             color: #66ff99;
         }
 
+        /* Syntax highlighting classes */
+        .terminal-keyword {
+            color: #00ffff;
+            opacity: 0.25;
+        }
+
+        .terminal-string {
+            color: #ffff00;
+            opacity: 0.22;
+        }
+
+        .terminal-number {
+            color: #ff00ff;
+            opacity: 0.22;
+        }
+
+        .terminal-comment {
+            color: #00ff00;
+            opacity: 0.18;
+        }
+
+        .terminal-prompt {
+            color: #00ff41;
+            opacity: 0.3;
+            margin-right: 8px;
+        }
+
+        .terminal-line-number {
+            color: #666666;
+            opacity: 0.15;
+            margin-right: 12px;
+            font-size: 10px;
+            display: inline-block;
+            min-width: 30px;
+            text-align: right;
+        }
+
+        /* Console log messages */
+        .terminal-console-log {
+            position: absolute;
+            color: #00ffff;
+            font-size: 11px;
+            opacity: 0;
+            pointer-events: none;
+            text-shadow: 0 0 4px rgba(0, 255, 255, 0.6);
+            transition: opacity 1s ease-in-out;
+        }
+
+        .terminal-console-log.show {
+            opacity: 0.35;
+        }
+
+        .terminal-console-log.error {
+            color: #ff4444;
+            text-shadow: 0 0 4px rgba(255, 68, 68, 0.6);
+        }
+
+        .terminal-console-log.warning {
+            color: #ffaa00;
+            text-shadow: 0 0 4px rgba(255, 170, 0, 0.6);
+        }
+
         /* Smooth digital rain effect - CSS only, subtle and performant */
         .parallax-overlay::after {
             content: '';
@@ -2037,6 +2099,37 @@
             
             const allSentenceElements = [];
             
+            // Syntax highlighting patterns
+            const keywordPattern = /\b(function|class|const|let|var|if|else|for|while|return|new|this|constructor|update|render)\b/g;
+            const stringPattern = /(['"`])(?:(?=(\\?))\2.)*?\1/g;
+            const numberPattern = /\b\d+\.?\d*\b/g;
+            const commentPattern = /\/\/.*$/gm;
+
+            // Function to add syntax highlighting to text
+            function addSyntaxHighlighting(text) {
+                let highlighted = text;
+                
+                // Add line numbers and prompts randomly
+                const hasLineNumber = Math.random() > 0.7;
+                const hasPrompt = Math.random() > 0.6;
+                
+                let result = '';
+                if (hasLineNumber) {
+                    const lineNum = Math.floor(Math.random() * 999) + 1;
+                    result += `<span class="terminal-line-number">${lineNum.toString().padStart(3, '0')}</span>`;
+                }
+                if (hasPrompt) {
+                    result += `<span class="terminal-prompt">$</span>`;
+                }
+                
+                // Apply syntax highlighting
+                highlighted = highlighted.replace(keywordPattern, '<span class="terminal-keyword">$&</span>');
+                highlighted = highlighted.replace(stringPattern, '<span class="terminal-string">$&</span>');
+                highlighted = highlighted.replace(numberPattern, '<span class="terminal-number">$&</span>');
+                
+                return result + highlighted;
+            }
+
             // Create columns with all text immediately visible
             for (let col = 0; col < numColumns; col++) {
                 const column = document.createElement('div');
@@ -2050,11 +2143,12 @@
                 const endIndex = Math.min(startIndex + sentencesPerColumn, sentences.length);
                 const columnSentences = sentences.slice(startIndex, endIndex);
                 
-                // Create sentence elements
+                // Create sentence elements with syntax highlighting
                 columnSentences.forEach((sentence, idx) => {
                     const sentenceSpan = document.createElement('span');
                     sentenceSpan.className = 'terminal-sentence';
-                    sentenceSpan.textContent = sentence.trim() + '. ';
+                    const cleanSentence = sentence.trim() + '. ';
+                    sentenceSpan.innerHTML = addSyntaxHighlighting(cleanSentence);
                     textDiv.appendChild(sentenceSpan);
                     allSentenceElements.push(sentenceSpan);
                 });
@@ -2090,9 +2184,48 @@
                 }, 2000 + Math.random() * 1000);
             }
             
+            // Console log messages
+            const consoleMessages = [
+                { text: '> Initializing game engine...', type: 'log' },
+                { text: '> Loading assets...', type: 'log' },
+                { text: '> ERROR: Collision detection failed', type: 'error' },
+                { text: '> WARNING: Low frame rate detected', type: 'warning' },
+                { text: '> Game state: PLAYING', type: 'log' },
+                { text: '> Player spawned at (100, 100)', type: 'log' },
+                { text: '> ERROR: Asset not found', type: 'error' },
+                { text: '> Rendering frame...', type: 'log' },
+                { text: '> WARNING: Memory usage high', type: 'warning' },
+                { text: '> Physics engine initialized', type: 'log' }
+            ];
+
+            function showConsoleMessage() {
+                const message = consoleMessages[Math.floor(Math.random() * consoleMessages.length)];
+                const logElement = document.createElement('div');
+                logElement.className = `terminal-console-log ${message.type}`;
+                logElement.textContent = message.text;
+                
+                // Random position
+                logElement.style.left = Math.random() * (window.innerWidth - 300) + 'px';
+                logElement.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+                
+                terminalBackground.appendChild(logElement);
+                
+                // Show
+                setTimeout(() => logElement.classList.add('show'), 100);
+                
+                // Hide and remove
+                setTimeout(() => {
+                    logElement.classList.remove('show');
+                    setTimeout(() => logElement.remove(), 1000);
+                }, 2500);
+            }
+
             // Start highlighting cycle
             highlightRandomSentences();
             setInterval(highlightRandomSentences, 3500); // New highlight every 3.5 seconds
+            
+            // Show console messages occasionally
+            setInterval(showConsoleMessage, 4000 + Math.random() * 3000); // Every 4-7 seconds
         })();
     </script>
 </body>

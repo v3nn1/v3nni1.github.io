@@ -715,8 +715,8 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -2px;
-            right: -2px;
+            left: 0;
+            right: 0;
             height: 400%;
             background: repeating-linear-gradient(
                 0deg,
@@ -729,6 +729,20 @@
             pointer-events: none;
             z-index: 1;
             animation: scanline-sweep 10s linear infinite;
+            mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 5%,
+                black 95%,
+                transparent 100%
+            );
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 5%,
+                black 95%,
+                transparent 100%
+            );
         }
 
         .skill {
@@ -825,10 +839,10 @@
         .programs::before {
             content: '';
             position: absolute;
-            top: -100%;
+            top: 0;
             left: 0;
             right: 0;
-            height: 200%;
+            height: 400%;
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
@@ -836,9 +850,24 @@
                 rgba(255, 193, 7, 0.15) 3px,
                 rgba(255, 193, 7, 0.15) 4px
             );
+            background-size: 100% 4px;
             pointer-events: none;
             z-index: 1;
-            animation: scanline-sweep 4.5s linear infinite;
+            animation: scanline-sweep 10s linear infinite;
+            mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 5%,
+                black 95%,
+                transparent 100%
+            );
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 5%,
+                black 95%,
+                transparent 100%
+            );
         }
 
         .program {

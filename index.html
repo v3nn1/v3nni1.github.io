@@ -201,7 +201,7 @@
             100% { transform: translateY(10px); }
         }
 
-        /* Retro terminal typing effect - fills background with typed text */
+        /* Retro terminal typing effect - fills background with typed text in multiple columns */
         .terminal-background {
             position: fixed;
             top: 0;
@@ -218,6 +218,10 @@
             line-height: 1.6;
             padding: 20px;
             opacity: 0.15;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            column-gap: 30px;
         }
 
         /* CRT scanlines overlay */
@@ -246,6 +250,14 @@
             100% {
                 transform: translateY(10px);
             }
+        }
+
+        /* Terminal column */
+        .terminal-column {
+            flex: 1 1 300px;
+            min-width: 280px;
+            max-width: 400px;
+            position: relative;
         }
 
         /* Blinking cursor */
@@ -1993,31 +2005,57 @@
     <div class="glitch-overlay"></div>
     
     <!-- Retro terminal typing effect -->
-    <div class="terminal-background">
-        <div class="terminal-text" id="terminalText"></div>
-        <span class="terminal-cursor"></span>
-    </div>
+    <div class="terminal-background" id="terminalBackground"></div>
     
     <script>
-        // Retro terminal typing effect
+        // Retro terminal typing effect - multiple columns typing simultaneously
         (function() {
-            const terminalText = document.getElementById('terminalText');
+            const terminalBackground = document.getElementById('terminalBackground');
             // Lorem ipsum text for testing - will be replaced with user's text later
             const fullText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.`;
             
-            let currentIndex = 0;
-            const typingSpeed = 30; // milliseconds per character
+            // Split text into words for better distribution
+            const words = fullText.split(' ');
+            const numColumns = 4; // Number of columns to type simultaneously
+            const wordsPerColumn = Math.ceil(words.length / numColumns);
             
-            function typeNextCharacter() {
-                if (currentIndex < fullText.length) {
-                    terminalText.textContent = fullText.substring(0, currentIndex + 1);
-                    currentIndex++;
-                    setTimeout(typeNextCharacter, typingSpeed);
+            // Create columns and start typing in each simultaneously
+            for (let col = 0; col < numColumns; col++) {
+                const column = document.createElement('div');
+                column.className = 'terminal-column';
+                
+                const textDiv = document.createElement('div');
+                textDiv.className = 'terminal-text';
+                textDiv.id = `terminalText${col}`;
+                
+                const cursor = document.createElement('span');
+                cursor.className = 'terminal-cursor';
+                
+                column.appendChild(textDiv);
+                column.appendChild(cursor);
+                terminalBackground.appendChild(column);
+                
+                // Get words for this column
+                const startIndex = col * wordsPerColumn;
+                const endIndex = Math.min(startIndex + wordsPerColumn, words.length);
+                const columnWords = words.slice(startIndex, endIndex);
+                const columnText = columnWords.join(' ');
+                
+                // Type in this column
+                let currentIndex = 0;
+                const typingSpeed = 25; // milliseconds per character
+                
+                function typeNextCharacter() {
+                    if (currentIndex < columnText.length) {
+                        textDiv.textContent = columnText.substring(0, currentIndex + 1);
+                        currentIndex++;
+                        setTimeout(typeNextCharacter, typingSpeed);
+                    }
                 }
+                
+                // Stagger column starts slightly for more natural effect
+                setTimeout(typeNextCharacter, col * 200);
             }
-            
-            // Start typing when page loads
-            typeNextCharacter();
         })();
     </script>
 </body>

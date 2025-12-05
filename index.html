@@ -710,44 +710,24 @@
             z-index: 1;
         }
 
-        /* Enhanced CRT scanlines */
+        /* Moving scanlines from top to bottom */
         .skills::before {
             content: '';
             position: absolute;
-            top: 0;
+            top: -100%;
             left: 0;
             right: 0;
-            bottom: 0;
+            height: 200%;
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
-                transparent 2px,
-                rgba(233, 30, 99, 0.12) 2px,
-                rgba(233, 30, 99, 0.12) 3px
+                transparent 3px,
+                rgba(233, 30, 99, 0.15) 3px,
+                rgba(233, 30, 99, 0.15) 4px
             );
             pointer-events: none;
             z-index: 1;
-            animation: scanline-drift 8s linear infinite;
-        }
-
-        /* Additional scanline overlay for depth */
-        .skills::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 4px,
-                rgba(233, 30, 99, 0.05) 4px,
-                rgba(233, 30, 99, 0.05) 5px
-            );
-            pointer-events: none;
-            z-index: 1;
-            animation: scanline-drift-reverse 12s linear infinite;
+            animation: scanline-sweep 4s linear infinite;
         }
 
         .skill {
@@ -840,44 +820,24 @@
             z-index: 1;
         }
 
-        /* Enhanced CRT scanlines */
+        /* Moving scanlines from top to bottom */
         .programs::before {
             content: '';
             position: absolute;
-            top: 0;
+            top: -100%;
             left: 0;
             right: 0;
-            bottom: 0;
+            height: 200%;
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
-                transparent 2px,
-                rgba(255, 193, 7, 0.12) 2px,
-                rgba(255, 193, 7, 0.12) 3px
+                transparent 3px,
+                rgba(255, 193, 7, 0.15) 3px,
+                rgba(255, 193, 7, 0.15) 4px
             );
             pointer-events: none;
             z-index: 1;
-            animation: scanline-drift 9s linear infinite;
-        }
-
-        /* Additional scanline overlay for depth */
-        .programs::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 4px,
-                rgba(255, 193, 7, 0.05) 4px,
-                rgba(255, 193, 7, 0.05) 5px
-            );
-            pointer-events: none;
-            z-index: 1;
-            animation: scanline-drift-reverse 13s linear infinite;
+            animation: scanline-sweep 4.5s linear infinite;
         }
 
         .program {
@@ -904,7 +864,17 @@
             transform: translateY(-1px);
         }
 
-        /* Enhanced scanline animations */
+        /* Scanline sweep animation - moves from top to bottom */
+        @keyframes scanline-sweep {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* Horizontal moving scanline indicator */
         @keyframes scanline-horizontal {
             0% {
                 transform: translateY(-100%);
@@ -919,24 +889,6 @@
             100% {
                 transform: translateY(calc(100% + 2px));
                 opacity: 0;
-            }
-        }
-
-        @keyframes scanline-drift {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(3px);
-            }
-        }
-
-        @keyframes scanline-drift-reverse {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-3px);
             }
         }
 

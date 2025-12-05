@@ -648,46 +648,15 @@
             margin-bottom: 30px;
             position: relative;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             border: 2px solid #E91E63;
             box-shadow: 
-                0 0 20px rgba(233, 30, 99, 0.5),
-                0 0 40px rgba(233, 30, 99, 0.3),
-                inset 0 0 20px rgba(233, 30, 99, 0.15),
-                inset 0 0 60px rgba(0, 0, 0, 0.8);
+                0 0 10px rgba(233, 30, 99, 0.3),
+                inset 0 0 10px rgba(233, 30, 99, 0.1);
             overflow: hidden;
-            filter: brightness(1.05) contrast(1.1);
-            transform: perspective(1000px) rotateX(1deg);
-            border-radius: 2px;
-            animation: screen-flicker 0.15s infinite;
         }
 
-        /* CRT screen glare/reflection - using wrapper */
-        .skills-list {
-            position: relative;
-        }
-
-        .skills-list::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                135deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.03) 25%,
-                rgba(255, 255, 255, 0.05) 50%,
-                rgba(255, 255, 255, 0.03) 75%,
-                transparent 100%
-            );
-            pointer-events: none;
-            animation: screen-glare 8s ease-in-out infinite;
-            z-index: 2;
-        }
-
-        /* Status indicator overlay */
+        /* Status indicator */
         .skills-list::before {
             content: '[STATUS: ACTIVE]';
             position: absolute;
@@ -697,15 +666,13 @@
             color: #E91E63;
             opacity: 0.6;
             font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 5px rgba(233, 30, 99, 0.8);
+            text-shadow: 0 0 3px rgba(233, 30, 99, 0.6);
             z-index: 3;
-            background: none;
-            height: auto;
-            width: auto;
-            animation: none;
+            pointer-events: none;
         }
 
-        .skills-list::before {
+        /* Horizontal moving scanline */
+        .skills-list::after {
             content: '';
             position: absolute;
             top: 0;
@@ -713,7 +680,9 @@
             right: 0;
             height: 2px;
             background: linear-gradient(90deg, transparent, #E91E63, transparent);
-            animation: fallout-scanline 3s linear infinite;
+            animation: scanline-horizontal 3s linear infinite;
+            z-index: 2;
+            box-shadow: 0 0 4px rgba(233, 30, 99, 0.6);
         }
 
 
@@ -724,12 +693,8 @@
             text-transform: uppercase;
             position: relative;
             z-index: 1;
-            text-shadow: 
-                0 0 8px rgba(233, 30, 99, 0.8),
-                0 0 16px rgba(233, 30, 99, 0.6),
-                0 0 24px rgba(233, 30, 99, 0.4);
+            text-shadow: 0 0 5px rgba(233, 30, 99, 0.6);
             animation: fallout-pulse 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 4px rgba(233, 30, 99, 0.6));
         }
 
         .skills-list h3::before {
@@ -745,7 +710,7 @@
             z-index: 1;
         }
 
-        /* CRT scanlines */
+        /* Enhanced CRT scanlines */
         .skills::before {
             content: '';
             position: absolute;
@@ -756,16 +721,16 @@
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
-                transparent 1px,
-                rgba(233, 30, 99, 0.08) 1px,
-                rgba(233, 30, 99, 0.08) 2px
+                transparent 2px,
+                rgba(233, 30, 99, 0.12) 2px,
+                rgba(233, 30, 99, 0.12) 3px
             );
             pointer-events: none;
-            animation: fallout-scanline-vertical 4s linear infinite;
             z-index: 1;
+            animation: scanline-drift 8s linear infinite;
         }
 
-        /* Vignette effect */
+        /* Additional scanline overlay for depth */
         .skills::after {
             content: '';
             position: absolute;
@@ -773,14 +738,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(
-                ellipse at center,
-                transparent 0%,
-                transparent 60%,
-                rgba(0, 0, 0, 0.3) 100%
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 4px,
+                rgba(233, 30, 99, 0.05) 4px,
+                rgba(233, 30, 99, 0.05) 5px
             );
             pointer-events: none;
             z-index: 1;
+            animation: scanline-drift-reverse 12s linear infinite;
         }
 
         .skill {
@@ -792,69 +759,34 @@
             position: relative;
             z-index: 2;
             box-shadow: 
-                0 0 8px rgba(233, 30, 99, 0.5),
-                0 0 16px rgba(233, 30, 99, 0.3),
-                inset 0 0 8px rgba(233, 30, 99, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                0 0 5px rgba(233, 30, 99, 0.4),
+                inset 0 0 5px rgba(233, 30, 99, 0.1);
             transition: all 0.3s ease;
             font-family: 'Share Tech Mono', monospace;
-            text-shadow: 
-                0 0 4px rgba(233, 30, 99, 0.8),
-                0 0 8px rgba(233, 30, 99, 0.4);
-            filter: drop-shadow(0 0 2px rgba(233, 30, 99, 0.6));
+            text-shadow: 0 0 3px rgba(233, 30, 99, 0.6);
         }
 
         .skill:hover {
-            background: rgba(233, 30, 99, 0.3);
+            background: rgba(233, 30, 99, 0.25);
             box-shadow: 
-                0 0 15px rgba(233, 30, 99, 0.8),
-                0 0 30px rgba(233, 30, 99, 0.5),
-                inset 0 0 12px rgba(233, 30, 99, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px) scale(1.02);
-            filter: drop-shadow(0 0 4px rgba(233, 30, 99, 0.8)) brightness(1.1);
+                0 0 8px rgba(233, 30, 99, 0.6),
+                inset 0 0 8px rgba(233, 30, 99, 0.2);
+            transform: translateY(-1px);
         }
 
         .programs-list {
             margin-bottom: 30px;
             position: relative;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             border: 2px solid #FFC107;
             box-shadow: 
-                0 0 20px rgba(255, 193, 7, 0.5),
-                0 0 40px rgba(255, 193, 7, 0.3),
-                inset 0 0 20px rgba(255, 193, 7, 0.15),
-                inset 0 0 60px rgba(0, 0, 0, 0.8);
+                0 0 10px rgba(255, 193, 7, 0.3),
+                inset 0 0 10px rgba(255, 193, 7, 0.1);
             overflow: hidden;
-            filter: brightness(1.05) contrast(1.1);
-            transform: perspective(1000px) rotateX(1deg);
-            border-radius: 2px;
-            animation: screen-flicker 0.15s infinite;
         }
 
-        /* CRT screen glare/reflection */
-        .programs-list::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                135deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.03) 25%,
-                rgba(255, 255, 255, 0.05) 50%,
-                rgba(255, 255, 255, 0.03) 75%,
-                transparent 100%
-            );
-            pointer-events: none;
-            animation: screen-glare 8.5s ease-in-out infinite;
-            z-index: 2;
-        }
-
-        /* Status indicator overlay */
+        /* Status indicator */
         .programs-list::before {
             content: '[SYSTEM: ONLINE]';
             position: absolute;
@@ -864,16 +796,13 @@
             color: #FFC107;
             opacity: 0.6;
             font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 5px rgba(255, 193, 7, 0.8);
+            text-shadow: 0 0 3px rgba(255, 193, 7, 0.6);
             z-index: 3;
-            background: none;
-            height: auto;
-            width: auto;
-            animation: none;
             pointer-events: none;
         }
 
-        .programs-list::before {
+        /* Horizontal moving scanline */
+        .programs-list::after {
             content: '';
             position: absolute;
             top: 0;
@@ -881,7 +810,9 @@
             right: 0;
             height: 2px;
             background: linear-gradient(90deg, transparent, #FFC107, transparent);
-            animation: fallout-scanline 3.5s linear infinite;
+            animation: scanline-horizontal 3.5s linear infinite;
+            z-index: 2;
+            box-shadow: 0 0 4px rgba(255, 193, 7, 0.6);
         }
 
 
@@ -892,12 +823,8 @@
             text-transform: uppercase;
             position: relative;
             z-index: 1;
-            text-shadow: 
-                0 0 8px rgba(255, 193, 7, 0.8),
-                0 0 16px rgba(255, 193, 7, 0.6),
-                0 0 24px rgba(255, 193, 7, 0.4);
+            text-shadow: 0 0 5px rgba(255, 193, 7, 0.6);
             animation: fallout-pulse-yellow 3.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 4px rgba(255, 193, 7, 0.6));
         }
 
         .programs-list h3::before {
@@ -913,7 +840,7 @@
             z-index: 1;
         }
 
-        /* CRT scanlines */
+        /* Enhanced CRT scanlines */
         .programs::before {
             content: '';
             position: absolute;
@@ -924,16 +851,16 @@
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
-                transparent 1px,
-                rgba(255, 193, 7, 0.08) 1px,
-                rgba(255, 193, 7, 0.08) 2px
+                transparent 2px,
+                rgba(255, 193, 7, 0.12) 2px,
+                rgba(255, 193, 7, 0.12) 3px
             );
             pointer-events: none;
-            animation: fallout-scanline-vertical 4.5s linear infinite;
             z-index: 1;
+            animation: scanline-drift 9s linear infinite;
         }
 
-        /* Vignette effect */
+        /* Additional scanline overlay for depth */
         .programs::after {
             content: '';
             position: absolute;
@@ -941,14 +868,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(
-                ellipse at center,
-                transparent 0%,
-                transparent 60%,
-                rgba(0, 0, 0, 0.3) 100%
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 4px,
+                rgba(255, 193, 7, 0.05) 4px,
+                rgba(255, 193, 7, 0.05) 5px
             );
             pointer-events: none;
             z-index: 1;
+            animation: scanline-drift-reverse 13s linear infinite;
         }
 
         .program {
@@ -960,98 +889,76 @@
             position: relative;
             z-index: 2;
             box-shadow: 
-                0 0 8px rgba(255, 193, 7, 0.5),
-                0 0 16px rgba(255, 193, 7, 0.3),
-                inset 0 0 8px rgba(255, 193, 7, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                0 0 5px rgba(255, 193, 7, 0.4),
+                inset 0 0 5px rgba(255, 193, 7, 0.1);
             transition: all 0.3s ease;
             font-family: 'Share Tech Mono', monospace;
-            text-shadow: 
-                0 0 4px rgba(255, 193, 7, 0.8),
-                0 0 8px rgba(255, 193, 7, 0.4);
-            filter: drop-shadow(0 0 2px rgba(255, 193, 7, 0.6));
+            text-shadow: 0 0 3px rgba(255, 193, 7, 0.6);
         }
 
         .program:hover {
-            background: rgba(255, 193, 7, 0.3);
+            background: rgba(255, 193, 7, 0.25);
             box-shadow: 
-                0 0 15px rgba(255, 193, 7, 0.8),
-                0 0 30px rgba(255, 193, 7, 0.5),
-                inset 0 0 12px rgba(255, 193, 7, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px) scale(1.02);
-            filter: drop-shadow(0 0 4px rgba(255, 193, 7, 0.8)) brightness(1.1);
+                0 0 8px rgba(255, 193, 7, 0.6),
+                inset 0 0 8px rgba(255, 193, 7, 0.2);
+            transform: translateY(-1px);
         }
 
-        /* Fallout-themed animations */
-        @keyframes fallout-scanline {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        @keyframes fallout-scanline-vertical {
+        /* Enhanced scanline animations */
+        @keyframes scanline-horizontal {
             0% {
                 transform: translateY(-100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
             }
             100% {
-                transform: translateY(100%);
+                transform: translateY(calc(100% + 2px));
+                opacity: 0;
+            }
+        }
+
+        @keyframes scanline-drift {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(3px);
+            }
+        }
+
+        @keyframes scanline-drift-reverse {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-3px);
             }
         }
 
         @keyframes fallout-pulse {
             0%, 100% {
                 opacity: 1;
-                text-shadow: 
-                    0 0 8px rgba(233, 30, 99, 0.8),
-                    0 0 16px rgba(233, 30, 99, 0.6);
+                text-shadow: 0 0 5px rgba(233, 30, 99, 0.6);
             }
             50% {
                 opacity: 0.95;
-                text-shadow: 
-                    0 0 12px rgba(233, 30, 99, 1),
-                    0 0 24px rgba(233, 30, 99, 0.8);
+                text-shadow: 0 0 8px rgba(233, 30, 99, 0.8);
             }
         }
 
         @keyframes fallout-pulse-yellow {
             0%, 100% {
                 opacity: 1;
-                text-shadow: 
-                    0 0 8px rgba(255, 193, 7, 0.8),
-                    0 0 16px rgba(255, 193, 7, 0.6);
+                text-shadow: 0 0 5px rgba(255, 193, 7, 0.6);
             }
             50% {
                 opacity: 0.95;
-                text-shadow: 
-                    0 0 12px rgba(255, 193, 7, 1),
-                    0 0 24px rgba(255, 193, 7, 0.8);
-            }
-        }
-
-        /* Screen glare animation */
-        @keyframes screen-glare {
-            0%, 100% {
-                transform: translate(-50%, -50%) rotate(45deg) translateX(-100%);
-            }
-            50% {
-                transform: translate(-50%, -50%) rotate(45deg) translateX(100%);
-            }
-        }
-
-        /* Screen refresh flicker */
-        @keyframes screen-flicker {
-            0%, 100% {
-                opacity: 1;
-            }
-            98% {
-                opacity: 1;
-            }
-            99% {
-                opacity: 0.98;
+                text-shadow: 0 0 8px rgba(255, 193, 7, 0.8);
             }
         }
 

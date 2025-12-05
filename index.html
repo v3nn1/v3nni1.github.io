@@ -1678,6 +1678,14 @@
                                      loading="lazy"
                                      decoding="async">
                             </div>
+                            <div class="gallery-item">
+                                <img src="videos/3d/sketchfab_mikko.gif" 
+                                     alt="Dear Mikko - 3D character model (Sketchfab)" 
+                                     data-sketchfab="https://sketchfab.com/3d-models/dear-mikko-9f3ac0fc43f3409daca67995f30019b7"
+                                     data-description="Dear Mikko - 3D character model (Sketchfab)"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
                         </div>
                     </div>
 
@@ -2024,7 +2032,47 @@
                 lightboxImg.style.display = 'none';
                 lightboxVideo.style.display = 'none';
                 lightboxIframe.style.display = 'block';
-                lightboxIframe.src = sketchfabUrl;
+                
+                // Convert Sketchfab URL to embed format
+                let modelId = '';
+                if (sketchfabUrl.includes('sketchfab.com/models/')) {
+                    // Already in embed format
+                    modelId = sketchfabUrl.split('sketchfab.com/models/')[1].split('/')[0];
+                } else if (sketchfabUrl.includes('sketchfab.com/3d-models/')) {
+                    // Extract model ID from model page URL (last part after final dash)
+                    const parts = sketchfabUrl.split('/');
+                    const slugAndId = parts[parts.length - 1];
+                    // Model ID is the last 32 characters (UUID format)
+                    const matches = slugAndId.match(/-([a-f0-9]{32})$/);
+                    if (matches) {
+                        modelId = matches[1];
+                    } else {
+                        // Fallback: try to extract from URL
+                        modelId = slugAndId.split('-').pop();
+                    }
+                }
+                
+                // Validate model ID
+                if (!modelId || modelId.length === 0) {
+                    console.error('Invalid Sketchfab model ID:', sketchfabUrl);
+                    lightboxLoading.classList.remove('active');
+                    return;
+                }
+                
+                // Build embed URL
+                const embedUrl = `https://sketchfab.com/models/${modelId}/embed?autostart=0&ui_theme=dark`;
+                
+                // Set iframe dimensions for Sketchfab (16:9 aspect ratio)
+                lightboxIframe.style.width = '854px';
+                lightboxIframe.style.height = '480px';
+                
+                // Clear previous src to force reload
+                lightboxIframe.src = '';
+                
+                // Set new src after a brief delay to ensure iframe is ready
+                setTimeout(() => {
+                    lightboxIframe.src = embedUrl;
+                }, 10);
                 
                 // Show loading indicator
                 lightboxLoading.classList.add('active');
@@ -2044,7 +2092,7 @@
                 lightboxIframe.onerror = function() {
                     lightboxLoading.classList.remove('active');
                     // Keep lightbox open even if iframe fails to load
-                    console.error('Iframe failed to load:', sketchfabUrl);
+                    console.error('Iframe failed to load:', embedUrl);
                 };
             } else if (youtubeUrl) {
                 // Show YouTube iframe, hide image and video

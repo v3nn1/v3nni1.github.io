@@ -714,10 +714,10 @@
         .skills::before {
             content: '';
             position: absolute;
-            top: -100%;
-            left: 0;
-            right: 0;
-            height: 200%;
+            top: 0;
+            left: -2px;
+            right: -2px;
+            height: 400%;
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
@@ -725,9 +725,10 @@
                 rgba(233, 30, 99, 0.15) 3px,
                 rgba(233, 30, 99, 0.15) 4px
             );
+            background-size: 100% 4px;
             pointer-events: none;
             z-index: 1;
-            animation: scanline-sweep 4s linear infinite;
+            animation: scanline-sweep 10s linear infinite;
         }
 
         .skill {
@@ -864,13 +865,13 @@
             transform: translateY(-1px);
         }
 
-        /* Scanline sweep animation - moves from top to bottom */
+        /* Scanline sweep animation - moves from top to bottom seamlessly */
         @keyframes scanline-sweep {
             0% {
                 transform: translateY(0);
             }
             100% {
-                transform: translateY(100%);
+                transform: translateY(4px);
             }
         }
 

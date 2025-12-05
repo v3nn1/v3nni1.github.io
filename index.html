@@ -201,8 +201,7 @@
             100% { transform: translateY(10px); }
         }
 
-        /* Retro glowing hearts - drifting, pulsing, and shimmering */
-        /* Using larger ellipses to create recognizable heart shapes */
+        /* Smooth digital rain effect - CSS only, subtle and performant */
         .parallax-overlay::after {
             content: '';
             position: absolute;
@@ -211,116 +210,155 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.7;
-            filter: blur(0.3px);
+            opacity: 0.4;
             transform: translateZ(0);
-            will-change: background-position, opacity, filter;
+            will-change: background-position;
+            /* Create multiple columns of digital rain with varying speeds */
             background-image: 
-                /* Heart 1 - cyan, positioned at 15% 20% - larger, more visible */
-                radial-gradient(ellipse 40px 40px at 15% 20%, rgba(0, 255, 255, 0.5) 0%, rgba(0, 255, 255, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 40px 40px at 20% 20%, rgba(0, 255, 255, 0.5) 0%, rgba(0, 255, 255, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 30px 35px at 17.5% 30%, rgba(0, 255, 255, 0.45) 0%, rgba(0, 255, 255, 0.15) 50%, transparent 75%),
-                /* Heart 2 - yellow, positioned at 45% 35% */
-                radial-gradient(ellipse 38px 38px at 45% 35%, rgba(255, 255, 0, 0.5) 0%, rgba(255, 255, 0, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 38px 38px at 50% 35%, rgba(255, 255, 0, 0.5) 0%, rgba(255, 255, 0, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 28px 33px at 47.5% 44%, rgba(255, 255, 0, 0.45) 0%, rgba(255, 255, 0, 0.15) 50%, transparent 75%),
-                /* Heart 3 - green, positioned at 75% 25% */
-                radial-gradient(ellipse 36px 36px at 75% 25%, rgba(0, 255, 0, 0.5) 0%, rgba(0, 255, 0, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 36px 36px at 80% 25%, rgba(0, 255, 0, 0.5) 0%, rgba(0, 255, 0, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 26px 31px at 77.5% 34%, rgba(0, 255, 0, 0.45) 0%, rgba(0, 255, 0, 0.15) 50%, transparent 75%),
-                /* Heart 4 - magenta, positioned at 25% 60% */
-                radial-gradient(ellipse 34px 34px at 25% 60%, rgba(255, 0, 255, 0.5) 0%, rgba(255, 0, 255, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 34px 34px at 30% 60%, rgba(255, 0, 255, 0.5) 0%, rgba(255, 0, 255, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 24px 29px at 27.5% 69%, rgba(255, 0, 255, 0.45) 0%, rgba(255, 0, 255, 0.15) 50%, transparent 75%),
-                /* Heart 5 - cyan, positioned at 60% 70% */
-                radial-gradient(ellipse 35px 35px at 60% 70%, rgba(0, 255, 255, 0.5) 0%, rgba(0, 255, 255, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 35px 35px at 65% 70%, rgba(0, 255, 255, 0.5) 0%, rgba(0, 255, 255, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 25px 30px at 62.5% 79%, rgba(0, 255, 255, 0.45) 0%, rgba(0, 255, 255, 0.15) 50%, transparent 75%),
-                /* Heart 6 - yellow, positioned at 85% 55% */
-                radial-gradient(ellipse 32px 32px at 85% 55%, rgba(255, 255, 0, 0.5) 0%, rgba(255, 255, 0, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 32px 32px at 90% 55%, rgba(255, 255, 0, 0.5) 0%, rgba(255, 255, 0, 0.2) 40%, transparent 70%),
-                radial-gradient(ellipse 22px 27px at 87.5% 64%, rgba(255, 255, 0, 0.45) 0%, rgba(255, 255, 0, 0.15) 50%, transparent 75%);
+                /* Column 1 - 10% width, slow */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    rgba(102, 255, 153, 0.15) 2%,
+                    rgba(102, 255, 153, 0.3) 4%,
+                    rgba(102, 255, 153, 0.15) 6%,
+                    transparent 8%,
+                    transparent 100%
+                ),
+                /* Column 2 - 15% width, medium */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 5%,
+                    rgba(0, 255, 255, 0.15) 7%,
+                    rgba(0, 255, 255, 0.3) 9%,
+                    rgba(0, 255, 255, 0.15) 11%,
+                    transparent 13%,
+                    transparent 100%
+                ),
+                /* Column 3 - 20% width, fast */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 10%,
+                    rgba(255, 255, 0, 0.15) 12%,
+                    rgba(255, 255, 0, 0.3) 14%,
+                    rgba(255, 255, 0, 0.15) 16%,
+                    transparent 18%,
+                    transparent 100%
+                ),
+                /* Column 4 - 25% width, slow */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    rgba(102, 255, 153, 0.15) 3%,
+                    rgba(102, 255, 153, 0.3) 5%,
+                    rgba(102, 255, 153, 0.15) 7%,
+                    transparent 9%,
+                    transparent 100%
+                ),
+                /* Column 5 - 30% width, medium */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 8%,
+                    rgba(0, 255, 255, 0.15) 10%,
+                    rgba(0, 255, 255, 0.3) 12%,
+                    rgba(0, 255, 255, 0.15) 14%,
+                    transparent 16%,
+                    transparent 100%
+                ),
+                /* Column 6 - 35% width, fast */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 12%,
+                    rgba(255, 255, 0, 0.15) 14%,
+                    rgba(255, 255, 0, 0.3) 16%,
+                    rgba(255, 255, 0, 0.15) 18%,
+                    transparent 20%,
+                    transparent 100%
+                ),
+                /* Column 7 - 40% width, slow */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    rgba(102, 255, 153, 0.15) 4%,
+                    rgba(102, 255, 153, 0.3) 6%,
+                    rgba(102, 255, 153, 0.15) 8%,
+                    transparent 10%,
+                    transparent 100%
+                ),
+                /* Column 8 - 50% width, medium */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 6%,
+                    rgba(0, 255, 255, 0.15) 8%,
+                    rgba(0, 255, 255, 0.3) 10%,
+                    rgba(0, 255, 255, 0.15) 12%,
+                    transparent 14%,
+                    transparent 100%
+                ),
+                /* Column 9 - 60% width, fast */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 11%,
+                    rgba(255, 255, 0, 0.15) 13%,
+                    rgba(255, 255, 0, 0.3) 15%,
+                    rgba(255, 255, 0, 0.15) 17%,
+                    transparent 19%,
+                    transparent 100%
+                ),
+                /* Column 10 - 70% width, slow */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    rgba(102, 255, 153, 0.15) 2%,
+                    rgba(102, 255, 153, 0.3) 4%,
+                    rgba(102, 255, 153, 0.15) 6%,
+                    transparent 8%,
+                    transparent 100%
+                ),
+                /* Column 11 - 80% width, medium */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 7%,
+                    rgba(0, 255, 255, 0.15) 9%,
+                    rgba(0, 255, 255, 0.3) 11%,
+                    rgba(0, 255, 255, 0.15) 13%,
+                    transparent 15%,
+                    transparent 100%
+                ),
+                /* Column 12 - 90% width, fast */
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    transparent 13%,
+                    rgba(255, 255, 0, 0.15) 15%,
+                    rgba(255, 255, 0, 0.3) 17%,
+                    rgba(255, 255, 0, 0.15) 19%,
+                    transparent 21%,
+                    transparent 100%
+                );
             background-size: 
-                80px 80px, 80px 80px, 60px 70px,
-                76px 76px, 76px 76px, 56px 66px,
-                72px 72px, 72px 72px, 52px 62px,
-                68px 68px, 68px 68px, 48px 58px,
-                70px 70px, 70px 70px, 50px 60px,
-                64px 64px, 64px 64px, 44px 54px;
+                2px 400%, 2px 350%, 2px 450%,
+                2px 400%, 2px 350%, 2px 450%,
+                2px 400%, 2px 350%, 2px 450%,
+                2px 400%, 2px 350%, 2px 450%;
             background-position: 
-                15% 20%, 20% 20%, 17.5% 28%,
-                45% 35%, 50% 35%, 47.5% 42%,
-                75% 25%, 80% 25%, 77.5% 32%,
-                25% 60%, 30% 60%, 27.5% 67%,
-                60% 70%, 65% 70%, 62.5% 77%,
-                85% 55%, 90% 55%, 87.5% 62%;
-            background-repeat: no-repeat;
-            animation: 
-                hearts-drift 30s ease-in-out infinite,
-                hearts-pulse 6s ease-in-out infinite,
-                hearts-shimmer 8s ease-in-out infinite;
+                10% 0%, 15% 0%, 20% 0%,
+                25% 0%, 30% 0%, 35% 0%,
+                40% 0%, 50% 0%, 60% 0%,
+                70% 0%, 80% 0%, 90% 0%;
+            background-repeat: repeat-y;
+            animation: digital-rain 18s linear infinite;
         }
 
-        @keyframes hearts-drift {
-            0%, 100% {
+        @keyframes digital-rain {
+            0% {
                 background-position: 
-                    15% 20%, 20% 20%, 17.5% 28%,
-                    45% 35%, 50% 35%, 47.5% 42%,
-                    75% 25%, 80% 25%, 77.5% 32%,
-                    25% 60%, 30% 60%, 27.5% 67%,
-                    60% 70%, 65% 70%, 62.5% 77%,
-                    85% 55%, 90% 55%, 87.5% 62%;
+                    10% 0%, 15% 0%, 20% 0%,
+                    25% 0%, 30% 0%, 35% 0%,
+                    40% 0%, 50% 0%, 60% 0%,
+                    70% 0%, 80% 0%, 90% 0%;
             }
-            25% {
+            100% {
                 background-position: 
-                    18% 22%, 22% 18%, 19% 30%,
-                    47% 33%, 52% 37%, 49% 44%,
-                    73% 27%, 78% 23%, 75.5% 34%,
-                    27% 58%, 32% 62%, 29.5% 65%,
-                    62% 68%, 67% 72%, 64.5% 79%,
-                    83% 57%, 88% 53%, 85.5% 64%;
-            }
-            50% {
-                background-position: 
-                    13% 18%, 18% 22%, 16% 26%,
-                    43% 37%, 48% 33%, 45.5% 40%,
-                    77% 23%, 82% 27%, 79.5% 30%,
-                    23% 62%, 28% 58%, 25.5% 69%,
-                    58% 72%, 63% 68%, 60.5% 75%,
-                    87% 53%, 92% 57%, 89.5% 60%;
-            }
-            75% {
-                background-position: 
-                    17% 21%, 21% 19%, 18.5% 29%,
-                    46% 34%, 51% 36%, 48.5% 43%,
-                    74% 26%, 79% 24%, 76.5% 33%,
-                    26% 59%, 31% 61%, 28.5% 66%,
-                    61% 69%, 66% 71%, 63.5% 78%,
-                    84% 56%, 89% 54%, 86.5% 63%;
-            }
-        }
-
-        @keyframes hearts-pulse {
-            0%, 100% {
-                opacity: 0.6;
-            }
-            50% {
-                opacity: 0.85;
-            }
-        }
-
-        @keyframes hearts-shimmer {
-            0%, 100% {
-                filter: blur(0.3px) brightness(1);
-            }
-            25% {
-                filter: blur(0.5px) brightness(1.2);
-            }
-            50% {
-                filter: blur(0.2px) brightness(1.15);
-            }
-            75% {
-                filter: blur(0.6px) brightness(1.25);
+                    10% 400%, 15% 350%, 20% 450%,
+                    25% 400%, 30% 350%, 35% 450%,
+                    40% 400%, 50% 350%, 60% 450%,
+                    70% 400%, 80% 350%, 90% 450%;
             }
         }
 

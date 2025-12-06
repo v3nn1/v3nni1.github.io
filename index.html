@@ -1711,16 +1711,16 @@
                             </div>
                             <div class="gallery-item">
                                 <img src="videos/3d/Reyne_thumbnail.gif" 
-                                     alt="Reyne 01 - 3D character model (Sketchfab)" 
+                                     alt="Stylized 3D character design (Blender, Photoshop)" 
                                      data-sketchfab="https://sketchfab.com/3d-models/reyne-01-adfea6c1bfd0490d9805d3b069b462e8"
-                                     data-description="Reyne 01 - 3D character model (Sketchfab)"
+                                     data-description="Stylized 3D character design (Blender, Photoshop)"
                                      loading="lazy"
                                      decoding="async">
                             </div>
                             <div class="gallery-item">
                                 <img src="videos/3d/rachael_thumbnail.gif" 
                                      alt="Stylized Rachael from Blade Runner (Blender, Photoshop)" 
-                                     data-sketchfab="https://skfb.ly/pEtrT"
+                                     data-sketchfab="https://sketchfab.com/3d-models/rachael-545e99b74caf429fa52d2ddb188a2a2c"
                                      data-description="Stylized Rachael from Blade Runner (Blender, Photoshop)"
                                      loading="lazy"
                                      decoding="async">
@@ -2102,9 +2102,74 @@
                 let embedUrl = '';
                 
                 if (sketchfabUrl.includes('skfb.ly/')) {
-                    // Handle Sketchfab short links - use the short link directly in embed format
+                    // Handle Sketchfab short links - resolve to get full URL and extract model ID
                     const shortCode = sketchfabUrl.split('skfb.ly/')[1].split('?')[0].split('#')[0];
-                    embedUrl = `https://skfb.ly/${shortCode}/embed?autostart=0&ui_theme=dark`;
+                    
+                    // Use a CORS proxy to resolve the short link
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://skfb.ly/${shortCode}`)}`;
+                    
+                    // Show loading indicator
+                    lightboxLoading.classList.add('active');
+                    
+                    fetch(proxyUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            try {
+                                // Extract the final URL from the HTML content
+                                const htmlContent = data.contents;
+                                // Look for the canonical URL or og:url in the HTML
+                                const canonicalMatch = htmlContent.match(/<link[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["']/i) ||
+                                                    htmlContent.match(/<meta[^>]*property=["']og:url["'][^>]*content=["']([^"']+)["']/i) ||
+                                                    htmlContent.match(/https:\/\/sketchfab\.com\/3d-models\/[a-z0-9-]+/i);
+                                
+                                let fullUrl = null;
+                                if (canonicalMatch) {
+                                    fullUrl = canonicalMatch[1] || canonicalMatch[0];
+                                }
+                                
+                                if (fullUrl && fullUrl.includes('sketchfab.com/3d-models/')) {
+                                    // Extract model ID from the full URL
+                                    const parts = fullUrl.split('/');
+                                    const slugAndId = parts[parts.length - 1].split('?')[0];
+                                    const matches = slugAndId.match(/-([a-f0-9]{32})$/);
+                                    if (matches && matches[1]) {
+                                        modelId = matches[1];
+                                        embedUrl = `https://sketchfab.com/models/${modelId}/embed?autostart=0&ui_theme=dark`;
+                                        lightboxIframe.src = embedUrl;
+                                        lightboxLoading.classList.remove('active');
+                                        return;
+                                    }
+                                }
+                                
+                                // Fallback: try to extract from any URL in the content
+                                const urlMatch = htmlContent.match(/https:\/\/sketchfab\.com\/3d-models\/[a-z0-9-]+-[a-f0-9]{32}/i);
+                                if (urlMatch) {
+                                    const url = urlMatch[0];
+                                    const parts = url.split('/');
+                                    const slugAndId = parts[parts.length - 1];
+                                    const matches = slugAndId.match(/-([a-f0-9]{32})$/);
+                                    if (matches && matches[1]) {
+                                        modelId = matches[1];
+                                        embedUrl = `https://sketchfab.com/models/${modelId}/embed?autostart=0&ui_theme=dark`;
+                                        lightboxIframe.src = embedUrl;
+                                        lightboxLoading.classList.remove('active');
+                                        return;
+                                    }
+                                }
+                                
+                                console.error('Could not extract model ID from Sketchfab short link');
+                                lightboxLoading.classList.remove('active');
+                            } catch (error) {
+                                console.error('Error parsing Sketchfab short link response:', error);
+                                lightboxLoading.classList.remove('active');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error resolving Sketchfab short link:', error);
+                            lightboxLoading.classList.remove('active');
+                        });
+                    // Return early, the fetch will set the iframe src asynchronously
+                    return;
                 } else if (sketchfabUrl.includes('sketchfab.com/models/')) {
                     // Already in embed format
                     modelId = sketchfabUrl.split('sketchfab.com/models/')[1].split('/')[0];

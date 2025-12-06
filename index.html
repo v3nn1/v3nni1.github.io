@@ -1517,9 +1517,9 @@
                             </div>
                             <div class="gallery-item">
                                 <img src="videos/2d/waking_up_gif.gif" 
-                                     alt="2D animated scene (Procreate, Photoshop & Unity)" 
+                                     alt="2D cutscene snippet compilation (Procreate, Photoshop & Unity)" 
                                      data-youtube="https://youtu.be/iMxSd7ppROc"
-                                     data-description="2D animated scene (Procreate, Photoshop & Unity)"
+                                     data-description="2D cutscene snippet compilation (Procreate, Photoshop & Unity)"
                                      loading="lazy"
                                      decoding="async">
                             </div>
@@ -1552,9 +1552,17 @@
                             </div>
                             <div class="gallery-item">
                                 <img src="videos/2d/youtube_HAOjQEE00BI_gif.gif" 
-                                     alt="Speedpainting of my beautiful husband and our late hound Igor (Photoshop)" 
+                                     alt="Speedpainting of my lovely husband and our late hound Igor (Photoshop)" 
                                      data-youtube="https://youtu.be/HAOjQEE00BI"
-                                     data-description="Speedpainting of my beautiful husband and our late hound Igor (Photoshop)"
+                                     data-description="Speedpainting of my lovely husband and our late hound Igor (Photoshop)"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="images/2d/halloween_heart_thumbnail.jpg" 
+                                     alt="T-shirt pattern design (Procreate)" 
+                                     data-full-image="images/2d/halloween_heart.jpg"
+                                     data-description="T-shirt pattern design (Procreate)"
                                      loading="lazy"
                                      decoding="async">
                             </div>
@@ -1698,6 +1706,22 @@
                                      alt="Space Food Pack - 3D asset pack (Sketchfab)" 
                                      data-sketchfab="https://sketchfab.com/3d-models/space-food-pack-2c1d84d763254283b8a9fc7345c0e9d3"
                                      data-description="Space Food Pack - 3D asset pack (Sketchfab)"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="videos/3d/Reyne_thumbnail.gif" 
+                                     alt="Reyne 01 - 3D character model (Sketchfab)" 
+                                     data-sketchfab="https://sketchfab.com/3d-models/reyne-01-adfea6c1bfd0490d9805d3b069b462e8"
+                                     data-description="Reyne 01 - 3D character model (Sketchfab)"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="videos/3d/rachael_thumbnail.gif" 
+                                     alt="Stylized Rachael from Blade Runner (Blender, Photoshop)" 
+                                     data-sketchfab="https://skfb.ly/pEtrT"
+                                     data-description="Stylized Rachael from Blade Runner (Blender, Photoshop)"
                                      loading="lazy"
                                      decoding="async">
                             </div>
@@ -2075,9 +2099,16 @@
                 
                 // Convert Sketchfab URL to embed format
                 let modelId = '';
-                if (sketchfabUrl.includes('sketchfab.com/models/')) {
+                let embedUrl = '';
+                
+                if (sketchfabUrl.includes('skfb.ly/')) {
+                    // Handle Sketchfab short links - use the short link directly in embed format
+                    const shortCode = sketchfabUrl.split('skfb.ly/')[1].split('?')[0].split('#')[0];
+                    embedUrl = `https://skfb.ly/${shortCode}/embed?autostart=0&ui_theme=dark`;
+                } else if (sketchfabUrl.includes('sketchfab.com/models/')) {
                     // Already in embed format
                     modelId = sketchfabUrl.split('sketchfab.com/models/')[1].split('/')[0];
+                    embedUrl = `https://sketchfab.com/models/${modelId}/embed?autostart=0&ui_theme=dark`;
                 } else if (sketchfabUrl.includes('sketchfab.com/3d-models/')) {
                     // Extract model ID from model page URL (last part after final dash)
                     const parts = sketchfabUrl.split('/');
@@ -2090,17 +2121,15 @@
                         // Fallback: try to extract from URL
                         modelId = slugAndId.split('-').pop();
                     }
+                    embedUrl = `https://sketchfab.com/models/${modelId}/embed?autostart=0&ui_theme=dark`;
                 }
                 
-                // Validate model ID
-                if (!modelId || modelId.length === 0) {
-                    console.error('Invalid Sketchfab model ID:', sketchfabUrl);
+                // Validate embed URL
+                if (!embedUrl || embedUrl.length === 0) {
+                    console.error('Invalid Sketchfab URL:', sketchfabUrl);
                     lightboxLoading.classList.remove('active');
                     return;
                 }
-                
-                // Build embed URL
-                const embedUrl = `https://sketchfab.com/models/${modelId}/embed?autostart=0&ui_theme=dark`;
                 
                 // Set iframe dimensions for Sketchfab (16:9 aspect ratio)
                 lightboxIframe.style.width = '854px';

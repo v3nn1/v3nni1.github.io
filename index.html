@@ -81,6 +81,9 @@
             transform: translateZ(0);
             will-change: background-position;
             overflow: hidden;
+            /* Optimize for mobile */
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
             animation: 
                 gradient-mesh 20s ease-in-out infinite,
                 retro-scanline 8s linear infinite, 
@@ -1461,6 +1464,109 @@
                 font-size: 1.1em;
             }
         }
+
+        /* Performance optimizations for mobile and reduced motion */
+        @media (max-width: 768px) {
+            /* Reduce animation complexity on mobile */
+            .parallax-background {
+                animation: 
+                    gradient-mesh 30s ease-in-out infinite,
+                    retro-scanline 12s linear infinite;
+                /* Disable grid animation on mobile for better performance */
+                background: 
+                    radial-gradient(ellipse 800px 600px at 20% 30%, rgba(102, 255, 153, 0.08) 0%, transparent 50%),
+                    radial-gradient(ellipse 700px 500px at 80% 70%, rgba(0, 255, 255, 0.06) 0%, transparent 50%),
+                    radial-gradient(ellipse 600px 700px at 50% 50%, rgba(255, 255, 0, 0.05) 0%, transparent 50%),
+                    repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 1px,
+                        rgba(0, 255, 255, 0.03) 1px,
+                        rgba(0, 255, 255, 0.03) 2px
+                    ),
+                    #000000;
+                background-size: 
+                    100% 100%, 100% 100%, 100% 100%,
+                    100% 4px,
+                    100% 100%;
+                background-position: 
+                    0% 0%, 100% 100%, 50% 50%,
+                    0 0,
+                    center;
+                background-repeat: no-repeat, no-repeat, no-repeat, repeat, no-repeat;
+            }
+
+            .parallax-overlay::before {
+                /* Reduce particle count and animation complexity on mobile */
+                background-image: 
+                    /* Fewer particles on mobile - only 4 instead of 8 */
+                    radial-gradient(2px 2px at 15% 25%, rgba(102, 255, 153, 0.4), transparent),
+                    radial-gradient(1.5px 1.5px at 35% 45%, rgba(0, 255, 255, 0.3), transparent),
+                    radial-gradient(2px 2px at 55% 15%, rgba(255, 255, 0, 0.35), transparent),
+                    radial-gradient(1.5px 1.5px at 75% 65%, rgba(102, 255, 153, 0.3), transparent),
+                    /* Retro CRT scanlines effect */
+                    repeating-linear-gradient(
+                        0deg,
+                        rgba(0, 0, 0, 0.15),
+                        rgba(0, 0, 0, 0.15) 1px,
+                        transparent 1px,
+                        transparent 2px
+                    );
+                background-size: 
+                    200% 200%, 180% 180%, 220% 220%, 190% 190%,
+                    100% 100%;
+                background-position: 
+                    0% 0%, 0% 0%, 0% 0%, 0% 0%,
+                    0 0;
+                animation: 
+                    particles-float-mobile 40s ease-in-out infinite,
+                    scanline 12s linear infinite;
+            }
+
+            /* Simplified animation for mobile with fewer particles */
+            @keyframes particles-float-mobile {
+                0%, 100% {
+                    background-position: 
+                        0% 0%, 0% 0%, 0% 0%, 0% 0%,
+                        0 0;
+                }
+                25% {
+                    background-position: 
+                        10% 5%, -5% 10%, 8% -3%, -8% 7%,
+                        0 0;
+                }
+                50% {
+                    background-position: 
+                        5% 10%, -10% 5%, 12% 5%, -5% 12%,
+                        0 0;
+                }
+                75% {
+                    background-position: 
+                        -5% 8%, 8% -5%, -10% 8%, 10% -8%,
+                        0 0;
+                }
+            }
+
+            /* Reduce terminal effect complexity on mobile */
+            .terminal-background {
+                opacity: 0.6;
+            }
+        }
+
+        /* Respect user's motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .parallax-background,
+            .parallax-overlay::before,
+            .terminal-background,
+            .terminal-sentence,
+            .glitch-overlay {
+                animation: none !important;
+            }
+            
+            .parallax-background {
+                will-change: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1568,9 +1674,9 @@
                             </div>
                             <div class="gallery-item">
                                 <img src="images/2d/CF_character_concept_thumbnail.jpg" 
-                                     alt="2D mediecal character concepts (Pencil & Photoshop)" 
+                                     alt="2D medieval character concepts (Pencil & Photoshop)" 
                                      data-full-image="images/2d/CF_character_concept.jpg"
-                                     data-description="2D mediecal character concepts (Pencil & Photoshop)"
+                                     data-description="2D medieval character concepts (Pencil & Photoshop)"
                                      loading="lazy"
                                      decoding="async">
                             </div>
@@ -2506,18 +2612,30 @@
 
         // Subtle glitch effect only - no parallax
         function initParallaxEffects() {
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                return; // Skip animations if user prefers reduced motion
+            }
+
+            // Detect mobile device
+            const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
             // Subtle glitch effect - very lightweight
             const glitchOverlay = document.querySelector('.glitch-overlay');
             if (glitchOverlay) {
-                // Much less frequent glitches to reduce overhead
+                // Less frequent glitches on mobile, even less frequent overall
+                const checkInterval = isMobile ? 10000 : 5000; // 10s on mobile, 5s on desktop
+                const glitchChance = isMobile ? 0.99 : 0.98; // 1% on mobile, 2% on desktop
+                
                 setInterval(() => {
-                    if (Math.random() > 0.98) { // 2% chance
+                    if (Math.random() > glitchChance) {
                         glitchOverlay.style.animation = 'none';
                         setTimeout(() => {
                             glitchOverlay.style.animation = 'glitch 0.3s';
                         }, 10);
                     }
-                }, 5000); // Check every 5 seconds
+                }, checkInterval);
             }
         }
         
@@ -2539,8 +2657,41 @@
     
     <script>
         // Retro terminal effect - text fully visible, sentences highlight and shimmer
+        // Optimized for mobile performance
         (function() {
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                return; // Skip terminal effect if user prefers reduced motion
+            }
+
             const terminalBackground = document.getElementById('terminalBackground');
+            if (!terminalBackground) return;
+
+            // Detect mobile device
+            const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            // Use IntersectionObserver to pause animations when not visible
+            let isVisible = true;
+            let highlightInterval = null;
+            let consoleInterval = null;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    isVisible = entry.isIntersecting;
+                    if (!isVisible) {
+                        // Pause animations when not visible
+                        if (highlightInterval) clearInterval(highlightInterval);
+                        if (consoleInterval) clearInterval(consoleInterval);
+                    } else {
+                        // Resume animations when visible
+                        startAnimations();
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(terminalBackground);
+
             // Game code-like text for retro terminal effect
             const fullText = `function updatePlayerPosition(deltaTime) { player.x += velocity.x * deltaTime; player.y += velocity.y * deltaTime; checkCollisions(); } function handleInput(keyCode) { if (keyCode === KEY_LEFT) { velocity.x = -SPEED; } else if (keyCode === KEY_RIGHT) { velocity.x = SPEED; } if (keyCode === KEY_JUMP && isGrounded) { velocity.y = -JUMP_FORCE; isGrounded = false; } } function checkCollisions() { for (let i = 0; i < platforms.length; i++) { if (player.intersects(platforms[i])) { resolveCollision(player, platforms[i]); } } } function resolveCollision(obj1, obj2) { const overlap = calculateOverlap(obj1, obj2); if (overlap.x < overlap.y) { obj1.x += overlap.x > 0 ? -overlap.x : overlap.x; velocity.x = 0; } else { obj1.y += overlap.y > 0 ? -overlap.y : overlap.y; if (overlap.y < 0) { isGrounded = true; } velocity.y = 0; } } function updateEnemies() { enemies.forEach(enemy => { enemy.update(); if (enemy.isOffScreen()) { enemy.respawn(); } }); } function renderGame() { ctx.clearRect(0, 0, canvas.width, canvas.height); renderBackground(); platforms.forEach(platform => platform.render()); player.render(); enemies.forEach(enemy => enemy.render()); renderUI(); } function initGame() { player = new Player(100, 100); platforms = generateLevel(); enemies = spawnEnemies(5); gameState = STATE_PLAYING; } class Player { constructor(x, y) { this.x = x; this.y = y; this.width = 32; this.height = 32; this.velocity = { x: 0, y: 0 }; this.health = 100; this.score = 0; } update() { this.applyGravity(); this.handleMovement(); this.checkBounds(); } render() { ctx.fillStyle = '#00ff00'; ctx.fillRect(this.x, this.y, this.width, this.height); } } class Enemy { constructor(x, y, type) { this.x = x; this.y = y; this.type = type; this.speed = ENEMY_SPEED[type]; this.health = ENEMY_HEALTH[type]; this.state = 'patrol'; } update() { if (this.state === 'patrol') { this.patrol(); } else if (this.state === 'chase') { this.chasePlayer(); } this.checkCollisions(); } patrol() { this.x += this.speed; if (this.x > PATROL_MAX || this.x < PATROL_MIN) { this.speed *= -1; } } chasePlayer() { const dx = player.x - this.x; const dy = player.y - this.y; const distance = Math.sqrt(dx * dx + dy * dy); if (distance > 0) { this.x += (dx / distance) * this.speed; this.y += (dy / distance) * this.speed; } } } const GAME_CONFIG = { width: 800, height: 600, gravity: 0.5, jumpForce: -12, playerSpeed: 5, enemySpawnRate: 2.0 }; let gameState = STATE_MENU; let player = null; let platforms = []; let enemies = []; let particles = []; function gameLoop() { const currentTime = Date.now(); const deltaTime = (currentTime - lastTime) / 1000; lastTime = currentTime; if (gameState === STATE_PLAYING) { updateGame(deltaTime); renderGame(); } requestAnimationFrame(gameLoop); } function updateGame(deltaTime) { handleInput(); updatePlayer(deltaTime); updateEnemies(); updateParticles(deltaTime); checkGameOver(); } function spawnParticle(x, y, type) { for (let i = 0; i < 10; i++) { particles.push(new Particle(x, y, type)); } } class Particle { constructor(x, y, type) { this.x = x; this.y = y; this.vx = (Math.random() - 0.5) * 5; this.vy = (Math.random() - 0.5) * 5; this.life = 1.0; this.decay = 0.02; this.color = PARTICLE_COLORS[type]; } update() { this.x += this.vx; this.y += this.vy; this.life -= this.decay; this.vy += 0.2; } render() { ctx.globalAlpha = this.life; ctx.fillStyle = this.color; ctx.fillRect(this.x, this.y, 4, 4); ctx.globalAlpha = 1.0; } } function loadAssets() { const imagePaths = ['player.png', 'enemy.png', 'platform.png', 'background.png']; imagePaths.forEach(path => { const img = new Image(); img.src = 'assets/' + path; assets[path] = img; }); } function playSound(soundName) { const sound = sounds[soundName]; if (sound) { sound.currentTime = 0; sound.play(); } } function saveGame() { const saveData = { level: currentLevel, score: player.score, health: player.health, x: player.x, y: player.y }; localStorage.setItem('gameSave', JSON.stringify(saveData)); } function loadGame() { const saveData = JSON.parse(localStorage.getItem('gameSave')); if (saveData) { currentLevel = saveData.level; player.score = saveData.score; player.health = saveData.health; player.x = saveData.x; player.y = saveData.y; } } function generateLevel() { const level = []; for (let i = 0; i < 20; i++) { level.push(new Platform(i * 100, 500 - (i % 3) * 50, 80, 20)); } return level; } function checkGameOver() { if (player.health <= 0) { gameState = STATE_GAME_OVER; playSound('gameOver'); } if (player.y > canvas.height) { respawnPlayer(); } } function respawnPlayer() { player.x = 100; player.y = 100; player.health -= 10; playSound('respawn'); }`;
             
@@ -2549,8 +2700,8 @@
             
             // Calculate number of columns based on viewport width
             const viewportWidth = window.innerWidth;
-            const columnWidth = 300;
-            const numColumns = Math.ceil(viewportWidth / columnWidth) + 2;
+            const columnWidth = isMobile ? 250 : 300; // Narrower columns on mobile
+            const numColumns = Math.ceil(viewportWidth / columnWidth) + (isMobile ? 1 : 2);
             const sentencesPerColumn = Math.ceil(sentences.length / numColumns);
             
             const allSentenceElements = [];
@@ -2559,15 +2710,14 @@
             const keywordPattern = /\b(function|class|const|let|var|if|else|for|while|return|new|this|constructor|update|render)\b/g;
             const stringPattern = /(['"`])(?:(?=(\\?))\2.)*?\1/g;
             const numberPattern = /\b\d+\.?\d*\b/g;
-            const commentPattern = /\/\/.*$/gm;
 
             // Function to add syntax highlighting to text
             function addSyntaxHighlighting(text) {
                 let highlighted = text;
                 
-                // Add line numbers and prompts randomly
-                const hasLineNumber = Math.random() > 0.7;
-                const hasPrompt = Math.random() > 0.6;
+                // Add line numbers and prompts randomly (less on mobile)
+                const hasLineNumber = Math.random() > (isMobile ? 0.8 : 0.7);
+                const hasPrompt = Math.random() > (isMobile ? 0.7 : 0.6);
                 
                 let result = '';
                 if (hasLineNumber) {
@@ -2615,11 +2765,13 @@
             
             // Animate sentences highlighting and shimmering
             function highlightRandomSentences() {
+                if (!isVisible) return; // Don't animate if not visible
+                
                 // Remove previous highlights
                 allSentenceElements.forEach(el => el.classList.remove('highlight'));
                 
-                // Highlight 3-5 random sentences
-                const numToHighlight = 3 + Math.floor(Math.random() * 3);
+                // Fewer highlights on mobile
+                const numToHighlight = isMobile ? (2 + Math.floor(Math.random() * 2)) : (3 + Math.floor(Math.random() * 3));
                 const highlighted = [];
                 
                 for (let i = 0; i < numToHighlight; i++) {
@@ -2640,7 +2792,7 @@
                 }, 2000 + Math.random() * 1000);
             }
             
-            // Console log messages
+            // Console log messages (less frequent on mobile)
             const consoleMessages = [
                 { text: '> Initializing game engine...', type: 'log' },
                 { text: '> Loading assets...', type: 'log' },
@@ -2655,6 +2807,8 @@
             ];
 
             function showConsoleMessage() {
+                if (!isVisible) return; // Don't show messages if not visible
+                
                 const message = consoleMessages[Math.floor(Math.random() * consoleMessages.length)];
                 const logElement = document.createElement('div');
                 logElement.className = `terminal-console-log ${message.type}`;
@@ -2676,12 +2830,25 @@
                 }, 2500);
             }
 
-            // Start highlighting cycle
-            highlightRandomSentences();
-            setInterval(highlightRandomSentences, 3500); // New highlight every 3.5 seconds
-            
-            // Show console messages occasionally
-            setInterval(showConsoleMessage, 4000 + Math.random() * 3000); // Every 4-7 seconds
+            function startAnimations() {
+                // Clear existing intervals
+                if (highlightInterval) clearInterval(highlightInterval);
+                if (consoleInterval) clearInterval(consoleInterval);
+                
+                // Start highlighting cycle (slower on mobile)
+                highlightRandomSentences();
+                const highlightDelay = isMobile ? 6000 : 3500; // 6s on mobile, 3.5s on desktop
+                highlightInterval = setInterval(highlightRandomSentences, highlightDelay);
+                
+                // Show console messages occasionally (less frequent on mobile)
+                const consoleDelay = isMobile ? (8000 + Math.random() * 4000) : (4000 + Math.random() * 3000);
+                consoleInterval = setInterval(showConsoleMessage, consoleDelay);
+            }
+
+            // Start animations if visible
+            if (isVisible) {
+                startAnimations();
+            }
         })();
     </script>
 </body>

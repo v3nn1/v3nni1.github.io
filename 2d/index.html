@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veera Arvola — 2D Game Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-soft: #12121a;
+            --neon-pink: #ff52c2;
+            --neon-cyan: #00fff7;
+            --neon-purple: #9116fe;
+            --neon-pink-glow: rgba(255, 82, 194, 0.6);
+            --neon-cyan-glow: rgba(0, 255, 247, 0.5);
+            --neon-purple-glow: rgba(145, 22, 254, 0.5);
+            --text: #e0e0e0;
+            --text-dim: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Synthwave grid background */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: 
+                linear-gradient(180deg, 
+                    var(--bg) 0%, 
+                    #0d0d14 30%, 
+                    #0a0a12 60%, 
+                    var(--bg) 100%);
+            opacity: 0.95;
+        }
+
+        .grid-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--neon-cyan) 1px, transparent 1px),
+                linear-gradient(90deg, var(--neon-cyan) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.06;
+            animation: grid-pulse 8s ease-in-out infinite;
+        }
+
+        .grid-bg::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(0deg, 
+                rgba(145, 22, 254, 0.08) 0%, 
+                transparent 60%);
+            pointer-events: none;
+        }
+
+        @keyframes grid-pulse {
+            0%, 100% { opacity: 0.06; }
+            50% { opacity: 0.12; }
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            inset: 0;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                rgba(10, 10, 15, 0.4) 50%, 
+                var(--bg) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 
+                0 0 20px var(--neon-pink-glow),
+                0 0 40px var(--neon-pink-glow),
+                0 0 60px rgba(255, 82, 194, 0.3);
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan-glow);
+            letter-spacing: 0.4em;
+        }
+
+        .hero .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            letter-spacing: 0.2em;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .hero .back-link:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan-glow);
+        }
+
+        /* Section titles */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 12px var(--neon-cyan-glow);
+            letter-spacing: 0.2em;
+            margin-bottom: 2rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Featured section */
+        .featured {
+            padding: 4rem 1.5rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .featured .gallery-item {
+            aspect-ratio: 4/3;
+            border: 1px solid rgba(0, 255, 247, 0.2);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .featured .gallery-item:hover {
+            box-shadow: 0 0 25px var(--neon-cyan-glow);
+            border-color: var(--neon-cyan);
+        }
+
+        .featured .gallery-item img,
+        .featured .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* More work section */
+        .more-work {
+            padding: 2rem 1.5rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .more-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .more-work .gallery-item {
+            aspect-ratio: 1;
+            border: 1px solid rgba(145, 22, 254, 0.15);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .more-work .gallery-item:hover {
+            box-shadow: 0 0 20px var(--neon-purple-glow);
+            border-color: var(--neon-purple);
+        }
+
+        .more-work .gallery-item img,
+        .more-work .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 1.5rem;
+            border-top: 1px solid rgba(0, 255, 247, 0.1);
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            transition: text-shadow 0.3s;
+        }
+
+        footer a:hover {
+            text-shadow: 0 0 12px var(--neon-cyan-glow);
+        }
+
+        footer p {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-media-container {
+            position: relative;
+        }
+
+        .lightbox-content img,
+        .lightbox-content video,
+        .lightbox-content iframe {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            object-fit: contain;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 30px var(--neon-cyan-glow);
+        }
+
+        .lightbox-content iframe {
+            width: 854px;
+            height: 480px;
+            min-width: 320px;
+            min-height: 180px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .lightbox-close:hover {
+            box-shadow: 0 0 15px var(--neon-cyan-glow);
+        }
+
+        .lightbox-description {
+            margin-top: 12px;
+            padding: 10px 0;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            max-width: 100%;
+        }
+
+        .lightbox-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--neon-cyan);
+            font-size: 1rem;
+        }
+
+        .lightbox-loading {
+            display: none;
+        }
+
+        .lightbox-loading.active {
+            display: block;
+        }
+
+        .lightbox-loading::after {
+            content: '...';
+            animation: loading-dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes loading-dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 255, 247, 0.1);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            box-shadow: 0 0 20px var(--neon-cyan-glow);
+        }
+
+        .lightbox-nav.prev { left: -60px; }
+        .lightbox-nav.next { right: -60px; }
+
+        @media (max-width: 768px) {
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .more-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 10px;
+            }
+
+            .lightbox-nav.prev { left: 5px; }
+            .lightbox-nav.next { right: 5px; }
+            .lightbox-close { top: -36px; right: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .grid-bg::before { animation: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <header class="hero">
+        <div class="hero-image">
+            <img src="/images/2d/Astarion.jpg" alt="">
+        </div>
+        <div class="hero-content">
+            <h1>VEERA ARVOLA</h1>
+            <p class="subtitle">2D GAME ARTIST</p>
+            <a href="/" class="back-link">← FULL PORTFOLIO</a>
+        </div>
+    </header>
+
+    <main class="portfolio-gallery">
+        <section class="featured">
+            <h2 class="section-title">FEATURED</h2>
+            <div class="featured-grid">
+                <div class="gallery-item">
+                    <img src="/videos/2d/LIVE2D_gif.gif" 
+                         alt="2D character rigged and animated (Procreate, Affinity Photo & Live2D Cubism)" 
+                         data-video="/videos/2d/LIVE2D.mp4"
+                         data-loop="true"
+                         data-description="2D character rigged and animated (Procreate, Affinity Photo & Live2D Cubism)"
+                         loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/baking_succcess_overview_thumbnail.jpg" 
+                         alt="2D art assets: cutscene art, gameplay, UI (Pencil & Photoshop)" 
+                         data-full-image="/images/2d/baking_succcess_overview.jpg"
+                         data-description="2D art assets ranging from cutscene art and gameplay to UI elements (Pencil & Photoshop)"
+                         loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/CF_character_concept_thumbnail.jpg" 
+                         alt="2D medieval character concepts (Pencil & Photoshop)" 
+                         data-full-image="/images/2d/CF_character_concept.jpg"
+                         data-description="2D medieval character concepts (Pencil & Photoshop)"
+                         loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/videos/2d/world_map_gif.gif" 
+                         alt="2D frame animated world map (Pencil & Photoshop)" 
+                         data-video="/videos/2d/world_map.mp4"
+                         data-loop="true"
+                         data-description="2D frame animated world map (Pencil & Photoshop)"
+                         loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <section class="more-work">
+            <h2 class="section-title">MORE WORK</h2>
+            <div class="more-grid">
+                <div class="gallery-item">
+                    <img src="/images/2d/Giger.jpg" alt="Digital painting inspired by H.R. Giger (Pencil & Photoshop)" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/TFTP_title_01_animated.gif" alt="Animated title screen (Procreate & Photoshop)" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/Rippers.jpg" alt="Concept art (Pencil & Photoshop)" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/Rippers_2.jpg" alt="Concept art (Pencil & Photoshop)" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/Make_it_so.jpg" alt="Oil painting" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/videos/2d/waking_up_gif.gif" 
+                         alt="2D cutscene snippet compilation (Procreate, Photoshop & Unity)" 
+                         data-youtube="https://youtu.be/iMxSd7ppROc"
+                         data-description="2D cutscene snippet compilation (Procreate, Photoshop & Unity)"
+                         loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/videos/2d/gross_cellar_gif.gif" 
+                         alt="2D animated background (Photoshop & Unity)" 
+                         data-video="/videos/2d/gross_cellar.mp4"
+                         data-loop="true"
+                         data-description="2D animated background (Photoshop & Unity)"
+                         loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/videos/2d/youtube_HAOjQEE00BI_gif.gif" 
+                         alt="Speedpainting (Photoshop)" 
+                         data-youtube="https://youtu.be/HAOjQEE00BI"
+                         data-description="Speedpainting of my lovely husband and our late hound Igor (Photoshop)"
+                         loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/logos_thumbnail.jpg" 
+                         alt="Logo designs (Photoshop)" 
+                         data-full-image="/images/2d/logos.jpg"
+                         data-description="Some logo designs (Photoshop)"
+                         loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/2d/fight_club_thumbnail.jpg" 
+                         alt="Oil painting" 
+                         data-full-image="/images/2d/fight_club.jpg"
+                         data-description="Oil painting"
+                         loading="lazy">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a href="/">← Back to full portfolio</a>
+        <p>Character design · Concept art · Digital painting · 2D animation · UI/UX</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-media-container">
+                <button class="lightbox-close" aria-label="Close">×</button>
+                <div class="lightbox-loading" id="lightbox-loading">Loading</div>
+                <img src="" alt="" id="lightbox-img" style="display: none;">
+                <video controls style="display: none;" id="lightbox-video"></video>
+                <iframe src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;" id="lightbox-iframe"></iframe>
+            </div>
+            <div class="lightbox-description" id="lightbox-desc"></div>
+            <button class="lightbox-nav prev" aria-label="Previous">‹</button>
+            <button class="lightbox-nav next" aria-label="Next">›</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxVideo = document.getElementById('lightbox-video');
+            const lightboxIframe = document.getElementById('lightbox-iframe');
+            const lightboxDesc = document.getElementById('lightbox-desc');
+            const lightboxLoading = document.getElementById('lightbox-loading');
+
+            let items = [];
+            let currentIndex = 0;
+
+            function getItems() {
+                return Array.from(document.querySelectorAll('.portfolio-gallery .gallery-item img'));
+            }
+
+            function stopYouTube(iframe) {
+                if (!iframe || !iframe.src) return;
+                if (iframe.src.includes('youtube.com/embed/')) iframe.src = '';
+            }
+
+            function showItem(index) {
+                if (items.length === 0 || index < 0 || index >= items.length) return;
+                currentIndex = index;
+                const img = items[currentIndex];
+
+                if (lightboxVideo.style.display !== 'none') { lightboxVideo.pause(); lightboxVideo.src = ''; }
+                if (lightboxIframe.style.display !== 'none') { stopYouTube(lightboxIframe); lightboxIframe.src = ''; }
+
+                const yt = img.getAttribute('data-youtube');
+                const vid = img.getAttribute('data-video');
+
+                if (yt) {
+                    lightboxImg.style.display = 'none';
+                    lightboxVideo.style.display = 'none';
+                    lightboxIframe.style.display = 'block';
+                    let id = '';
+                    if (yt.includes('youtu.be/')) id = yt.split('youtu.be/')[1].split('?')[0];
+                    else if (yt.includes('v=')) id = yt.split('v=')[1].split('&')[0];
+                    lightboxIframe.src = id ? 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1' : '';
+                    lightboxDesc.textContent = img.getAttribute('data-description') || img.alt || '';
+                } else if (vid) {
+                    lightboxImg.style.display = 'none';
+                    lightboxIframe.style.display = 'none';
+                    lightboxVideo.style.display = 'block';
+                    lightboxVideo.loop = img.getAttribute('data-loop') === 'true';
+                    lightboxVideo.src = vid;
+                    lightboxVideo.play().catch(function() {});
+                    lightboxDesc.textContent = img.getAttribute('data-description') || img.alt || '';
+                    lightboxLoading.classList.remove('active');
+                } else {
+                    lightboxVideo.style.display = 'none';
+                    lightboxIframe.style.display = 'none';
+                    const src = img.getAttribute('data-full-image') || img.src;
+                    lightboxLoading.classList.add('active');
+                    lightboxImg.style.display = 'none';
+                    lightboxImg.src = src;
+                    lightboxImg.alt = img.alt || '';
+                    lightboxDesc.textContent = img.getAttribute('data-description') || img.alt || '';
+                    const preload = new Image();
+                    preload.onload = preload.onerror = function() {
+                        lightboxImg.style.display = 'block';
+                        lightboxLoading.classList.remove('active');
+                    };
+                    preload.src = src;
+                }
+
+                document.querySelector('.lightbox-nav.prev').style.display = items.length > 1 ? 'flex' : 'none';
+                document.querySelector('.lightbox-nav.next').style.display = items.length > 1 ? 'flex' : 'none';
+            }
+
+            function openLightbox(imgEl) {
+                items = getItems();
+                const i = items.indexOf(imgEl);
+                if (i === -1) return;
+                lightbox.classList.add('active');
+                showItem(i);
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                if (lightboxVideo.style.display !== 'none') { lightboxVideo.pause(); lightboxVideo.src = ''; }
+                if (lightboxIframe.style.display !== 'none') { lightboxIframe.src = ''; }
+            }
+
+            document.querySelectorAll('.portfolio-gallery .gallery-item img').forEach(function(img) {
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openLightbox(img);
+                });
+            });
+
+            document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+
+            document.querySelector('.lightbox-nav.next').addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (items.length > 1) showItem((currentIndex + 1) % items.length);
+            });
+            document.querySelector('.lightbox-nav.prev').addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (items.length > 1) showItem((currentIndex - 1 + items.length) % items.length);
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                else if (e.key === 'ArrowRight') document.querySelector('.lightbox-nav.next').click();
+                else if (e.key === 'ArrowLeft') document.querySelector('.lightbox-nav.prev').click();
+            });
+        })();
+    </script>
+</body>
+</html>

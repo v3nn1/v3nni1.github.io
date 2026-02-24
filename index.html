@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
     <title>Veera Arvola</title>
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -43,6 +44,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* Improve touch responsiveness on mobile */
+        button, .lightbox-nav, .lightbox-close, .lightbox-thumb, [role="button"] {
+            touch-action: manipulation;
         }
 
         html {
@@ -460,7 +466,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 116px 52px 0 52px; /* top room for fixed header; sides for title glow */
+            padding: calc(116px + env(safe-area-inset-top)) 52px 0 52px; /* top room for fixed header; sides for title glow */
             position: relative;
             z-index: 1;
             border-radius: 16px;
@@ -481,6 +487,7 @@
             flex-wrap: nowrap;
             justify-content: space-between;
             gap: 12px;
+            padding-top: env(safe-area-inset-top);
             background: linear-gradient(180deg, rgba(18, 18, 18, 0.97) 0%, rgba(15, 15, 15, 0.94) 100%);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -689,6 +696,56 @@
 
         .site-header header {
             padding-bottom: 18px;
+        }
+
+        .header-row {
+            display: block;
+        }
+
+        .nav-burger {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            padding: 0;
+            border: 2px solid var(--kawaii-mint);
+            border-radius: 8px;
+            background: var(--kawaii-panel);
+            color: var(--kawaii-mint);
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .nav-burger:hover {
+            color: var(--coral-pink);
+            border-color: var(--coral-pink);
+            background: rgba(240, 120, 138, 0.2);
+        }
+
+        .nav-burger-line {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 1px;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+
+        .nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
         }
 
         .section-nav {
@@ -1309,20 +1366,21 @@
         }
 
         .lightbox-content iframe {
-            width: 854px;
+            width: 100%;
+            max-width: min(854px, 90vw);
             height: 480px;
-            min-width: 320px;
+            min-width: 280px;
             min-height: 180px;
-            max-width: 90vw;
             max-height: 90vh;
         }
 
         @media (max-width: 768px) {
             .lightbox-content iframe {
                 width: 100%;
-                height: 400px;
-                min-width: 100%;
-                min-height: 300px;
+                max-width: 100%;
+                height: 50vw;
+                min-height: 200px;
+                max-height: 60vh;
             }
         }
 
@@ -1552,6 +1610,10 @@
         }
 
         @media (max-width: 480px) {
+            .container {
+                padding: calc(90px + env(safe-area-inset-top)) 16px 0 16px;
+            }
+
             .lightbox-content {
                 padding: 10px;
                 max-width: 98%;
@@ -1612,8 +1674,13 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
             .container {
                 border: none;
+                padding: calc(100px + env(safe-area-inset-top)) 20px 0 20px;
             }
 
             .header-quotes,
@@ -1623,10 +1690,62 @@
 
             .site-header header {
                 padding: 8px 12px 12px;
+                position: relative;
+                width: 100%;
+            }
+
+            .header-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .nav-burger {
+                display: flex;
+                flex-shrink: 0;
+            }
+
+            .section-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                margin-top: 0;
+                padding: 12px;
+                flex-direction: column;
+                gap: 8px;
+                background: linear-gradient(180deg, rgba(18, 18, 18, 0.98) 0%, rgba(15, 15, 15, 0.98) 100%);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+                border-top: 2px solid var(--pink);
+                border-radius: 0 0 12px 12px;
+                max-height: 70vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .site-header.nav-open .section-nav {
+                display: flex;
+            }
+
+            .site-header.nav-open .section-nav .top-nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 12px 16px;
+                font-size: 0.55em;
+            }
+
+            body.nav-open {
+                overflow: hidden;
             }
 
             .title-wrapper {
                 padding: 4px 16px 6px;
+                min-width: 0;
             }
 
             .title-wrapper h1 {
@@ -2478,17 +2597,24 @@
                 </div>
             </div>
             <header>
-                <div class="title-wrapper">
-                    <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
-                    <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
-                    <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
-                    <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
-                    <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
-                    <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
-                    <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
-                    <h1>Veera Arvola</h1>
+                <div class="header-row">
+                    <div class="title-wrapper">
+                        <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
+                        <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
+                        <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
+                        <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
+                        <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
+                        <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
+                        <span class="title-deco heart" aria-hidden="true"><span>♥</span></span>
+                        <h1>Veera Arvola</h1>
+                    </div>
+                    <button type="button" class="nav-burger" id="nav-burger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="section-nav">
+                        <span class="nav-burger-line" aria-hidden="true"></span>
+                        <span class="nav-burger-line" aria-hidden="true"></span>
+                        <span class="nav-burger-line" aria-hidden="true"></span>
+                    </button>
                 </div>
-                <nav class="section-nav" aria-label="Sections">
+                <nav class="section-nav" id="section-nav" aria-label="Sections">
                     <a href="#section-2d" class="top-nav-link">2D</a>
                     <a href="#section-3d" class="top-nav-link">3D</a>
                     <a href="#section-bonus" class="top-nav-link">Bonus</a>
@@ -3000,12 +3126,53 @@
                     var href = a.getAttribute('href') || '';
                     var id = href.replace('#', '');
                     if (id) setActiveTo(id);
+                    if (window.closeMobileNav) window.closeMobileNav();
                 });
             });
             window.addEventListener('scroll', function() { setActiveSection(); }, { passive: true });
             window.addEventListener('resize', setActiveSection);
             window.addEventListener('hashchange', setActiveSection);
             setActiveSection();
+        })();
+    </script>
+    <script>
+        (function() {
+            var siteHeader = document.querySelector('.site-header');
+            var burgerBtn = document.getElementById('nav-burger-btn');
+            var sectionNav = document.getElementById('section-nav');
+            if (!siteHeader || !burgerBtn || !sectionNav) return;
+
+            function isOpen() { return siteHeader.classList.contains('nav-open'); }
+            function closeMobileNav() {
+                siteHeader.classList.remove('nav-open');
+                document.body.classList.remove('nav-open');
+                burgerBtn.setAttribute('aria-expanded', 'false');
+                burgerBtn.setAttribute('aria-label', 'Open menu');
+            }
+            function openMobileNav() {
+                siteHeader.classList.add('nav-open');
+                document.body.classList.add('nav-open');
+                burgerBtn.setAttribute('aria-expanded', 'true');
+                burgerBtn.setAttribute('aria-label', 'Close menu');
+            }
+            window.closeMobileNav = closeMobileNav;
+
+            burgerBtn.addEventListener('click', function() {
+                if (isOpen()) closeMobileNav();
+                else openMobileNav();
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!isOpen()) return;
+                if (siteHeader.contains(e.target)) return;
+                closeMobileNav();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key !== 'Escape' || !isOpen()) return;
+                closeMobileNav();
+                burgerBtn.focus();
+            });
         })();
     </script>
     <script>

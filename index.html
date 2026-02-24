@@ -1813,6 +1813,103 @@
             }
         }
 
+        /* Landscape / short viewport: compact header so nav bar doesn't use half the screen */
+        @media (max-height: 500px) {
+            .header-quotes,
+            .header-spacer {
+                display: none !important;
+            }
+
+            .site-header {
+                justify-content: center;
+            }
+
+            .site-header header {
+                padding: 4px 8px 4px;
+                position: relative;
+                width: 100%;
+            }
+
+            .header-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .nav-burger {
+                display: flex;
+                flex-shrink: 0;
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+
+            .nav-burger-line {
+                width: 16px;
+            }
+
+            .nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(1) {
+                transform: translateY(6px) rotate(45deg);
+            }
+
+            .nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(3) {
+                transform: translateY(-6px) rotate(-45deg);
+            }
+
+            .section-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                margin-top: 0;
+                padding: 8px;
+                flex-direction: column;
+                gap: 6px;
+                background: linear-gradient(180deg, rgba(18, 18, 18, 0.98) 0%, rgba(15, 15, 15, 0.98) 100%);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+                border-top: 2px solid var(--pink);
+                border-radius: 0 0 12px 12px;
+                max-height: 60vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .site-header.nav-open .section-nav {
+                display: flex;
+            }
+
+            .site-header.nav-open .section-nav .top-nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 10px 12px;
+                font-size: 0.5em;
+            }
+
+            .title-wrapper {
+                padding: 2px 8px 2px;
+                min-width: 0;
+            }
+
+            .title-wrapper h1 {
+                font-size: 0.85em;
+                line-height: 1.4;
+            }
+
+            .site-header::after {
+                height: 2px;
+            }
+
+            .container {
+                padding: calc(48px + env(safe-area-inset-top)) 20px 0 20px;
+            }
+        }
+
         /* Projects Section */
         .projects-section {
             margin-top: 50px;

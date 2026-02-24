@@ -123,3 +123,4 @@ Your page should now perform significantly better on:
 The visual design remains unchanged, but the page will automatically adapt its performance characteristics based on the user's device and connection speed.
 
 
+

@@ -1610,8 +1610,22 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding-left: calc(8px + env(safe-area-inset-left));
+                padding-right: calc(8px + env(safe-area-inset-right));
+            }
+
             .container {
-                padding: calc(90px + env(safe-area-inset-top)) 16px 0 16px;
+                padding: calc(90px + env(safe-area-inset-top)) 8px 0 8px;
+            }
+
+            .content {
+                padding: 24px 6px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+                gap: 5px;
             }
 
             .lightbox-content {
@@ -1676,11 +1690,13 @@
         @media (max-width: 768px) {
             body {
                 overflow-x: hidden;
+                padding-left: calc(10px + env(safe-area-inset-left));
+                padding-right: calc(10px + env(safe-area-inset-right));
             }
 
             .container {
                 border: none;
-                padding: calc(100px + env(safe-area-inset-top)) 20px 0 20px;
+                padding: calc(100px + env(safe-area-inset-top)) 12px 0 12px;
             }
 
             .header-quotes,
@@ -1753,12 +1769,12 @@
             }
 
             .content {
-                padding: 30px 10px;
+                padding: 30px 8px;
             }
 
             .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-                gap: 8px;
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 6px;
             }
 
             .skill-name {

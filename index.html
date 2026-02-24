@@ -1866,7 +1866,7 @@
                 left: 0;
                 right: 0;
                 margin-top: 0;
-                padding: 8px;
+                padding: 8px 8px 24px 8px;
                 flex-direction: column;
                 gap: 6px;
                 background: linear-gradient(180deg, rgba(18, 18, 18, 0.98) 0%, rgba(15, 15, 15, 0.98) 100%);
@@ -1875,9 +1875,10 @@
                 box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
                 border-top: 2px solid var(--pink);
                 border-radius: 0 0 12px 12px;
-                max-height: 60vh;
+                max-height: calc(100vh - 52px - env(safe-area-inset-top));
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
             }
 
             .site-header.nav-open .section-nav {

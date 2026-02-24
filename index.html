@@ -1922,8 +1922,22 @@
                 height: 2px;
             }
 
+            body {
+                padding-left: calc(8px + env(safe-area-inset-left));
+                padding-right: calc(8px + env(safe-area-inset-right));
+            }
+
             .container {
-                padding: calc(48px + env(safe-area-inset-top)) 20px 0 20px;
+                padding: calc(48px + env(safe-area-inset-top)) 8px 0 8px;
+            }
+
+            .content {
+                padding: 20px 6px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+                gap: 5px;
             }
         }
 

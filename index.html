@@ -14,23 +14,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Mint, coral pink, pale green & black - vivid saturation */
-            --mint: #4ee8b0;
-            --mint-light: #88ffd8;
-            --mint-dim: #3bc98a;
-            --coral-pink: #f0788a;
-            --pale-green: #8cecd4;  /* mint green */
+            /* Black and high-contrast pinks */
+            --pink: #ff6b9d;           /* bright hot pink */
+            --pink-light: #ffc0cb;     /* light pink */
+            --pink-dim: #c71585;       /* deep pink / medium violet red */
+            --coral-pink: #e85a6e;     /* coral/salmon pink */
+            --pale-pink: #ffb6c1;      /* pale pink */
             --kawaii-pink: var(--coral-pink);
             --kawaii-coral: var(--coral-pink);
-            --kawaii-mint: var(--mint);
-            --kawaii-cyan: var(--mint);
-            --kawaii-cyan-dark: var(--mint-dim);
-            --kawaii-yellow: var(--pale-green);
-            --kawaii-cream: var(--mint-light);
+            --kawaii-mint: var(--pink);
+            --kawaii-cyan: var(--pink);
+            --kawaii-cyan-dark: var(--pink-dim);
+            --kawaii-yellow: var(--pale-pink);
+            --kawaii-cream: var(--pink-light);
             --kawaii-lavender: var(--coral-pink);
-            --kawaii-bg: #0f1614;      /* almost black mint green - light enough for particle trail */
-            --kawaii-bg-soft: #141e1c;
-            --kawaii-panel: #121a18;
+            --kawaii-bg: #0a0a0a;
+            --kawaii-bg-soft: #121212;
+            --kawaii-panel: #0f0f0f;
             --pixel-border: 3px;
         }
 
@@ -82,7 +82,7 @@
             outline-offset: 2px;
         }
 
-        /* Retro game background - pixel grid + mint glow */
+        /* Retro game background - pixel grid + pink glow */
         .parallax-background {
             position: fixed;
             top: 0;
@@ -90,11 +90,11 @@
             width: 100%;
             height: 120%;
             background: 
-                /* Mint, coral pink & pale green orbs */
-                radial-gradient(ellipse 800px 600px at 20% 30%, rgba(78, 232, 176, 0.22) 0%, transparent 50%),
+                /* Pink orbs - various shades */
+                radial-gradient(ellipse 800px 600px at 20% 30%, rgba(255, 133, 162, 0.22) 0%, transparent 50%),
                 radial-gradient(ellipse 700px 500px at 80% 70%, rgba(240, 120, 138, 0.16) 0%, transparent 50%),
-                radial-gradient(ellipse 600px 700px at 50% 50%, rgba(140, 236, 212, 0.18) 0%, transparent 50%),
-                radial-gradient(ellipse 400px 400px at 70% 20%, rgba(78, 232, 176, 0.14) 0%, transparent 50%),
+                radial-gradient(ellipse 600px 700px at 50% 50%, rgba(240, 168, 184, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse 400px 400px at 70% 20%, rgba(255, 133, 162, 0.14) 0%, transparent 50%),
                 /* Retro arcade scanlines */
                 repeating-linear-gradient(
                     0deg,
@@ -108,15 +108,15 @@
                     90deg,
                     transparent,
                     transparent 15px,
-                    rgba(78, 232, 176, 0.07) 15px,
-                    rgba(78, 232, 176, 0.07) 16px
+                    rgba(255, 133, 162, 0.07) 15px,
+                    rgba(255, 133, 162, 0.07) 16px
                 ),
                 repeating-linear-gradient(
                     0deg,
                     transparent,
                     transparent 15px,
-                    rgba(78, 232, 176, 0.07) 15px,
-                    rgba(78, 232, 176, 0.07) 16px
+                    rgba(255, 133, 162, 0.07) 15px,
+                    rgba(255, 133, 162, 0.07) 16px
                 ),
                 /* Base */
                 var(--kawaii-bg);
@@ -200,13 +200,13 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(2px 2px at 15% 25%, rgba(78, 232, 176, 0.6), transparent),
+                radial-gradient(2px 2px at 15% 25%, rgba(255, 133, 162, 0.6), transparent),
                 radial-gradient(1.5px 1.5px at 35% 45%, rgba(240, 120, 138, 0.5), transparent),
-                radial-gradient(2px 2px at 55% 15%, rgba(140, 236, 212, 0.55), transparent),
-                radial-gradient(1.5px 1.5px at 75% 65%, rgba(78, 232, 176, 0.5), transparent),
+                radial-gradient(2px 2px at 55% 15%, rgba(240, 168, 184, 0.55), transparent),
+                radial-gradient(1.5px 1.5px at 75% 65%, rgba(255, 133, 162, 0.5), transparent),
                 radial-gradient(2px 2px at 25% 75%, rgba(240, 120, 138, 0.5), transparent),
-                radial-gradient(1.5px 1.5px at 65% 85%, rgba(140, 236, 212, 0.5), transparent),
-                radial-gradient(2px 2px at 85% 35%, rgba(78, 232, 176, 0.45), transparent),
+                radial-gradient(1.5px 1.5px at 65% 85%, rgba(240, 168, 184, 0.5), transparent),
+                radial-gradient(2px 2px at 85% 35%, rgba(255, 133, 162, 0.45), transparent),
                 radial-gradient(1.5px 1.5px at 45% 55%, rgba(240, 120, 138, 0.55), transparent),
                 /* Retro CRT scanlines effect */
                 repeating-linear-gradient(
@@ -262,7 +262,7 @@
             100% { transform: translateY(10px); }
         }
 
-        /* Retro mint pixel pattern - canvas-based drifting pixels */
+        /* Retro pink pixel pattern - canvas-based drifting pixels */
         .pixel-rain-canvas {
             position: fixed;
             top: 0;
@@ -287,64 +287,64 @@
             display: none;
             /* Old gradient-based rain - disabled */
             background-image: 
-                /* Pattern repeats: green, cyan, yellow with varied start positions */
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1%, rgba(78, 232, 176, 0.5) 3%, rgba(78, 232, 176, 0.28) 5%, transparent 7%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2%, rgba(78, 232, 176, 0.28) 4%, rgba(78, 232, 176, 0.5) 6%, rgba(78, 232, 176, 0.28) 8%, transparent 10%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 4%, rgba(78, 232, 176, 0.28) 6%, rgba(78, 232, 176, 0.5) 8%, rgba(78, 232, 176, 0.28) 10%, transparent 12%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.5%, rgba(78, 232, 176, 0.5) 3.5%, rgba(78, 232, 176, 0.28) 5.5%, transparent 7.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 3%, rgba(78, 232, 176, 0.28) 5%, rgba(78, 232, 176, 0.5) 7%, rgba(78, 232, 176, 0.28) 9%, transparent 11%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5%, rgba(78, 232, 176, 0.28) 7%, rgba(78, 232, 176, 0.5) 9%, rgba(78, 232, 176, 0.28) 11%, transparent 13%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 2%, rgba(78, 232, 176, 0.5) 4%, rgba(78, 232, 176, 0.28) 6%, transparent 8%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 1%, rgba(78, 232, 176, 0.28) 3%, rgba(78, 232, 176, 0.5) 5%, rgba(78, 232, 176, 0.28) 7%, transparent 9%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 6%, rgba(78, 232, 176, 0.28) 8%, rgba(78, 232, 176, 0.5) 10%, rgba(78, 232, 176, 0.28) 12%, transparent 14%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 0.5%, rgba(78, 232, 176, 0.5) 2.5%, rgba(78, 232, 176, 0.28) 4.5%, transparent 6.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2.5%, rgba(78, 232, 176, 0.28) 4.5%, rgba(78, 232, 176, 0.5) 6.5%, rgba(78, 232, 176, 0.28) 8.5%, transparent 10.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 4.5%, rgba(78, 232, 176, 0.28) 6.5%, rgba(78, 232, 176, 0.5) 8.5%, rgba(78, 232, 176, 0.28) 10.5%, transparent 12.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.2%, rgba(78, 232, 176, 0.5) 3.2%, rgba(78, 232, 176, 0.28) 5.2%, transparent 7.2%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 3.5%, rgba(78, 232, 176, 0.28) 5.5%, rgba(78, 232, 176, 0.5) 7.5%, rgba(78, 232, 176, 0.28) 9.5%, transparent 11.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5.5%, rgba(78, 232, 176, 0.28) 7.5%, rgba(78, 232, 176, 0.5) 9.5%, rgba(78, 232, 176, 0.28) 11.5%, transparent 13.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 0.8%, rgba(78, 232, 176, 0.5) 2.8%, rgba(78, 232, 176, 0.28) 4.8%, transparent 6.8%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 1.5%, rgba(78, 232, 176, 0.28) 3.5%, rgba(78, 232, 176, 0.5) 5.5%, rgba(78, 232, 176, 0.28) 7.5%, transparent 9.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 4%, rgba(78, 232, 176, 0.28) 6%, rgba(78, 232, 176, 0.5) 8%, rgba(78, 232, 176, 0.28) 10%, transparent 12%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.8%, rgba(78, 232, 176, 0.5) 3.8%, rgba(78, 232, 176, 0.28) 5.8%, transparent 7.8%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2.2%, rgba(78, 232, 176, 0.28) 4.2%, rgba(78, 232, 176, 0.5) 6.2%, rgba(78, 232, 176, 0.28) 8.2%, transparent 10.2%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5.2%, rgba(78, 232, 176, 0.28) 7.2%, rgba(78, 232, 176, 0.5) 9.2%, rgba(78, 232, 176, 0.28) 11.2%, transparent 13.2%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 0.3%, rgba(78, 232, 176, 0.5) 2.3%, rgba(78, 232, 176, 0.28) 4.3%, transparent 6.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 3.2%, rgba(78, 232, 176, 0.28) 5.2%, rgba(78, 232, 176, 0.5) 7.2%, rgba(78, 232, 176, 0.28) 9.2%, transparent 11.2%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 6.2%, rgba(78, 232, 176, 0.28) 8.2%, rgba(78, 232, 176, 0.5) 10.2%, rgba(78, 232, 176, 0.28) 12.2%, transparent 14.2%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.6%, rgba(78, 232, 176, 0.5) 3.6%, rgba(78, 232, 176, 0.28) 5.6%, transparent 7.6%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 1.8%, rgba(78, 232, 176, 0.28) 3.8%, rgba(78, 232, 176, 0.5) 5.8%, rgba(78, 232, 176, 0.28) 7.8%, transparent 9.8%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 4.8%, rgba(78, 232, 176, 0.28) 6.8%, rgba(78, 232, 176, 0.5) 8.8%, rgba(78, 232, 176, 0.28) 10.8%, transparent 12.8%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.4%, rgba(78, 232, 176, 0.5) 3.4%, rgba(78, 232, 176, 0.28) 5.4%, transparent 7.4%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2.8%, rgba(78, 232, 176, 0.28) 4.8%, rgba(78, 232, 176, 0.5) 6.8%, rgba(78, 232, 176, 0.28) 8.8%, transparent 10.8%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5.8%, rgba(78, 232, 176, 0.28) 7.8%, rgba(78, 232, 176, 0.5) 9.8%, rgba(78, 232, 176, 0.28) 11.8%, transparent 13.8%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.1%, rgba(78, 232, 176, 0.5) 3.1%, rgba(78, 232, 176, 0.28) 5.1%, transparent 7.1%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2.3%, rgba(78, 232, 176, 0.28) 4.3%, rgba(78, 232, 176, 0.5) 6.3%, rgba(78, 232, 176, 0.28) 8.3%, transparent 10.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 4.3%, rgba(78, 232, 176, 0.28) 6.3%, rgba(78, 232, 176, 0.5) 8.3%, rgba(78, 232, 176, 0.28) 10.3%, transparent 12.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.7%, rgba(78, 232, 176, 0.5) 3.7%, rgba(78, 232, 176, 0.28) 5.7%, transparent 7.7%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 1.3%, rgba(78, 232, 176, 0.28) 3.3%, rgba(78, 232, 176, 0.5) 5.3%, rgba(78, 232, 176, 0.28) 7.3%, transparent 9.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5.3%, rgba(78, 232, 176, 0.28) 7.3%, rgba(78, 232, 176, 0.5) 9.3%, rgba(78, 232, 176, 0.28) 11.3%, transparent 13.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 0.7%, rgba(78, 232, 176, 0.5) 2.7%, rgba(78, 232, 176, 0.28) 4.7%, transparent 6.7%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 3.3%, rgba(78, 232, 176, 0.28) 5.3%, rgba(78, 232, 176, 0.5) 7.3%, rgba(78, 232, 176, 0.28) 9.3%, transparent 11.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 6.3%, rgba(78, 232, 176, 0.28) 8.3%, rgba(78, 232, 176, 0.5) 10.3%, rgba(78, 232, 176, 0.28) 12.3%, transparent 14.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.3%, rgba(78, 232, 176, 0.5) 3.3%, rgba(78, 232, 176, 0.28) 5.3%, transparent 7.3%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2.7%, rgba(78, 232, 176, 0.28) 4.7%, rgba(78, 232, 176, 0.5) 6.7%, rgba(78, 232, 176, 0.28) 8.7%, transparent 10.7%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 4.7%, rgba(78, 232, 176, 0.28) 6.7%, rgba(78, 232, 176, 0.5) 8.7%, rgba(78, 232, 176, 0.28) 10.7%, transparent 12.7%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 0.9%, rgba(78, 232, 176, 0.5) 2.9%, rgba(78, 232, 176, 0.28) 4.9%, transparent 6.9%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 1.7%, rgba(78, 232, 176, 0.28) 3.7%, rgba(78, 232, 176, 0.5) 5.7%, rgba(78, 232, 176, 0.28) 7.7%, transparent 9.7%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5.7%, rgba(78, 232, 176, 0.28) 7.7%, rgba(78, 232, 176, 0.5) 9.7%, rgba(78, 232, 176, 0.28) 11.7%, transparent 13.7%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.9%, rgba(78, 232, 176, 0.5) 3.9%, rgba(78, 232, 176, 0.28) 5.9%, transparent 7.9%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2.1%, rgba(78, 232, 176, 0.28) 4.1%, rgba(78, 232, 176, 0.5) 6.1%, rgba(78, 232, 176, 0.28) 8.1%, transparent 10.1%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5.1%, rgba(78, 232, 176, 0.28) 7.1%, rgba(78, 232, 176, 0.5) 9.1%, rgba(78, 232, 176, 0.28) 11.1%, transparent 13.1%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 0.1%, rgba(78, 232, 176, 0.5) 2.1%, rgba(78, 232, 176, 0.28) 4.1%, transparent 6.1%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 3.1%, rgba(78, 232, 176, 0.28) 5.1%, rgba(78, 232, 176, 0.5) 7.1%, rgba(78, 232, 176, 0.28) 9.1%, transparent 11.1%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 6.1%, rgba(78, 232, 176, 0.28) 8.1%, rgba(78, 232, 176, 0.5) 10.1%, rgba(78, 232, 176, 0.28) 12.1%, transparent 14.1%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 1.5%, rgba(78, 232, 176, 0.5) 3.5%, rgba(78, 232, 176, 0.28) 5.5%, transparent 7.5%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 2.9%, rgba(78, 232, 176, 0.28) 4.9%, rgba(78, 232, 176, 0.5) 6.9%, rgba(78, 232, 176, 0.28) 8.9%, transparent 10.9%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 4.9%, rgba(78, 232, 176, 0.28) 6.9%, rgba(78, 232, 176, 0.5) 8.9%, rgba(78, 232, 176, 0.28) 10.9%, transparent 12.9%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, rgba(78, 232, 176, 0.28) 0.6%, rgba(78, 232, 176, 0.5) 2.6%, rgba(78, 232, 176, 0.28) 4.6%, transparent 6.6%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 1.1%, rgba(78, 232, 176, 0.28) 3.1%, rgba(78, 232, 176, 0.5) 5.1%, rgba(78, 232, 176, 0.28) 7.1%, transparent 9.1%, transparent 100%),
-                linear-gradient(180deg, transparent 0%, transparent 5.9%, rgba(78, 232, 176, 0.28) 7.9%, rgba(78, 232, 176, 0.5) 9.9%, rgba(78, 232, 176, 0.28) 11.9%, transparent 13.9%, transparent 100%);
+                /* Pattern repeats: pink shades with varied start positions */
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1%, rgba(255, 133, 162, 0.5) 3%, rgba(255, 133, 162, 0.28) 5%, transparent 7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2%, rgba(255, 133, 162, 0.28) 4%, rgba(255, 133, 162, 0.5) 6%, rgba(255, 133, 162, 0.28) 8%, transparent 10%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4%, rgba(255, 133, 162, 0.28) 6%, rgba(255, 133, 162, 0.5) 8%, rgba(255, 133, 162, 0.28) 10%, transparent 12%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.5%, rgba(255, 133, 162, 0.5) 3.5%, rgba(255, 133, 162, 0.28) 5.5%, transparent 7.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3%, rgba(255, 133, 162, 0.28) 5%, rgba(255, 133, 162, 0.5) 7%, rgba(255, 133, 162, 0.28) 9%, transparent 11%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5%, rgba(255, 133, 162, 0.28) 7%, rgba(255, 133, 162, 0.5) 9%, rgba(255, 133, 162, 0.28) 11%, transparent 13%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 2%, rgba(255, 133, 162, 0.5) 4%, rgba(255, 133, 162, 0.28) 6%, transparent 8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1%, rgba(255, 133, 162, 0.28) 3%, rgba(255, 133, 162, 0.5) 5%, rgba(255, 133, 162, 0.28) 7%, transparent 9%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 6%, rgba(255, 133, 162, 0.28) 8%, rgba(255, 133, 162, 0.5) 10%, rgba(255, 133, 162, 0.28) 12%, transparent 14%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 0.5%, rgba(255, 133, 162, 0.5) 2.5%, rgba(255, 133, 162, 0.28) 4.5%, transparent 6.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.5%, rgba(255, 133, 162, 0.28) 4.5%, rgba(255, 133, 162, 0.5) 6.5%, rgba(255, 133, 162, 0.28) 8.5%, transparent 10.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4.5%, rgba(255, 133, 162, 0.28) 6.5%, rgba(255, 133, 162, 0.5) 8.5%, rgba(255, 133, 162, 0.28) 10.5%, transparent 12.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.2%, rgba(255, 133, 162, 0.5) 3.2%, rgba(255, 133, 162, 0.28) 5.2%, transparent 7.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3.5%, rgba(255, 133, 162, 0.28) 5.5%, rgba(255, 133, 162, 0.5) 7.5%, rgba(255, 133, 162, 0.28) 9.5%, transparent 11.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.5%, rgba(255, 133, 162, 0.28) 7.5%, rgba(255, 133, 162, 0.5) 9.5%, rgba(255, 133, 162, 0.28) 11.5%, transparent 13.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 0.8%, rgba(255, 133, 162, 0.5) 2.8%, rgba(255, 133, 162, 0.28) 4.8%, transparent 6.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1.5%, rgba(255, 133, 162, 0.28) 3.5%, rgba(255, 133, 162, 0.5) 5.5%, rgba(255, 133, 162, 0.28) 7.5%, transparent 9.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4%, rgba(255, 133, 162, 0.28) 6%, rgba(255, 133, 162, 0.5) 8%, rgba(255, 133, 162, 0.28) 10%, transparent 12%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.8%, rgba(255, 133, 162, 0.5) 3.8%, rgba(255, 133, 162, 0.28) 5.8%, transparent 7.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.2%, rgba(255, 133, 162, 0.28) 4.2%, rgba(255, 133, 162, 0.5) 6.2%, rgba(255, 133, 162, 0.28) 8.2%, transparent 10.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.2%, rgba(255, 133, 162, 0.28) 7.2%, rgba(255, 133, 162, 0.5) 9.2%, rgba(255, 133, 162, 0.28) 11.2%, transparent 13.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 0.3%, rgba(255, 133, 162, 0.5) 2.3%, rgba(255, 133, 162, 0.28) 4.3%, transparent 6.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3.2%, rgba(255, 133, 162, 0.28) 5.2%, rgba(255, 133, 162, 0.5) 7.2%, rgba(255, 133, 162, 0.28) 9.2%, transparent 11.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 6.2%, rgba(255, 133, 162, 0.28) 8.2%, rgba(255, 133, 162, 0.5) 10.2%, rgba(255, 133, 162, 0.28) 12.2%, transparent 14.2%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.6%, rgba(255, 133, 162, 0.5) 3.6%, rgba(255, 133, 162, 0.28) 5.6%, transparent 7.6%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1.8%, rgba(255, 133, 162, 0.28) 3.8%, rgba(255, 133, 162, 0.5) 5.8%, rgba(255, 133, 162, 0.28) 7.8%, transparent 9.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4.8%, rgba(255, 133, 162, 0.28) 6.8%, rgba(255, 133, 162, 0.5) 8.8%, rgba(255, 133, 162, 0.28) 10.8%, transparent 12.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.4%, rgba(255, 133, 162, 0.5) 3.4%, rgba(255, 133, 162, 0.28) 5.4%, transparent 7.4%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.8%, rgba(255, 133, 162, 0.28) 4.8%, rgba(255, 133, 162, 0.5) 6.8%, rgba(255, 133, 162, 0.28) 8.8%, transparent 10.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.8%, rgba(255, 133, 162, 0.28) 7.8%, rgba(255, 133, 162, 0.5) 9.8%, rgba(255, 133, 162, 0.28) 11.8%, transparent 13.8%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.1%, rgba(255, 133, 162, 0.5) 3.1%, rgba(255, 133, 162, 0.28) 5.1%, transparent 7.1%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.3%, rgba(255, 133, 162, 0.28) 4.3%, rgba(255, 133, 162, 0.5) 6.3%, rgba(255, 133, 162, 0.28) 8.3%, transparent 10.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4.3%, rgba(255, 133, 162, 0.28) 6.3%, rgba(255, 133, 162, 0.5) 8.3%, rgba(255, 133, 162, 0.28) 10.3%, transparent 12.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.7%, rgba(255, 133, 162, 0.5) 3.7%, rgba(255, 133, 162, 0.28) 5.7%, transparent 7.7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1.3%, rgba(255, 133, 162, 0.28) 3.3%, rgba(255, 133, 162, 0.5) 5.3%, rgba(255, 133, 162, 0.28) 7.3%, transparent 9.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.3%, rgba(255, 133, 162, 0.28) 7.3%, rgba(255, 133, 162, 0.5) 9.3%, rgba(255, 133, 162, 0.28) 11.3%, transparent 13.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 0.7%, rgba(255, 133, 162, 0.5) 2.7%, rgba(255, 133, 162, 0.28) 4.7%, transparent 6.7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3.3%, rgba(255, 133, 162, 0.28) 5.3%, rgba(255, 133, 162, 0.5) 7.3%, rgba(255, 133, 162, 0.28) 9.3%, transparent 11.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 6.3%, rgba(255, 133, 162, 0.28) 8.3%, rgba(255, 133, 162, 0.5) 10.3%, rgba(255, 133, 162, 0.28) 12.3%, transparent 14.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.3%, rgba(255, 133, 162, 0.5) 3.3%, rgba(255, 133, 162, 0.28) 5.3%, transparent 7.3%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.7%, rgba(255, 133, 162, 0.28) 4.7%, rgba(255, 133, 162, 0.5) 6.7%, rgba(255, 133, 162, 0.28) 8.7%, transparent 10.7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4.7%, rgba(255, 133, 162, 0.28) 6.7%, rgba(255, 133, 162, 0.5) 8.7%, rgba(255, 133, 162, 0.28) 10.7%, transparent 12.7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 0.9%, rgba(255, 133, 162, 0.5) 2.9%, rgba(255, 133, 162, 0.28) 4.9%, transparent 6.9%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1.7%, rgba(255, 133, 162, 0.28) 3.7%, rgba(255, 133, 162, 0.5) 5.7%, rgba(255, 133, 162, 0.28) 7.7%, transparent 9.7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.7%, rgba(255, 133, 162, 0.28) 7.7%, rgba(255, 133, 162, 0.5) 9.7%, rgba(255, 133, 162, 0.28) 11.7%, transparent 13.7%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.9%, rgba(255, 133, 162, 0.5) 3.9%, rgba(255, 133, 162, 0.28) 5.9%, transparent 7.9%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.1%, rgba(255, 133, 162, 0.28) 4.1%, rgba(255, 133, 162, 0.5) 6.1%, rgba(255, 133, 162, 0.28) 8.1%, transparent 10.1%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.1%, rgba(255, 133, 162, 0.28) 7.1%, rgba(255, 133, 162, 0.5) 9.1%, rgba(255, 133, 162, 0.28) 11.1%, transparent 13.1%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 0.1%, rgba(255, 133, 162, 0.5) 2.1%, rgba(255, 133, 162, 0.28) 4.1%, transparent 6.1%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 3.1%, rgba(255, 133, 162, 0.28) 5.1%, rgba(255, 133, 162, 0.5) 7.1%, rgba(255, 133, 162, 0.28) 9.1%, transparent 11.1%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 6.1%, rgba(255, 133, 162, 0.28) 8.1%, rgba(255, 133, 162, 0.5) 10.1%, rgba(255, 133, 162, 0.28) 12.1%, transparent 14.1%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 1.5%, rgba(255, 133, 162, 0.5) 3.5%, rgba(255, 133, 162, 0.28) 5.5%, transparent 7.5%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 2.9%, rgba(255, 133, 162, 0.28) 4.9%, rgba(255, 133, 162, 0.5) 6.9%, rgba(255, 133, 162, 0.28) 8.9%, transparent 10.9%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 4.9%, rgba(255, 133, 162, 0.28) 6.9%, rgba(255, 133, 162, 0.5) 8.9%, rgba(255, 133, 162, 0.28) 10.9%, transparent 12.9%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, rgba(255, 133, 162, 0.28) 0.6%, rgba(255, 133, 162, 0.5) 2.6%, rgba(255, 133, 162, 0.28) 4.6%, transparent 6.6%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 1.1%, rgba(255, 133, 162, 0.28) 3.1%, rgba(255, 133, 162, 0.5) 5.1%, rgba(255, 133, 162, 0.28) 7.1%, transparent 9.1%, transparent 100%),
+                linear-gradient(180deg, transparent 0%, transparent 5.9%, rgba(255, 133, 162, 0.28) 7.9%, rgba(255, 133, 162, 0.5) 9.9%, rgba(255, 133, 162, 0.28) 11.9%, transparent 13.9%, transparent 100%);
             background-size: 
                 3px 400%, 3px 350%, 3px 450%, 3px 400%, 3px 350%, 3px 450%,
                 3px 400%, 3px 350%, 3px 450%, 3px 400%, 3px 350%, 3px 450%,
@@ -418,8 +418,8 @@
                     0deg,
                     transparent,
                     transparent 2px,
-                    rgba(78, 232, 176, 0.05) 2px,
-                    rgba(78, 232, 176, 0.05) 4px
+                    rgba(255, 133, 162, 0.05) 2px,
+                    rgba(255, 133, 162, 0.05) 4px
                 );
             animation: glitch 0.3s infinite;
         }
@@ -461,11 +461,11 @@
             border-radius: 16px;
             overflow: hidden;
             background: var(--kawaii-panel);
-            /* Two-line outline: mint, then pink */
+            /* Two-line outline: pink shades */
             box-shadow:
-                0 0 0 4px var(--mint),
+                0 0 0 4px var(--pink),
                 0 0 0 8px var(--coral-pink),
-                0 8px 0 rgba(78, 232, 176, 0.28),
+                0 8px 0 rgba(255, 133, 162, 0.28),
                 0 12px 24px rgba(0, 0, 0, 0.4);
         }
 
@@ -476,7 +476,7 @@
             flex-wrap: nowrap;
             justify-content: space-between;
             gap: 12px;
-            background: linear-gradient(180deg, rgba(20, 30, 28, 0.97) 0%, rgba(18, 26, 24, 0.94) 100%);
+            background: linear-gradient(180deg, rgba(18, 18, 18, 0.97) 0%, rgba(15, 15, 15, 0.94) 100%);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             position: fixed;
@@ -486,7 +486,7 @@
             z-index: 100;
             box-shadow:
                 0 4px 24px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(78, 232, 176, 0.22),
+                0 0 0 1px rgba(255, 133, 162, 0.22),
                 inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
 
@@ -497,9 +497,9 @@
             right: 0;
             bottom: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--mint) 0%, var(--coral-pink) 50%, var(--mint) 100%);
+            background: linear-gradient(90deg, var(--pink) 0%, var(--coral-pink) 50%, var(--pink-light) 100%);
             opacity: 0.85;
-            box-shadow: 0 0 12px var(--coral-pink), 0 0 24px var(--mint);
+            box-shadow: 0 0 12px var(--coral-pink), 0 0 24px var(--pink);
         }
 
         /* Testimonial quotes disabled for now — remove body class and this block to re-enable */
@@ -552,7 +552,7 @@
         .header-quote-box .quote-text {
             font-size: 0.65em;
             line-height: 1.35;
-            color: var(--mint-light);
+            color: var(--pink-light);
             opacity: 0.58;
             font-style: italic;
             margin-bottom: 2px;
@@ -629,7 +629,7 @@
             padding: 10px 16px 14px;
         }
 
-        /* 2D mint outline – matches site frame */
+        /* Nav buttons: thin outline by default, thicker for selected */
         .top-nav-link {
             font-family: 'Press Start 2P', cursive;
             font-size: 0.5em;
@@ -642,26 +642,28 @@
             border-radius: 8px;
             background: var(--kawaii-panel);
             transition: color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            /* Default: only mint green outline */
-            box-shadow: 0 0 0 2px var(--mint);
+            box-shadow: 0 0 0 1px var(--pink);
         }
 
         .top-nav-link:hover {
             color: var(--coral-pink);
             background: rgba(240, 120, 138, 0.28);
             box-shadow:
-                0 0 0 2px var(--mint),
-                0 0 0 4px var(--coral-pink),
-                0 0 24px rgba(240, 120, 138, 0.55),
-                0 0 48px rgba(240, 120, 138, 0.4);
+                0 0 0 1px var(--pink),
+                0 0 24px rgba(240, 120, 138, 0.4);
         }
 
-        .top-nav-link:active,
+        .top-nav-link:active:not(.active) {
+            color: var(--coral-pink);
+            background: rgba(240, 120, 138, 0.26);
+            box-shadow: 0 0 0 1px var(--pink);
+        }
+
         .top-nav-link.active {
             color: var(--coral-pink);
             background: rgba(240, 120, 138, 0.26);
             box-shadow:
-                0 0 0 2px var(--mint),
+                0 0 0 2px var(--pink),
                 0 0 0 4px var(--coral-pink),
                 0 0 20px rgba(240, 120, 138, 0.55),
                 0 0 36px rgba(240, 120, 138, 0.35);
@@ -710,18 +712,17 @@
             /* Gradient per letter – large pattern so colors don’t repeat too quickly */
             background: linear-gradient(
                 90deg,
-                var(--mint-dim) 0%,
-                var(--pale-green) 20%,
-                var(--mint) 40%,
-                var(--coral-pink) 60%,
-                var(--mint-light) 80%,
-                var(--mint-dim) 100%
+                var(--pink-light) 0%,
+                var(--pink) 25%,
+                var(--coral-pink) 50%,
+                var(--pink) 75%,
+                var(--pink-light) 100%
             );
             background-size: 400% 100%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: transparent;
+            color: var(--pink);
         }
 
         .title-wrapper h1 .title-char.space {
@@ -760,11 +761,12 @@
             font-size: clamp(1rem, 4vw, 1.5em);
             margin-bottom: 0;
             line-height: 1.6;
-            /* Focal glow: mint outline shadow */
-            filter: drop-shadow(0 0 12px rgba(78, 232, 176, 0.6))
-                    drop-shadow(0 0 24px rgba(78, 232, 176, 0.4))
-                    drop-shadow(0 0 36px rgba(78, 232, 176, 0.5))
-                    drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.25));
+            /* Focal glow and legibility on dark header */
+            filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.9))
+                    drop-shadow(0 0 16px rgba(255, 107, 157, 0.6))
+                    drop-shadow(0 0 24px rgba(255, 107, 157, 0.4))
+                    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.5))
+                    drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.3));
         }
 
         @keyframes title-rainbow-shift {
@@ -792,13 +794,13 @@
             display: inline-block;
         }
 
-        /* Mint, coral pink & pale green; spread across bottom of title */
+        /* Pink shades; spread across bottom of title */
         .title-deco.heart:nth-child(1) { left: 18%;  font-size: 18px; color: var(--coral-pink); animation-delay: 0s;     }
-        .title-deco.heart:nth-child(2) { left: 32%;  font-size: 14px; color: var(--pale-green); animation-delay: 0.6s;   }
-        .title-deco.heart:nth-child(3) { left: 48%;  font-size: 20px; color: var(--mint);       animation-delay: 1.2s;   }
-        .title-deco.heart:nth-child(4) { left: 62%;  font-size: 16px; color: var(--pale-green); animation-delay: 1.8s;  }
+        .title-deco.heart:nth-child(2) { left: 32%;  font-size: 14px; color: var(--pale-pink); animation-delay: 0.6s;   }
+        .title-deco.heart:nth-child(3) { left: 48%;  font-size: 20px; color: var(--pink);       animation-delay: 1.2s;   }
+        .title-deco.heart:nth-child(4) { left: 62%;  font-size: 16px; color: var(--pale-pink); animation-delay: 1.8s;  }
         .title-deco.heart:nth-child(5) { left: 78%;  font-size: 18px; color: var(--coral-pink); animation-delay: 2.4s;   }
-        .title-deco.heart:nth-child(6) { left: 25%;  font-size: 14px; color: var(--mint-light);  animation-delay: 3s;    }
+        .title-deco.heart:nth-child(6) { left: 25%;  font-size: 14px; color: var(--pink-light);  animation-delay: 3s;    }
         .title-deco.heart:nth-child(7) { left: 72%;  font-size: 16px; color: var(--coral-pink); animation-delay: 3.6s;   }
 
         @keyframes heart-float-up {
@@ -829,7 +831,7 @@
         }
 
         .lang-btn {
-            background: rgba(78, 232, 176, 0.22);
+            background: rgba(255, 133, 162, 0.22);
             border: 2px solid var(--kawaii-mint);
             padding: 8px 15px;
             font-size: 0.9em;
@@ -903,11 +905,11 @@
             margin-bottom: 60px;
             border: var(--pixel-border) solid var(--kawaii-mint);
             padding: 24px;
-            background: rgba(78, 232, 176, 0.1);
+            background: rgba(255, 133, 162, 0.1);
             border-radius: 12px;
             box-shadow: 
-                inset 0 0 30px rgba(78, 232, 176, 0.06),
-                0 4px 0 rgba(78, 232, 176, 0.28);
+                inset 0 0 30px rgba(255, 133, 162, 0.06),
+                0 4px 0 rgba(255, 133, 162, 0.28);
         }
 
         /* 2D and 3D sections: no box frame or background, let the gallery speak */
@@ -963,11 +965,11 @@
             margin-bottom: 16px;
             position: relative;
             padding: 12px 14px;
-            background: rgba(78, 232, 176, 0.12);
+            background: rgba(255, 133, 162, 0.12);
             border: 2px solid var(--kawaii-pink);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(78, 232, 176, 0.08);
+            box-shadow: inset 0 0 20px rgba(255, 133, 162, 0.08);
         }
 
         .skills-list::before,
@@ -1002,7 +1004,7 @@
         }
 
         .skill {
-            background: rgba(78, 232, 176, 0.22);
+            background: rgba(255, 133, 162, 0.22);
             border: 2px solid var(--kawaii-pink);
             padding: 5px 10px;
             font-size: 0.78em;
@@ -1010,7 +1012,7 @@
             border-radius: 6px;
             transition: all 0.2s ease;
             font-family: 'Pixelify Sans', sans-serif;
-            box-shadow: 0 2px 0 rgba(78, 232, 176, 0.4);
+            box-shadow: 0 2px 0 rgba(255, 133, 162, 0.4);
         }
 
         .skill:hover {
@@ -1023,11 +1025,11 @@
             margin-bottom: 16px;
             position: relative;
             padding: 12px 14px;
-            background: rgba(78, 232, 176, 0.1);
+            background: rgba(255, 133, 162, 0.1);
             border: 2px solid var(--kawaii-yellow);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(78, 232, 176, 0.06);
+            box-shadow: inset 0 0 20px rgba(255, 133, 162, 0.06);
         }
 
         .programs-list h3 {
@@ -1055,7 +1057,7 @@
         }
 
         .program {
-            background: rgba(78, 232, 176, 0.22);
+            background: rgba(255, 133, 162, 0.22);
             border: 2px solid var(--kawaii-yellow);
             padding: 5px 10px;
             font-size: 0.78em;
@@ -1063,7 +1065,7 @@
             border-radius: 6px;
             transition: all 0.2s ease;
             font-family: 'Pixelify Sans', sans-serif;
-            box-shadow: 0 2px 0 rgba(78, 232, 176, 0.45);
+            box-shadow: 0 2px 0 rgba(255, 133, 162, 0.45);
         }
 
         .program:hover {
@@ -1114,11 +1116,11 @@
         @keyframes fallout-pulse-yellow {
             0%, 100% {
                 opacity: 1;
-                text-shadow: 0 0 5px rgba(78, 232, 176, 0.7);
+                text-shadow: 0 0 5px rgba(255, 133, 162, 0.7);
             }
             50% {
                 opacity: 0.95;
-                text-shadow: 0 0 8px rgba(78, 232, 176, 0.85);
+                text-shadow: 0 0 8px rgba(255, 133, 162, 0.85);
             }
         }
 
@@ -1143,8 +1145,8 @@
 
         .gallery-item {
             aspect-ratio: 1;
-            background: rgba(78, 232, 176, 0.12);
-            border: 2px solid var(--kawaii-cyan);
+            background: rgba(255, 133, 162, 0.12);
+            border: 1px solid var(--pink);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -1152,7 +1154,7 @@
             position: relative;
             z-index: 0;
             overflow: hidden;
-            box-shadow: 0 0 0 2px var(--kawaii-cyan-dark), inset 0 0 20px rgba(78, 232, 176, 0.05);
+            box-shadow: inset 0 0 20px rgba(255, 133, 162, 0.05);
             transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
                         box-shadow 0.3s ease,
                         border-color 0.25s ease;
@@ -1183,12 +1185,9 @@
         .gallery-item:hover {
             z-index: 2;
             transform: scale(1.05);
-            border-color: var(--coral-pink);
-            box-shadow: 0 0 0 3px var(--coral-pink),
-                        0 8px 28px rgba(240, 120, 138, 0.55),
-                        0 0 48px rgba(240, 120, 138, 0.4),
-                        0 0 0 1px rgba(240, 120, 138, 0.75),
-                        inset 0 0 32px rgba(240, 120, 138, 0.12);
+            border-color: var(--pink);
+            box-shadow: 0 8px 28px rgba(255, 107, 157, 0.4),
+                        inset 0 0 32px rgba(255, 107, 157, 0.08);
         }
 
         .gallery-item:hover::after {
@@ -1223,7 +1222,7 @@
             cursor: pointer;
         }
 
-        /* Lightbox Modal – mint frame, thumbnails, backdrop */
+        /* Lightbox Modal – pink frame, thumbnails, backdrop */
         .lightbox {
             display: none;
             position: fixed;
@@ -1261,11 +1260,11 @@
             background: var(--kawaii-panel);
             border-radius: 12px;
             box-shadow:
-                0 0 0 3px var(--mint),
+                0 0 0 3px var(--pink),
                 0 0 0 6px var(--coral-pink),
                 0 20px 60px rgba(0, 0, 0, 0.6),
-                0 0 80px rgba(78, 232, 176, 0.12),
-                0 0 120px rgba(78, 232, 176, 0.1);
+                0 0 80px rgba(255, 133, 162, 0.12),
+                0 0 120px rgba(255, 133, 162, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1459,7 +1458,7 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             border-radius: 8px;
-            border: 2px solid var(--kawaii-mint);
+            border: 1px solid var(--pink);
             background: rgba(30, 27, 46, 0.6);
         }
 
@@ -1474,23 +1473,21 @@
             border-radius: 6px;
             overflow: hidden;
             cursor: pointer;
-            border: 2px solid rgba(78, 232, 176, 0.6);
+            border: 1px solid var(--pink);
             background: var(--kawaii-bg);
             transition: border-color 0.2s ease, transform 0.15s ease;
         }
 
         .lightbox-thumb:hover {
-            border-width: 3px;
-            border-color: var(--coral-pink);
+            border-color: var(--pink);
             transform: scale(1.08);
-            box-shadow: 0 0 20px rgba(240, 120, 138, 0.55);
+            box-shadow: 0 0 16px rgba(255, 107, 157, 0.4);
         }
 
         .lightbox-thumb.active {
-            border-width: 3px;
-            border-color: var(--coral-pink);
+            border-color: var(--pink);
             transform: scale(1.1);
-            box-shadow: 0 0 24px rgba(240, 120, 138, 0.65), 0 0 0 1px var(--coral-pink);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
         }
 
         .lightbox-thumb img {
@@ -1707,10 +1704,10 @@
             border: var(--pixel-border) solid var(--kawaii-lavender);
             border-radius: 12px;
             padding: 25px;
-            background: rgba(78, 232, 176, 0.1);
+            background: rgba(255, 133, 162, 0.1);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 0 rgba(78, 232, 176, 0.28);
+            box-shadow: 0 4px 0 rgba(255, 133, 162, 0.28);
         }
 
         .project-header {
@@ -1731,7 +1728,7 @@
             width: 120px;
             border: 2px solid var(--kawaii-pink);
             border-radius: 8px;
-            background: rgba(78, 232, 176, 0.1);
+            background: rgba(255, 133, 162, 0.1);
             overflow: hidden;
             display: inline-block;
             line-height: 0;
@@ -1790,7 +1787,7 @@
             position: relative;
             width: 100%;
             padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            background: rgba(78, 232, 176, 0.08);
+            background: rgba(255, 133, 162, 0.08);
             border: 2px solid var(--kawaii-cyan);
             border-radius: 8px;
             overflow: hidden;
@@ -1866,10 +1863,10 @@
                 /* Reduce particle count and animation complexity on mobile */
                 background-image: 
                     /* Fewer particles on mobile - only 4 instead of 8 */
-                    radial-gradient(2px 2px at 15% 25%, rgba(78, 232, 176, 0.6), transparent),
+                    radial-gradient(2px 2px at 15% 25%, rgba(255, 133, 162, 0.6), transparent),
                     radial-gradient(1.5px 1.5px at 35% 45%, rgba(240, 120, 138, 0.5), transparent),
-                    radial-gradient(2px 2px at 55% 15%, rgba(140, 236, 212, 0.55), transparent),
-                    radial-gradient(1.5px 1.5px at 75% 65%, rgba(78, 232, 176, 0.5), transparent),
+                    radial-gradient(2px 2px at 55% 15%, rgba(240, 168, 184, 0.55), transparent),
+                    radial-gradient(1.5px 1.5px at 75% 65%, rgba(255, 133, 162, 0.5), transparent),
                     /* Retro CRT scanlines effect */
                     repeating-linear-gradient(
                         0deg,
@@ -1946,56 +1943,137 @@
             }
         }
 
-        /* Chibi popup – Clippy/BonziBuddy style assistant window */
+        /* Chibi popup – Clippy/BonziBuddy style, anchored to bottom like Windows taskbar flyout */
         .chibi-widget {
             position: fixed;
-            bottom: 28px;
-            right: 28px;
-            z-index: 90;
-            pointer-events: none;
+            bottom: 0;
+            right: 24px;
+            z-index: 99990;
+            pointer-events: auto;
             width: 280px;
-            border-radius: 8px 8px 0 0;
+            border-radius: 10px 10px 0 0;
             box-shadow:
-                0 0 0 3px var(--mint),
+                0 0 0 3px var(--pink),
                 0 0 0 5px var(--coral-pink),
-                0 12px 24px rgba(0, 0, 0, 0.5),
-                4px 4px 0 rgba(0, 0, 0, 0.2);
+                0 -4px 20px rgba(0, 0, 0, 0.35),
+                0 -1px 4px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             font-family: 'Pixelify Sans', sans-serif;
         }
+        /* Taskbar strip: makes it look like the window sits on the Windows taskbar */
+        .chibi-widget::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 4px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.12) 100%);
+            z-index: 10;
+        }
         .chibi-popup-titlebar {
-            background: linear-gradient(180deg, var(--mint-dim) 0%, var(--mint) 30%, var(--mint) 100%);
-            color: var(--kawaii-bg);
+            background: linear-gradient(180deg, var(--coral-pink) 0%, var(--pink) 100%);
+            color: #fff;
             padding: 6px 10px 6px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid var(--mint-dim);
+            border-bottom: 2px solid var(--pink-dim);
             min-height: 28px;
+            pointer-events: auto;
         }
         .chibi-popup-title {
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 0.02em;
+            color: #fff;
         }
+        /* Windows-style window control buttons */
         .chibi-popup-buttons {
             display: flex;
-            gap: 4px;
-            align-items: center;
+            align-items: stretch;
+            height: 22px;
+            border: 1px solid rgba(0,0,0,0.12);
+            border-radius: 2px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.04);
+            pointer-events: auto;
         }
-        .chibi-popup-buttons span {
+        .chibi-popup-buttons .chibi-btn {
+            pointer-events: auto;
+            width: 26px;
+            height: 100%;
+            border: none;
+            border-right: 1px solid rgba(0,0,0,0.1);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            transition: background 0.1s ease;
+        }
+        .chibi-popup-buttons .chibi-btn:last-child {
+            border-right: none;
+        }
+        .chibi-popup-buttons .chibi-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        .chibi-popup-buttons .chibi-btn-close:hover {
+            background: #e81123;
+            color: #fff;
+        }
+        .chibi-popup-buttons .chibi-btn-close:hover .chibi-btn-icon::before,
+        .chibi-popup-buttons .chibi-btn-close:hover .chibi-btn-icon::after {
+            background: #fff;
+        }
+        .chibi-popup-buttons .chibi-btn-icon {
+            display: block;
+            box-sizing: border-box;
+        }
+        /* Minimize: horizontal line (white on pink title bar) */
+        .chibi-popup-titlebar .chibi-btn-minimize .chibi-btn-icon {
+            width: 10px;
+            height: 2px;
+            background: #fff;
+            border-radius: 0;
+        }
+        /* Maximize: square outline */
+        .chibi-popup-titlebar .chibi-btn-maximize .chibi-btn-icon {
             width: 10px;
             height: 10px;
-            border-radius: 50%;
-            background: var(--coral-pink);
-            border: 1px solid rgba(0,0,0,0.2);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+            border: 1.5px solid #fff;
+            background: transparent;
+            border-radius: 0;
         }
-        .chibi-popup-buttons span:nth-child(2) {
-            background: var(--mint-light);
+        /* Close: X */
+        .chibi-popup-titlebar .chibi-btn-close .chibi-btn-icon {
+            width: 10px;
+            height: 10px;
+            position: relative;
+            background: transparent;
+            border: none;
         }
-        .chibi-popup-buttons span:nth-child(3) {
-            background: var(--mint-dim);
+        .chibi-popup-titlebar .chibi-btn-close .chibi-btn-icon::before,
+        .chibi-popup-titlebar .chibi-btn-close .chibi-btn-icon::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 11px;
+            height: 1.5px;
+            background: #fff;
+            margin: -1px 0 0 -5.5px;
+        }
+        .chibi-btn-close .chibi-btn-icon::before {
+            transform: rotate(45deg);
+        }
+        .chibi-btn-close .chibi-btn-icon::after {
+            transform: rotate(-45deg);
+        }
+        .chibi-widget-closed {
+            display: none !important;
         }
         .chibi-popup-body {
             position: relative;
@@ -2029,7 +2107,7 @@
             position: relative;
             z-index: 2;
             background: #f0f9f6;
-            border: 1px solid rgba(78, 232, 176, 0.45);
+            border: 1px solid rgba(255, 133, 162, 0.45);
             border-radius: 12px;
             padding: 10px 12px;
             min-height: 52px;
@@ -2077,7 +2155,7 @@
         }
         @media (max-width: 600px) {
             .chibi-widget {
-                bottom: 16px;
+                bottom: 0;
                 right: 16px;
                 width: min(260px, calc(100vw - 32px));
             }
@@ -2091,12 +2169,12 @@
                 height: 78px;
             }
         }
-        /* Narrow / mobile: stack bubble above Klippy, tail points down */
+        /* Narrow / mobile: stack bubble above Klippy, tail points down; still anchored to bottom */
         @media (max-width: 480px) {
             .chibi-widget {
                 left: 50%;
                 right: auto;
-                bottom: 12px;
+                bottom: 0;
                 width: min(280px, calc(100vw - 24px));
                 transform: translateX(-50%);
             }
@@ -2138,12 +2216,14 @@
 </head>
 <body class="testimonials-disabled">
     <a href="#section-2d" class="skip-link">Skip to main content</a>
-    <!-- Chibi popup – Clippy/BonziBuddy style (lower right) -->
+    <!-- Chibi popup – Clippy/BonziBuddy style, anchored to bottom like Windows taskbar flyout -->
     <div class="chibi-widget" role="complementary" aria-label="Klippy assistant">
         <div class="chibi-popup-titlebar">
             <span class="chibi-popup-title">Klippy</span>
-            <div class="chibi-popup-buttons" aria-hidden="true">
-                <span></span><span></span><span></span>
+            <div class="chibi-popup-buttons">
+                <button type="button" class="chibi-btn chibi-btn-minimize" aria-label="Minimize"><span class="chibi-btn-icon"></span></button>
+                <button type="button" class="chibi-btn chibi-btn-maximize" aria-label="Maximize"><span class="chibi-btn-icon"></span></button>
+                <button type="button" class="chibi-btn chibi-btn-close" id="chibi-btn-close" aria-label="Close" onclick="if(window.klippyClose)window.klippyClose(event)"><span class="chibi-btn-icon" aria-hidden="true"></span></button>
             </div>
         </div>
         <div class="chibi-popup-body">
@@ -2157,6 +2237,229 @@
             </div>
         </div>
     </div>
+    <script>
+        (function() {
+            var widget = document.querySelector('.chibi-widget');
+            var textEl = document.querySelector('.chibi-typewriter-text');
+            window.klippyClose = function(ev) {
+                if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+                if (!widget || widget.classList.contains('chibi-widget-closed')) return;
+                var closeWidget = function() {
+                    widget.classList.add('chibi-widget-closed');
+                };
+                var done = function() {
+                    setTimeout(closeWidget, 2500);
+                };
+                if (typeof window.klippySayThenDo === 'function') {
+                    window.klippySayThenDo('How dare you turn me off!', done);
+                } else {
+                    if (textEl) textEl.textContent = 'How dare you turn me off!';
+                    setTimeout(done, 500);
+                }
+            };
+            if (textEl) {
+                var welcome = "Welcome! Take your time and look around!";
+                var i = 0;
+                function typeChar() {
+                    if (i <= welcome.length) {
+                        textEl.textContent = welcome.substring(0, i);
+                        i++;
+                        setTimeout(typeChar, 45);
+                    } else {
+                        setTimeout(function() {
+                            if (typeof window.klippyStartMessages === 'function') window.klippyStartMessages();
+                        }, 800);
+                    }
+                }
+                setTimeout(typeChar, 300);
+            }
+        })();
+    </script>
+    <!-- Klippy section-aware typewriter: runs right after bootstrap so klippyStartMessages is defined when welcome ends -->
+    <script>
+        (function() {
+            var el = document.querySelector('.chibi-typewriter-text');
+            var cursor = document.querySelector('.chibi-speech-text .typewriter-cursor');
+            window.klippySayThenDo = function(message, callback) {
+                var target = document.querySelector('.chibi-typewriter-text');
+                if (target) target.textContent = message;
+                setTimeout(callback, 2200);
+            };
+            if (!el) return;
+
+            var messagesBySection = {
+                'section-2d': [
+                    "She loves 2D art—everything from oil paint to sprite animation.",
+                    "These days AI is everywhere, so she included some natural media too.",
+                    "She loves all sorts of art styles from horror to cute.",
+                    "Her love of art started with Japanese comics, but her style is varied.",
+                    "You should hire her. You get a 2D and 3D artist in one package. Saves money...",
+                    "She is always learning new techniques and art styles.",
+                    "She has tons more material to show you, just send her an e-mail.",
+                    "She is the perfect fit for small/mid studios.",
+                    "A true jack of all trades, she knows everything from graphic design to charcoal portraits."
+                ],
+                'section-3d': [
+                    "Need someone who knows the full 3D art pipeline?",
+                    "She loves doing food 3D assets and modular environments.",
+                    "Get your 2D and 3D artist in one package, and save money!",
+                    "She can do everything from concept art to 3D animations.",
+                    "Design, modeling, sculpting, UV, rigging & animation. She can do it all!",
+                    "She is well-versed in beautiful topology, and her textures look delicious!",
+                    "She loves working with Blender and Unity, but she loves learning new stuff even more.",
+                    "Look at her food assets! Have you ever seen a more delicious burger?",
+                    "She knows the full 3D asset pipeline and would probably love to work on your project."
+                ],
+                'section-bonus': [
+                    "She's been running her own business, and has learned a lot of things in the process.",
+                    "She loves making little marketing videos and gameplay snippets.",
+                    "She has done audio work for a few games, composing her own music and mixing sound effects.",
+                    "She is always learning new stuff to make her projects better."
+                ],
+                'section-projects': [
+                    "She loves working on projects that let her join in on the creative decisions.",
+                    "Look at these games, from cute to horror, she loves all sorts of styles and genres.",
+                    "She loves working with different platforms from VR to mobile.",
+                    "She has worked with VR since the first Oculus dev kit.",
+                    "She would be perfect for a small game studio that needs versatile people.",
+                    "She has an open attitude and is always willing to learn new things.",
+                    "She might seem kind of shy at first, but she is quite friendly and enjoys working in teams.",
+                    "She drinks 4 cups of coffee per day and she owns a collection of fidget cubes.",
+                    "She loves composing music and has made the OST for two of her games."
+                ],
+                'section-bio': [
+                    "She plays the sax.",
+                    "She is 40+ years young.",
+                    "Her life changed in 6th grade when her dad rented Akira and Ghost in the Shell on VHS, thinking they were kids movies...",
+                    "Her favourite games include Fallout 1-2, Fallout New Vegas, Baldur's Gate 3, Outcast and Dragon Age Origins.",
+                    "Her favourite movie is Blade Runner.",
+                    "She enjoys all sorts of music, but favourites include Type O Negative, Danzig, Vangelis, David Bowie and kpop.",
+                    "She's been watching Korean TV dramas since 2012. Her mydramalist stats: 201 days 4,925 episodes, 263 shows.",
+                    "She loves DIY and handcrafts. Her latest project was painting the bathroom cabinets full of flowers.",
+                    "Her family is neurodiverse and she gets along with people who are different."
+                ]
+            };
+            var defaultLines = [
+                "Welcome! I know it looks kind of... retro, but that's the way she likes it!",
+                "Welcome! Take your time and look around!",
+                "This site could be from the 90s, but I hope you enjoy your stay."
+            ];
+
+            var delay = 50;
+            var pauseAfterLine = 7000;
+            var typeTimer = null;
+            var currentLine = '';
+            var charIndex = 0;
+            var deleting = false;
+            var oneOffCallback = null;
+            var lastPickedIndexBySection = {};
+
+            function stopTyping() {
+                if (typeTimer) {
+                    clearTimeout(typeTimer);
+                    typeTimer = null;
+                }
+            }
+
+            function pickLine(sectionId) {
+                var list = sectionId && messagesBySection[sectionId]
+                    ? messagesBySection[sectionId]
+                    : defaultLines;
+                var lastIdx = lastPickedIndexBySection[sectionId || 'default'];
+                var idx;
+                if (list.length === 1) {
+                    idx = 0;
+                } else {
+                    do {
+                        idx = Math.floor(Math.random() * list.length);
+                    } while (idx === lastIdx);
+                }
+                lastPickedIndexBySection[sectionId || 'default'] = idx;
+                return list[idx];
+            }
+
+            function typeNext() {
+                if (deleting) {
+                    if (charIndex > 0) {
+                        charIndex--;
+                        el.textContent = currentLine.substring(0, charIndex);
+                        typeTimer = setTimeout(typeNext, delay * 0.35);
+                    } else {
+                        deleting = false;
+                        currentLine = pickLine(lastSectionId);
+                        charIndex = 0;
+                        typeTimer = setTimeout(typeNext, 300);
+                    }
+                    return;
+                }
+                if (charIndex < currentLine.length) {
+                    el.textContent = currentLine.substring(0, charIndex + 1);
+                    charIndex++;
+                    typeTimer = setTimeout(typeNext, delay);
+                } else {
+                    if (oneOffCallback) {
+                        var cb = oneOffCallback;
+                        oneOffCallback = null;
+                        typeTimer = null;
+                        cb();
+                        return;
+                    }
+                    typeTimer = setTimeout(function() {
+                        deleting = true;
+                        typeNext();
+                    }, pauseAfterLine);
+                }
+            }
+
+            window.klippySayThenDo = function(message, callback) {
+                stopTyping();
+                currentLine = message;
+                charIndex = 0;
+                deleting = false;
+                oneOffCallback = callback || null;
+                typeNext();
+            };
+
+            var lastSectionId = null;
+
+            function startMessage(sectionId) {
+                stopTyping();
+                lastSectionId = sectionId;
+                currentLine = pickLine(sectionId);
+                charIndex = 0;
+                deleting = false;
+                typeNext();
+            }
+
+            var sectionChangeTimer = null;
+            var firstMessageStartedAt = 0;
+            var sectionChangeGraceMs = 5000;
+
+            var messagesStarted = false;
+            window.addEventListener('sectionchange', function(e) {
+                if (!messagesStarted) return;
+                var id = e.detail && e.detail.sectionId;
+                clearTimeout(sectionChangeTimer);
+                sectionChangeTimer = setTimeout(function() {
+                    if ((Date.now() - firstMessageStartedAt) < sectionChangeGraceMs) return;
+                    startMessage(id);
+                }, 500);
+            });
+
+            window.klippyStartMessages = function() {
+                if (messagesStarted) return;
+                messagesStarted = true;
+                firstMessageStartedAt = Date.now();
+                var activeLink = document.querySelector('.section-nav .top-nav-link.active');
+                var id = activeLink ? (activeLink.getAttribute('href') || '').replace('#', '') : null;
+                if (id) startMessage(id);
+                else startMessage(null);
+            };
+            setTimeout(function() {
+                window.klippyStartMessages();
+            }, 5000);
+        })();
+    </script>
 
     <div class="container">
         <div class="site-header">
@@ -3674,13 +3977,13 @@
 
             const ctx = canvas.getContext('2d');
             const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            // Full kawaii palette for a bold retro look
+            // Pink palette (high-contrast)
             const colors = [
-                { r: 152, g: 226, b: 198 },   // mint
-                { r: 184, g: 240, b: 220 },  // mint-light
-                { r: 107, g: 196, b: 164 },  // mint-dim
-                { r: 240, g: 184, b: 184 },  // coral-pink
-                { r: 200, g: 240, b: 224 }   // pale-green (very pale mint)
+                { r: 255, g: 107, b: 157 },   // pink
+                { r: 255, g: 192, b: 203 },   // pink-light
+                { r: 199, g: 21, b: 133 },    // pink-dim
+                { r: 232, g: 90, b: 110 },    // coral-pink
+                { r: 255, g: 182, b: 193 }    // pale-pink
             ];
             const PIXEL_SIZE = 3;
             const PARTICLE_COUNT = isMobile ? 120 : 280;
@@ -3760,152 +4063,5 @@
         })();
     </script>
 
-    <!-- Klippy speech: section-aware typewriter -->
-    <script>
-        (function() {
-            var el = document.querySelector('.chibi-typewriter-text');
-            var cursor = document.querySelector('.chibi-speech-text .typewriter-cursor');
-            if (!el) return;
-
-            var messagesBySection = {
-                'section-2d': [
-                    "She loves 2D art—everything from oil paint to sprite animation.",
-                    "These days AI is everywhere, so she included some natural media too.",
-                    "She loves all sorts of art styles from horror to cute.",
-                    "Her love of art started with Japanese comics, but her style is varied.",
-                    "You should hire her. You get a 2D and 3D artist in one package. Saves money...",
-                    "She is always learning new techniques and art styles.",
-                    "She has tons more material to show you, just send her an e-mail.",
-                    "She is the perfect fit for small/mid studios.",
-                    "A true jack of all trades, she knows everything from graphic design to charcoal portraits."
-                ],
-                'section-3d': [
-                    "Need someone who knows the full 3D art pipeline?",
-                    "She loves doing food 3D assets and modular environments.",
-                    "Get your 2D and 3D artist in one package, and save money!",
-                    "She can do everything from concept art to 3D animations.",
-                    "Design, modeling, sculpting, UV, rigging & animation. She can do it all!",
-                    "She is well-versed in beautiful topology, and her textures look delicious!",
-                    "She loves working with Blender and Unity, but she loves learning new stuff even more.",
-                    "Look at her food assets! Have you ever seen a more delicious burger?",
-                    "She knows the full 3D asset pipeline and would probably love to work on your project."
-                ],
-                'section-bonus': [
-                    "She's been running her own business, and has learned a lot of things in the process.",
-                    "She loves making little marketing videos and gameplay snippets.",
-                    "She has done audio work for a few games, composing her own music and mixing sound effects.",
-                    "She is always learning new stuff to make her projects better."
-                ],
-                'section-projects': [
-                    "She loves working on projects that let her join in on the creative decisions.",
-                    "Look at these games, from cute to horror, she loves all sorts of styles and genres.",
-                    "She loves working with different platforms from VR to mobile.",
-                    "She has worked with VR since the first Oculus dev kit.",
-                    "She would be perfect for a small game studio that needs versatile people.",
-                    "She has an open attitude and is always willing to learn new things.",
-                    "She might seem kind of shy at first, but she is quite friendly and enjoys working in teams.",
-                    "She drinks 4 cups of coffee per day and she owns a collection of fidget cubes.",
-                    "She loves composing music and has made the OST for two of her games."
-                ],
-                'section-bio': [
-                    "She plays the sax.",
-                    "She is 40+ years young.",
-                    "Her life changed in 6th grade when her dad rented Akira and Ghost in the Shell on VHS, thinking they were kids movies...",
-                    "Her favourite games include Fallout 1-2, Fallout New Vegas, Baldur's Gate 3, Outcast and Dragon Age Origins.",
-                    "Her favourite movie is Blade Runner.",
-                    "She enjoys all sorts of music, but favourites include Type O Negative, Danzig, Vangelis, David Bowie and kpop.",
-                    "She's been watching Korean TV dramas since 2012. Her mydramalist stats: 201 days 4,925 episodes, 263 shows.",
-                    "She loves DIY and handcrafts. Her latest project was painting the bathroom cabinets full of flowers.",
-                    "Her family is neurodiverse and she gets along with people who are different."
-                ]
-            };
-            var defaultLines = [
-                "Welcome! I know it looks kind of... retro, but that's the way she likes it!",
-                "Welcome! Take your time and look around!",
-                "This site could be from the 90s, but I hope you enjoy your stay."
-            ];
-
-            var delay = 50;
-            var pauseAfterLine = 4000;
-            var typeTimer = null;
-            var currentLine = '';
-            var charIndex = 0;
-            var deleting = false;
-            var lastPickedIndexBySection = {};
-
-            function stopTyping() {
-                if (typeTimer) {
-                    clearTimeout(typeTimer);
-                    typeTimer = null;
-                }
-            }
-
-            function pickLine(sectionId) {
-                var list = sectionId && messagesBySection[sectionId]
-                    ? messagesBySection[sectionId]
-                    : defaultLines;
-                var lastIdx = lastPickedIndexBySection[sectionId || 'default'];
-                var idx;
-                if (list.length === 1) {
-                    idx = 0;
-                } else {
-                    do {
-                        idx = Math.floor(Math.random() * list.length);
-                    } while (idx === lastIdx);
-                }
-                lastPickedIndexBySection[sectionId || 'default'] = idx;
-                return list[idx];
-            }
-
-            function typeNext() {
-                if (deleting) {
-                    if (charIndex > 0) {
-                        charIndex--;
-                        el.textContent = currentLine.substring(0, charIndex);
-                        typeTimer = setTimeout(typeNext, delay * 0.35);
-                    } else {
-                        deleting = false;
-                        currentLine = pickLine(lastSectionId);
-                        charIndex = 0;
-                        typeTimer = setTimeout(typeNext, 300);
-                    }
-                    return;
-                }
-                if (charIndex < currentLine.length) {
-                    el.textContent = currentLine.substring(0, charIndex + 1);
-                    charIndex++;
-                    typeTimer = setTimeout(typeNext, delay);
-                } else {
-                    typeTimer = setTimeout(function() {
-                        deleting = true;
-                        typeNext();
-                    }, pauseAfterLine);
-                }
-            }
-
-            var lastSectionId = null;
-
-            function startMessage(sectionId) {
-                stopTyping();
-                lastSectionId = sectionId;
-                currentLine = pickLine(sectionId);
-                charIndex = 0;
-                deleting = false;
-                typeNext();
-            }
-
-            window.addEventListener('sectionchange', function(e) {
-                var id = e.detail && e.detail.sectionId;
-                startMessage(id);
-            });
-
-            setTimeout(function() {
-                var activeLink = document.querySelector('.section-nav .top-nav-link.active');
-                var id = activeLink ? (activeLink.getAttribute('href') || '').replace('#', '') : null;
-                if (id && !lastSectionId) startMessage(id);
-                else if (!lastSectionId) startMessage(null);
-            }, 400);
-        })();
-    </script>
 </body>
 </html>

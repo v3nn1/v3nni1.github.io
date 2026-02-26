@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta name="description" content="Portfolio of Veera Arvola — 2D and 3D game art, concept art, and indie game development.">
     <title>Veera Arvola</title>
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -1359,6 +1360,7 @@
             max-width: 100%;
             max-height: 70vh;
             display: block;
+            border: none;
             object-fit: contain;
             width: auto;
             height: auto;
@@ -2881,6 +2883,7 @@
         </div>
 
         <div class="content">
+            <main id="main">
             <section class="section skills-section">
                 <div class="skill-item" id="section-2d">
                     <div class="skill-name">2D</div>
@@ -3216,7 +3219,7 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/QtmReC5l4h8?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <iframe src="https://www.youtube.com/embed/QtmReC5l4h8?rel=0" title="Alpha Polaris" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
 
@@ -3231,7 +3234,7 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/mTai954pp-4?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <iframe src="https://www.youtube.com/embed/mTai954pp-4?rel=0" title="Baking Success" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
 
@@ -3255,7 +3258,7 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/FHNAegEMi-I?rel=0&loop=1&playlist=FHNAegEMi-I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <iframe src="https://www.youtube.com/embed/FHNAegEMi-I?rel=0&loop=1&playlist=FHNAegEMi-I" title="Game Assets" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
 
@@ -3267,7 +3270,7 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/AdWsV4TrOWc?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <iframe src="https://www.youtube.com/embed/AdWsV4TrOWc?rel=0" title="Music" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
 
@@ -3317,6 +3320,7 @@
                     <p data-translate="intro-p3">If you think we might work well together, feel free to contact me at veera(at)nekobolt.net.</p>
                 </div>
             </section>
+            </main>
         </div>
     </div>
     <script>
@@ -3688,7 +3692,7 @@
                     <div class="lightbox-loading">Loading</div>
                     <img src="" alt="" style="display: none;" id="lightbox-img">
                     <video controls style="display: none;"></video>
-                    <iframe src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display: none;"></iframe>
+                    <iframe src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display: none;"></iframe>
                 </div>
                 <div class="lightbox-description"></div>
                 <div class="lightbox-nav-container">
@@ -3962,6 +3966,7 @@
                 const description = item.getAttribute('data-description') || item.alt || '';
                 lightboxDescription.textContent = description;
                 lightboxDescription.style.display = description ? 'block' : 'none';
+                lightboxIframe.setAttribute('title', description || '3D model viewer');
                 
                 // Hide loading indicator when iframe loads
                 lightboxIframe.onload = function() {
@@ -4020,6 +4025,7 @@
                 const description = item.getAttribute('data-description') || item.alt || '';
                 lightboxDescription.textContent = description;
                 lightboxDescription.style.display = description ? 'block' : 'none';
+                lightboxIframe.setAttribute('title', description || 'YouTube video');
                 
                 // Hide loading indicator when iframe loads
                 lightboxIframe.onload = function() {

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#06050a">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
     <title>Veera Arvola — 2D Game Art</title>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -43,9 +45,13 @@
         .gallery-item, .hero .back-link, .lightbox-close, .lightbox-nav {
             touch-action: manipulation;
         }
+        a, button, .gallery-item, .lightbox-close, .lightbox-nav {
+            -webkit-tap-highlight-color: rgba(0, 229, 255, 0.2);
+        }
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
@@ -520,6 +526,43 @@
             .grid-bg::before { animation: none; }
             .featured .gallery-item:hover,
             .more-work .gallery-item:hover { transform: none; }
+        }
+
+        /* Keyboard focus visible (accessibility + cross-platform) */
+        a:focus-visible,
+        button:focus-visible,
+        .gallery-item:focus-visible,
+        .lightbox-close:focus-visible,
+        .lightbox-nav:focus-visible {
+            outline: 3px solid var(--neon-cyan);
+            outline-offset: 2px;
+        }
+
+        /* Extra-small screens */
+        @media (max-width: 360px) {
+            .hero-content { padding: 1rem 0.75rem; }
+            .featured, .more-work { padding-left: 0.75rem; padding-right: 0.75rem; }
+            .more-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 6px;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .grid-bg, .hero-image, .lightbox { display: none !important; }
+            body { background: #fff; color: #111; }
+            a { color: #111; }
+            .section-title { color: #111; border-left-color: #333; }
+            .featured .gallery-item, .more-work .gallery-item { break-inside: avoid; }
+        }
+
+        /* High contrast / forced colors */
+        @media (forced-colors: active) {
+            a:focus-visible, button:focus-visible, .skip-link:focus {
+                outline: 2px solid CanvasText;
+                outline-offset: 2px;
+            }
         }
 
         .skip-link {

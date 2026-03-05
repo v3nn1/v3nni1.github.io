@@ -1178,12 +1178,14 @@
             }
         }
 
-        /* Intro video for 2D section: YouTube embed with 16:9, matches gallery width */
-        #section-2d .intro-video {
+        /* Intro video for 2D and 3D sections: YouTube embed with 16:9, matches gallery width */
+        #section-2d .intro-video,
+        #section-3d .intro-video {
             margin: 0 0 24px 0;
             width: 100%;
         }
-        #section-2d .intro-video .video-wrapper {
+        #section-2d .intro-video .video-wrapper,
+        #section-3d .intro-video .video-wrapper {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%; /* 16:9 */
@@ -1192,7 +1194,8 @@
             border: 1px solid rgba(255, 133, 162, 0.3);
             background: rgba(0, 0, 0, 0.2);
         }
-        #section-2d .intro-video .video-wrapper iframe {
+        #section-2d .intro-video .video-wrapper iframe,
+        #section-3d .intro-video .video-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -2697,7 +2700,7 @@
         <div class="chibi-popup-titlebar">
             <span class="chibi-popup-title">Klippy</span>
             <div class="chibi-popup-buttons">
-                <button type="button" class="chibi-btn chibi-btn-minimize" aria-label="Minimize"><span class="chibi-btn-icon"></span></button>
+                <button type="button" class="chibi-btn chibi-btn-minimize" aria-label="Minimize" onclick="if(window.klippyClose)window.klippyClose(event,'How dare you minimize me!')"><span class="chibi-btn-icon"></span></button>
                 <button type="button" class="chibi-btn chibi-btn-maximize" aria-label="Maximize"><span class="chibi-btn-icon"></span></button>
                 <button type="button" class="chibi-btn chibi-btn-close" id="chibi-btn-close" aria-label="Close" onclick="if(window.klippyClose)window.klippyClose(event)"><span class="chibi-btn-icon" aria-hidden="true"></span></button>
             </div>
@@ -2717,9 +2720,10 @@
         (function() {
             var widget = document.querySelector('.chibi-widget');
             var textEl = document.querySelector('.chibi-typewriter-text');
-            window.klippyClose = function(ev) {
+            window.klippyClose = function(ev, message) {
                 if (ev) { ev.preventDefault(); ev.stopPropagation(); }
                 if (!widget || widget.classList.contains('chibi-widget-closed')) return;
+                var msg = (message !== undefined) ? message : 'How dare you turn me off!';
                 var closeWidget = function() {
                     widget.classList.add('chibi-widget-closed');
                 };
@@ -2727,9 +2731,9 @@
                     setTimeout(closeWidget, 2500);
                 };
                 if (typeof window.klippySayThenDo === 'function') {
-                    window.klippySayThenDo('How dare you turn me off!', done);
+                    window.klippySayThenDo(msg, done);
                 } else {
-                    if (textEl) textEl.textContent = 'How dare you turn me off!';
+                    if (textEl) textEl.textContent = msg;
                     setTimeout(done, 500);
                 }
             };
@@ -2995,7 +2999,7 @@
                     <p class="section-description" data-translate="section-2d-description">I take ideas from early sketches to polished, game-ready assets. With a BA in Graphic Design and years of indie game work, I handle the full 2D pipeline: character design, digital painting, 2D animation, and UI/UX. My style is built on a wide visual library, allowing me to pivot comfortably from cute and stylized to grit and horror.</p>
                     <div class="intro-video" aria-label="2D intro video">
                         <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/LWzTrGzI240?autoplay=1&mute=1&loop=1&playlist=LWzTrGzI240&controls=1&showinfo=0&rel=0" title="2D intro video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <iframe src="https://www.youtube.com/embed/JIWVUUGK3BA?autoplay=1&mute=1&loop=1&playlist=JIWVUUGK3BA&controls=1&showinfo=0&rel=0" title="2D intro video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
                     <div class="gallery">
@@ -3141,6 +3145,11 @@
                 <div class="skill-item" id="section-3d">
                     <div class="skill-name">3D</div>
                     <p class="section-description" data-translate="section-3d-description">I work across the full 3D art pipeline, taking assets from initial design and modeling to texturing, rigging, and animation. My experience is varied, covering props, characters and environments across shipped games and countless asset packs. I build with implementation in mind, ensuring every model is optimized and ready for the engine.</p>
+                    <div class="intro-video" aria-label="3D intro video">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/t9WXLUr3SSA?autoplay=1&mute=1&loop=1&playlist=t9WXLUr3SSA&controls=1&showinfo=0&rel=0" title="3D intro video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                    </div>
                     <div class="gallery">
                         <div class="gallery-grid">
                             <div class="gallery-item">

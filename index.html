@@ -898,7 +898,8 @@
             background: linear-gradient(to top, #000, transparent);
             pointer-events: none;
         }
-        .hero-video-wrap video {
+        .hero-video-wrap video,
+        .hero-video-wrap .hero-video-fallback {
             display: block;
             width: 100%;
             height: 100%;
@@ -906,9 +907,26 @@
             object-position: center center;
             vertical-align: middle;
         }
+        .hero-video-wrap .hero-video-fallback {
+            position: absolute;
+            inset: 0;
+            display: none;
+        }
+        .hero-video-wrap.video-failed .hero-video-fallback {
+            display: block;
+        }
+        .hero-video-wrap.video-failed video {
+            display: none;
+        }
         @media (prefers-reduced-motion: reduce) {
             .hero-video-wrap video {
                 animation: none;
+            }
+            .hero-video-wrap .hero-video-fallback {
+                display: block;
+            }
+            .hero-video-wrap video {
+                display: none;
             }
         }
 
@@ -1203,6 +1221,43 @@
             height: 100%;
             border: none;
         }
+        .video-fallback-link {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--kawaii-mint, var(--coral-pink));
+        }
+        .gallery-item.img-failed {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim, #9ca3af);
+            font-size: 0.85rem;
+        }
+        .gallery-item.img-failed img {
+            display: none;
+        }
+        .gallery-item.img-failed::before {
+            content: 'Image unavailable';
+        }
+        a.gallery-item {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .lightbox-error {
+            display: none;
+            padding: 2rem;
+            color: var(--text-dim, #9ca3af);
+            text-align: center;
+            min-width: 280px;
+        }
+        .lightbox-error.active {
+            display: block;
+        }
+        .lightbox-error a {
+            color: var(--kawaii-mint, var(--coral-pink));
+        }
 
         .gallery {
             margin-top: 30px;
@@ -1279,12 +1334,16 @@
             to { background-position: -50% 0; }
         }
 
+        .gallery-item picture,
         .gallery-item img,
         .gallery-item video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             display: block;
+        }
+        .gallery-item img,
+        .gallery-item video {
+            object-fit: cover;
             transition: filter 0.3s ease;
             border-radius: 9px;
         }
@@ -2174,6 +2233,7 @@
             height: fit-content;
         }
 
+        .project-poster picture,
         .project-poster img {
             width: 100%;
             height: auto;
@@ -2190,9 +2250,12 @@
             height: 120px;
         }
 
+        .project-poster.square picture,
         .project-poster.square img {
             height: 100%;
             width: 100%;
+        }
+        .project-poster.square img {
             object-fit: cover;
         }
 
@@ -2226,6 +2289,7 @@
 
         .project-video iframe,
         .project-video video,
+        .project-video picture,
         .project-video img {
             position: absolute;
             top: 0;
@@ -2942,11 +3006,23 @@
     </script>
 
     <section class="hero-video-wrap" aria-label="Introduction">
+        <img src="videos/hero/hero_video.png" alt="" class="hero-video-fallback" aria-hidden="true">
         <video autoplay muted playsinline loop preload="metadata" aria-hidden="true">
             <source src="videos/hero/hero_video.webm" type="video/webm">
             <source src="videos/hero/hero_video.mp4" type="video/mp4">
         </video>
     </section>
+    <script>
+        (function() {
+            var wrap = document.querySelector('.hero-video-wrap');
+            var video = wrap && wrap.querySelector('video');
+            if (video) {
+                video.addEventListener('error', function() {
+                    wrap.classList.add('video-failed');
+                });
+            }
+        })();
+    </script>
 
     <div class="site-header">
         <div class="header-quotes left" aria-live="polite" aria-label="Customer quotes">
@@ -3001,6 +3077,7 @@
                         <div class="video-wrapper">
                             <iframe id="intro-video-2d" src="https://www.youtube.com/embed/JIWVUUGK3BA?enablejsapi=1&mute=1&loop=1&playlist=JIWVUUGK3BA&controls=1&showinfo=0&rel=0&playsinline=1" title="2D intro video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
+                        <a href="https://www.youtube.com/watch?v=JIWVUUGK3BA" class="video-fallback-link" target="_blank" rel="noopener">If the video doesn&apos;t load, watch on YouTube &rarr;</a>
                     </div>
                     <div class="gallery">
                         <div class="gallery-grid">
@@ -3017,30 +3094,49 @@
                             </div> -->
                             
                             <div class="gallery-item">
-                                <img src="images/2d/Giger.webp" alt="A digital painting inspired by H.R. Giger (Pencil & Photoshop)" loading="lazy" decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/Giger.webp" type="image/webp">
+                                    <img src="images/2d/Giger.jpg" alt="A digital painting inspired by H.R. Giger (Pencil & Photoshop)" loading="lazy" decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
                                 <img src="images/2d/TFTP_title_01_animated.gif" alt="Animated title screen (Procreate & Photoshop)" loading="lazy" decoding="async">
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/Rippers.webp" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/Rippers.webp" type="image/webp">
+                                    <img src="images/2d/Rippers.jpg" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/Rippers_2.webp" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/Rippers_2.webp" type="image/webp">
+                                    <img src="images/2d/Rippers_2.jpg" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/Astarion.webp" alt="A digital fan painting of Astarion from BG3 (Procreate & Photoshop)" loading="lazy" decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/Astarion.webp" type="image/webp">
+                                    <img src="images/2d/Astarion.jpg" alt="A digital fan painting of Astarion from BG3 (Procreate & Photoshop)" loading="lazy" decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/Make_it_so.webp" alt="Oil painting" loading="lazy" decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/Make_it_so.webp" type="image/webp">
+                                    <img src="images/2d/Make_it_so.jpg" alt="Oil painting" loading="lazy" decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/baking_succcess_overview_thumbnail.webp" 
-                                     alt="2D art assets ranging from cutscene art and gameplay to UI elements (Pencil & Photoshop)" 
-                                     data-full-image="images/2d/baking_succcess_overview.webp"
-                                     data-description="2D art assets ranging from cutscene art and gameplay to UI elements (Pencil & Photoshop)"
-                                     loading="lazy"
-                                     decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/baking_succcess_overview_thumbnail.webp" type="image/webp">
+                                    <img src="images/2d/baking_succcess_overview_thumbnail.jpg" 
+                                         alt="2D art assets ranging from cutscene art and gameplay to UI elements (Pencil & Photoshop)" 
+                                         data-full-image="images/2d/baking_succcess_overview.webp"
+                                         data-full-image-fallback="images/2d/baking_succcess_overview.jpg"
+                                         data-description="2D art assets ranging from cutscene art and gameplay to UI elements (Pencil & Photoshop)"
+                                         loading="lazy"
+                                         decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
                                 <img src="videos/2d/waking_up_gif.gif" 
@@ -3086,28 +3182,40 @@
                                      decoding="async">
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/CF_character_concept_thumbnail.webp" 
-                                     alt="2D medieval character concepts (Pencil & Photoshop)" 
-                                     data-full-image="images/2d/CF_character_concept.webp"
-                                     data-description="2D medieval character concepts (Pencil & Photoshop)"
-                                     loading="lazy"
-                                     decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/CF_character_concept_thumbnail.webp" type="image/webp">
+                                    <img src="images/2d/CF_character_concept_thumbnail.jpg" 
+                                         alt="2D medieval character concepts (Pencil & Photoshop)" 
+                                         data-full-image="images/2d/CF_character_concept.webp"
+                                         data-full-image-fallback="images/2d/CF_character_concept.jpg"
+                                         data-description="2D medieval character concepts (Pencil & Photoshop)"
+                                         loading="lazy"
+                                         decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/logos_thumbnail.webp" 
-                                     alt="Some logo designs (Photoshop)" 
-                                     data-full-image="images/2d/logos.webp"
-                                     data-description="Some logo designs (Photoshop)"
-                                     loading="lazy"
-                                     decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/logos_thumbnail.webp" type="image/webp">
+                                    <img src="images/2d/logos_thumbnail.jpg" 
+                                         alt="Some logo designs (Photoshop)" 
+                                         data-full-image="images/2d/logos.webp"
+                                         data-full-image-fallback="images/2d/logos.jpg"
+                                         data-description="Some logo designs (Photoshop)"
+                                         loading="lazy"
+                                         decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
-                                <img src="images/2d/fight_club_thumbnail.webp" 
-                                     alt="Oil painting" 
-                                     data-full-image="images/2d/fight_club.webp"
-                                     data-description="Oil painting"
-                                     loading="lazy"
-                                     decoding="async">
+                                <picture>
+                                    <source srcset="images/2d/fight_club_thumbnail.webp" type="image/webp">
+                                    <img src="images/2d/fight_club_thumbnail.jpg" 
+                                         alt="Oil painting" 
+                                         data-full-image="images/2d/fight_club.webp"
+                                         data-full-image-fallback="images/2d/fight_club.jpg"
+                                         data-description="Oil painting"
+                                         loading="lazy"
+                                         decoding="async">
+                                </picture>
                             </div>
                         </div>
                     </div>
@@ -3128,15 +3236,15 @@
                         <div class="programs-list">
                             <h3 data-translate="programs-label">Programs</h3>
                             <div class="programs">
-                                <div class="program"><img src="images/software/adobe_illustrator.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Adobe Illustrator</div>
-                                <div class="program"><img src="images/software/photoshop.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Adobe Photoshop</div>
-                                <div class="program"><img src="images/software/affinity_designer.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Affinity Designer</div>
-                                <div class="program"><img src="images/software/affinity_photo.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Affinity Photo</div>
-                                <div class="program"><img src="images/software/affinity_publisher.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Affinity Publisher</div>
-                                <div class="program"><img src="images/software/clipstudio_paint.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Clip Studio Paint</div>
-                                <div class="program"><img src="images/software/live2d_cubism.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Live2D Cubism</div>
-                                <div class="program"><img src="images/software/procreate.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Procreate</div>
-                                <div class="program"><img src="images/software/procreate_dreams.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Procreate Dreams</div>
+                                <div class="program"><picture><source srcset="images/software/adobe_illustrator.webp" type="image/webp"><img src="images/software/adobe_illustrator.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Adobe Illustrator</div>
+                                <div class="program"><picture><source srcset="images/software/photoshop.webp" type="image/webp"><img src="images/software/photoshop.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Adobe Photoshop</div>
+                                <div class="program"><picture><source srcset="images/software/affinity_designer.webp" type="image/webp"><img src="images/software/affinity_designer.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Affinity Designer</div>
+                                <div class="program"><picture><source srcset="images/software/affinity_photo.webp" type="image/webp"><img src="images/software/affinity_photo.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Affinity Photo</div>
+                                <div class="program"><picture><source srcset="images/software/affinity_publisher.webp" type="image/webp"><img src="images/software/affinity_publisher.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Affinity Publisher</div>
+                                <div class="program"><picture><source srcset="images/software/clipstudio_paint.webp" type="image/webp"><img src="images/software/clipstudio_paint.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Clip Studio Paint</div>
+                                <div class="program"><picture><source srcset="images/software/live2d_cubism.webp" type="image/webp"><img src="images/software/live2d_cubism.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Live2D Cubism</div>
+                                <div class="program"><picture><source srcset="images/software/procreate.webp" type="image/webp"><img src="images/software/procreate.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Procreate</div>
+                                <div class="program"><picture><source srcset="images/software/procreate_dreams.webp" type="image/webp"><img src="images/software/procreate_dreams.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Procreate Dreams</div>
                             </div>
                         </div>
                     </div>
@@ -3149,6 +3257,7 @@
                         <div class="video-wrapper">
                             <iframe id="intro-video-3d" src="https://www.youtube.com/embed/t9WXLUr3SSA?enablejsapi=1&mute=1&loop=1&playlist=t9WXLUr3SSA&controls=1&showinfo=0&rel=0&playsinline=1" title="3D intro video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                         </div>
+                        <a href="https://www.youtube.com/watch?v=t9WXLUr3SSA" class="video-fallback-link" target="_blank" rel="noopener">If the video doesn&apos;t load, watch on YouTube &rarr;</a>
                     </div>
                     <div class="gallery">
                         <div class="gallery-grid">
@@ -3173,28 +3282,37 @@
                                 <img src="images/3d/GGJ2016_Spider.gif" alt="A quick 3D spider made for a gamejam (Blender)" loading="lazy" decoding="async">
                             </div>
                             <div class="gallery-item">
-                                <img src="images/3d/Hallyu_Joo_won.webp" alt="3D sculpt of an actor (Blender, Zbrush)" loading="lazy" decoding="async">
+                                <picture>
+                                    <source srcset="images/3d/Hallyu_Joo_won.webp" type="image/webp">
+                                    <img src="images/3d/Hallyu_Joo_won.jpg" alt="3D sculpt of an actor (Blender, Zbrush)" loading="lazy" decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
                                 <img src="images/3d/UAS_BHP_gif.gif" 
                                      alt="3D prop asset pack (Photoshop, Blender & Unity)" 
                                      data-full-image="images/3d/UAS_BHP.webp"
+                                     data-full-image-fallback="images/3d/UAS_BHP.jpg"
                                      data-description="3D prop asset pack (Photoshop, Blender & Unity)"
                                      loading="lazy"
                                      decoding="async">
                             </div>
                             <div class="gallery-item">
-                                <img src="images/3d/cherry_thumbnail.webp" 
-                                     alt="2D character sketch to finished gameready 3D model (Pencil, Photoshop, Blender & Zbrush)" 
-                                     data-full-image="images/3d/cherry.webp"
-                                     data-description="2D character sketch to finished gameready 3D model (Pencil, Photoshop, Blender & Zbrush)"
-                                     loading="lazy"
-                                     decoding="async">
+                                <picture>
+                                    <source srcset="images/3d/cherry_thumbnail.webp" type="image/webp">
+                                    <img src="images/3d/cherry_thumbnail.jpg" 
+                                         alt="2D character sketch to finished gameready 3D model (Pencil, Photoshop, Blender & Zbrush)" 
+                                         data-full-image="images/3d/cherry.webp"
+                                         data-full-image-fallback="images/3d/cherry.jpg"
+                                         data-description="2D character sketch to finished gameready 3D model (Pencil, Photoshop, Blender & Zbrush)"
+                                         loading="lazy"
+                                         decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
                                 <img src="images/3d/UAS_FFH_gif.gif" 
                                      alt="3D prop asset pack (Photoshop, Blender & Unity)" 
                                      data-full-image="images/3d/UAS_FFH.webp"
+                                     data-full-image-fallback="images/3d/UAS_FFH.jpg"
                                      data-description="3D prop asset pack (Photoshop, Blender & Unity)"
                                      loading="lazy"
                                      decoding="async">
@@ -3212,17 +3330,22 @@
                                 <img src="images/3d/UAS_SNWP_gif.gif" 
                                      alt="3D prop asset pack (Photoshop, Blender & Unity)" 
                                      data-full-image="images/3d/UAS_SNWP.webp"
+                                     data-full-image-fallback="images/3d/UAS_SNWP.jpg"
                                      data-description="3D prop asset pack (Photoshop, Blender & Unity)"
                                      loading="lazy"
                                      decoding="async">
                             </div>
                             <div class="gallery-item">
-                                <img src="images/3d/3d_prints_thumbnail.webp" 
-                                     alt="3D prints (Blender, Bambu studio & X1 Carbon printer)" 
-                                     data-full-image="images/3d/3d_prints.webp"
-                                     data-description="3D prints (Blender, Bambu studio & X1 Carbon printer)"
-                                     loading="lazy"
-                                     decoding="async">
+                                <picture>
+                                    <source srcset="images/3d/3d_prints_thumbnail.webp" type="image/webp">
+                                    <img src="images/3d/3d_prints_thumbnail.jpg" 
+                                         alt="3D prints (Blender, Bambu studio & X1 Carbon printer)" 
+                                         data-full-image="images/3d/3d_prints.webp"
+                                         data-full-image-fallback="images/3d/3d_prints.jpg"
+                                         data-description="3D prints (Blender, Bambu studio & X1 Carbon printer)"
+                                         loading="lazy"
+                                         decoding="async">
+                                </picture>
                             </div>
                             <div class="gallery-item">
                                 <img src="videos/3d/youtube_06updYfLNko_gif.gif" 
@@ -3284,12 +3407,12 @@
                         <div class="programs-list">
                             <h3 data-translate="programs-label">Programs</h3>
                             <div class="programs">
-                                <div class="program"><img src="images/software/bambu_studio.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Bambu studio</div>
-                                <div class="program"><img src="images/software/blender.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Blender</div>
-                                <div class="program"><img src="images/software/nomad_sculpt.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Nomad Sculpt</div>
-                                <div class="program"><img src="images/software/substance_painter.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Substance Painter</div>
-                                <div class="program"><img src="images/software/unity.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Unity</div>
-                                <div class="program"><img src="images/software/zbrush.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">ZBrush</div>
+                            <div class="program"><picture><source srcset="images/software/bambu_studio.webp" type="image/webp"><img src="images/software/bambu_studio.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Bambu studio</div>
+                            <div class="program"><picture><source srcset="images/software/blender.webp" type="image/webp"><img src="images/software/blender.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Blender</div>
+                            <div class="program"><picture><source srcset="images/software/nomad_sculpt.webp" type="image/webp"><img src="images/software/nomad_sculpt.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Nomad Sculpt</div>
+                            <div class="program"><picture><source srcset="images/software/substance_painter.webp" type="image/webp"><img src="images/software/substance_painter.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Substance Painter</div>
+                            <div class="program"><picture><source srcset="images/software/unity.webp" type="image/webp"><img src="images/software/unity.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Unity</div>
+                            <div class="program"><picture><source srcset="images/software/zbrush.webp" type="image/webp"><img src="images/software/zbrush.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>ZBrush</div>
                             </div>
                         </div>
                     </div>
@@ -3312,10 +3435,10 @@
                     <div class="programs-list">
                         <h3 data-translate="programs-label">Programs</h3>
                         <div class="programs">
-                            <div class="program"><img src="images/software/ableton_live.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Ableton Live</div>
-                            <div class="program"><img src="images/software/adobe_after_effects.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Adobe After Effects</div>
-                            <div class="program"><img src="images/software/audacity.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">Audacity</div>
-                            <div class="program"><img src="images/software/davinci_resolve.webp" alt="" class="program-icon" width="24" height="24" loading="lazy">DaVinci Resolve</div>
+                            <div class="program"><picture><source srcset="images/software/ableton_live.webp" type="image/webp"><img src="images/software/ableton_live.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Ableton Live</div>
+                            <div class="program"><picture><source srcset="images/software/adobe_after_effects.webp" type="image/webp"><img src="images/software/adobe_after_effects.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Adobe After Effects</div>
+                            <div class="program"><picture><source srcset="images/software/audacity.webp" type="image/webp"><img src="images/software/audacity.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>Audacity</div>
+                            <div class="program"><picture><source srcset="images/software/davinci_resolve.webp" type="image/webp"><img src="images/software/davinci_resolve.png" alt="" class="program-icon" width="24" height="24" loading="lazy"></picture>DaVinci Resolve</div>
                         </div>
                     </div>
                     </div>
@@ -3334,7 +3457,10 @@
                                 <div class="project-description" data-translate="project-alpha-polaris-description">Project description goes here.</div>
                             </div>
                             <div class="project-poster" data-poster="images/projects/alpha_Polaris.webp">
-                                <img src="images/projects/alpha_Polaris.webp" alt="Alpha Polaris" fetchpriority="high" decoding="async">
+                                <picture>
+                                    <source srcset="images/projects/alpha_Polaris.webp" type="image/webp">
+                                    <img src="images/projects/alpha_Polaris.jpg" alt="Alpha Polaris" fetchpriority="high" decoding="async">
+                                </picture>
                             </div>
                         </div>
                         <div class="project-video">
@@ -3349,7 +3475,10 @@
                                 <div class="project-description" data-translate="project-baking-success-description">Project description goes here.</div>
                             </div>
                             <div class="project-poster square" data-poster="images/projects/baking_success.webp">
-                                <img src="images/projects/baking_success.webp" alt="Baking Success" fetchpriority="high" decoding="async">
+                                <picture>
+                                    <source srcset="images/projects/baking_success.webp" type="image/webp">
+                                    <img src="images/projects/baking_success.jpg" alt="Baking Success" fetchpriority="high" decoding="async">
+                                </picture>
                             </div>
                         </div>
                         <div class="project-video">
@@ -3365,7 +3494,10 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <img src="images/projects/VR.webp" alt="VR" loading="lazy" decoding="async">
+                            <picture>
+                                <source srcset="images/projects/VR.webp" type="image/webp">
+                                <img src="images/projects/VR.jpg" alt="VR" loading="lazy" decoding="async">
+                            </picture>
                         </div>
                     </div>
 
@@ -3401,7 +3533,10 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <img src="images/projects/AI.webp" alt="AI" loading="lazy" decoding="async">
+                            <picture>
+                                <source srcset="images/projects/AI.webp" type="image/webp">
+                                <img src="images/projects/AI.jpg" alt="AI" loading="lazy" decoding="async">
+                            </picture>
                         </div>
                     </div>
 
@@ -3413,7 +3548,10 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <img src="images/projects/nekobolt.webp" alt="Nekobolt" loading="lazy" decoding="async">
+                            <picture>
+                                <source srcset="images/projects/nekobolt.webp" type="image/webp">
+                                <img src="images/projects/nekobolt.jpg" alt="Nekobolt" loading="lazy" decoding="async">
+                            </picture>
                         </div>
                     </div>
 
@@ -3425,7 +3563,10 @@
                             </div>
                         </div>
                         <div class="project-video">
-                            <img src="images/projects/modding.webp" alt="Modding" loading="lazy" decoding="async">
+                            <picture>
+                                <source srcset="images/projects/modding.webp" type="image/webp">
+                                <img src="images/projects/modding.jpg" alt="Modding" loading="lazy" decoding="async">
+                            </picture>
                         </div>
                     </div>
                 </div>
@@ -3882,6 +4023,10 @@
                 <div class="lightbox-media-container">
                     <button class="lightbox-close" aria-label="Close">×</button>
                     <div class="lightbox-loading">Loading</div>
+                    <div class="lightbox-error" id="lightbox-error">
+                        <p>This image could not be loaded.</p>
+                        <p><a href="#" id="lightbox-error-link" target="_blank" rel="noopener">Open in new tab</a></p>
+                    </div>
                     <img src="" alt="" style="display: none;" id="lightbox-img">
                     <video controls style="display: none;"></video>
                     <iframe src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display: none;"></iframe>
@@ -3904,6 +4049,8 @@
         const lightboxIframe = lightbox.querySelector('iframe');
         const lightboxDescription = lightbox.querySelector('.lightbox-description');
         const lightboxLoading = lightbox.querySelector('.lightbox-loading');
+        const lightboxError = lightbox.querySelector('#lightbox-error');
+        const lightboxErrorLink = lightbox.querySelector('#lightbox-error-link');
         const lightboxClose = lightbox.querySelector('.lightbox-close');
         const lightboxNavContainer = lightbox.querySelector('.lightbox-nav-container');
         const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
@@ -4028,6 +4175,8 @@
                     return;
                 }
             
+            if (lightboxError) lightboxError.classList.remove('active');
+
             // Check if it's a Sketchfab embed (has data-sketchfab attribute)
             const sketchfabUrl = item.getAttribute('data-sketchfab');
             
@@ -4292,6 +4441,7 @@
                     
                     // Use data-full-image if available, otherwise use src
                     const fullImageSrc = item.getAttribute('data-full-image') || item.src;
+                    const fullImageFallback = item.getAttribute('data-full-image-fallback');
                     
                     // Show loading indicator
                     lightboxLoading.classList.add('active');
@@ -4301,18 +4451,31 @@
                     lightboxImg.alt = item.alt || '';
                     
                     // Preload the image before showing it
+                    if (lightboxError) lightboxError.classList.remove('active');
+                    if (lightboxErrorLink) lightboxErrorLink.href = fullImageFallback || fullImageSrc;
+                    function showLightboxImg() {
+                        lightboxImg.style.display = 'block';
+                        lightboxLoading.classList.remove('active');
+                        if (lightboxError) lightboxError.classList.remove('active');
+                        matchDescriptionWidth();
+                    }
+                    function showLightboxErr() {
+                        lightboxImg.style.display = 'none';
+                        lightboxLoading.classList.remove('active');
+                        if (lightboxError) lightboxError.classList.add('active');
+                        matchDescriptionWidth();
+                    }
                     const preloadImg = new Image();
-                    preloadImg.onload = function() {
-                        // Image is loaded, show it
-                        lightboxImg.style.display = 'block';
-                        lightboxLoading.classList.remove('active');
-                        matchDescriptionWidth();
-                    };
+                    preloadImg.onload = showLightboxImg;
                     preloadImg.onerror = function() {
-                        // If preload fails, still try to show it
-                        lightboxImg.style.display = 'block';
-                        lightboxLoading.classList.remove('active');
-                        matchDescriptionWidth();
+                        if (fullImageFallback) {
+                            preloadImg.onerror = showLightboxErr;
+                            preloadImg.onload = showLightboxImg;
+                            preloadImg.src = lightboxImg.src = fullImageFallback;
+                            if (lightboxErrorLink) lightboxErrorLink.href = fullImageFallback;
+                        } else {
+                            showLightboxErr();
+                        }
                     };
                     preloadImg.src = fullImageSrc;
                     
@@ -4391,6 +4554,13 @@
                     e.stopPropagation();
                     openLightboxFromItem(img, img.closest('.gallery-item'));
                 });
+                if (!img.hasAttribute('data-error-bound')) {
+                    img.setAttribute('data-error-bound', '1');
+                    img.addEventListener('error', function() {
+                        var p = this.closest('.gallery-item');
+                        if (p) p.classList.add('img-failed');
+                    });
+                }
             });
             document.querySelectorAll('.gallery-item').forEach((item) => {
                 const img = item.querySelector('img');

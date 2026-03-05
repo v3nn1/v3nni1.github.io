@@ -12,6 +12,7 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="/images/2d/Astarion.webp" as="image">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet"></noscript>
     <style>
@@ -128,9 +129,13 @@
             inset: 0;
         }
 
+        .hero-image picture,
         .hero-image img {
             width: 100%;
             height: 100%;
+            display: block;
+        }
+        .hero-image img {
             object-fit: cover;
         }
 
@@ -271,12 +276,16 @@
                 0 0 var(--glow-strong) rgba(0, 229, 255, 0.15);
         }
 
+        .featured .gallery-item picture,
         .featured .gallery-item img,
         .featured .gallery-item video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             display: block;
+        }
+        .featured .gallery-item img,
+        .featured .gallery-item video {
+            object-fit: cover;
         }
 
         /* More work: warm purple glow + rounded corners */
@@ -316,12 +325,16 @@
                 0 0 var(--glow-strong) rgba(244, 114, 182, 0.2);
         }
 
+        .more-work .gallery-item picture,
         .more-work .gallery-item img,
         .more-work .gallery-item video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             display: block;
+        }
+        .more-work .gallery-item img,
+        .more-work .gallery-item video {
+            object-fit: cover;
         }
 
         /* Footer: warm gradient line */
@@ -583,6 +596,54 @@
             outline-offset: 2px;
         }
 
+        /* Gallery links: block display, no underline, inherit cursor */
+        a.gallery-item {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Image load failure: show placeholder text when img fails */
+        .gallery-item.img-failed {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+        .gallery-item.img-failed img {
+            display: none;
+        }
+        .gallery-item.img-failed::before {
+            content: 'Image unavailable';
+        }
+
+        /* Lightbox error message */
+        .lightbox-error {
+            display: none;
+            padding: 2rem;
+            color: var(--text-dim);
+            text-align: center;
+            min-width: 280px;
+        }
+        .lightbox-error.active {
+            display: block;
+        }
+        .lightbox-error a {
+            color: var(--neon-cyan);
+        }
+
+        /* YouTube fallback link */
+        .video-fallback-link {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--neon-cyan);
+        }
+        .video-fallback-link:hover {
+            color: var(--warm-amber);
+        }
+
         /* Intro video: beneath hero, above gallery. Autoplay, loop, muted (required for autoplay). */
         .intro-video {
             position: relative;
@@ -618,7 +679,10 @@
 
     <header class="hero">
         <div class="hero-image">
-            <img src="/images/2d/Astarion.webp" alt="Digital fan art of Astarion from Baldur's Gate 3 — 2D portfolio hero">
+            <picture>
+                <source srcset="/images/2d/Astarion.webp" type="image/webp">
+                <img src="/images/2d/Astarion.jpg" alt="Digital fan art of Astarion from Baldur's Gate 3 — 2D portfolio hero" fetchpriority="high">
+            </picture>
         </div>
         <div class="hero-content">
             <h1>VEERA ARVOLA</h1>
@@ -631,99 +695,137 @@
         <div class="video-wrapper">
             <iframe src="https://www.youtube.com/embed/LWzTrGzI240?autoplay=1&mute=1&loop=1&playlist=LWzTrGzI240&controls=1&showinfo=0&rel=0" title="2D intro video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
+        <a href="https://www.youtube.com/watch?v=LWzTrGzI240" class="video-fallback-link" target="_blank" rel="noopener">If the video doesn&apos;t load, watch on YouTube →</a>
     </section>
 
     <main id="main-content" class="portfolio-gallery">
         <section class="featured">
             <h2 class="section-title">FEATURED</h2>
             <div class="featured-grid">
-                <div class="gallery-item">
+                <a href="/videos/2d/LIVE2D.mp4" class="gallery-item" target="_blank" rel="noopener">
                     <img src="/videos/2d/LIVE2D_gif.gif" 
                          alt="2D character rigged and animated (Procreate, Affinity Photo & Live2D Cubism)" 
                          data-video="/videos/2d/LIVE2D.mp4"
                          data-loop="true"
                          data-description="2D character rigged and animated (Procreate, Affinity Photo & Live2D Cubism)"
-                         loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/baking_succcess_overview_thumbnail.webp" 
-                         alt="2D art assets: cutscene art, gameplay, UI (Pencil & Photoshop)" 
-                         data-full-image="/images/2d/baking_succcess_overview.webp"
-                         data-description="2D art assets ranging from cutscene art and gameplay to UI elements (Pencil & Photoshop)"
-                         loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/CF_character_concept_thumbnail.webp" 
-                         alt="2D medieval character concepts (Pencil & Photoshop)" 
-                         data-full-image="/images/2d/CF_character_concept.webp"
-                         data-description="2D medieval character concepts (Pencil & Photoshop)"
-                         loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
+                         loading="lazy" decoding="async" width="400" height="300"
+                         onerror="var p=this.parentElement;if(p)p.classList.add('img-failed')">
+                </a>
+                <a href="/images/2d/baking_succcess_overview.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/baking_succcess_overview_thumbnail.webp" type="image/webp">
+                        <img src="/images/2d/baking_succcess_overview_thumbnail.jpg" 
+                             alt="2D art assets: cutscene art, gameplay, UI (Pencil & Photoshop)" 
+                             data-full-image="/images/2d/baking_succcess_overview.webp"
+                             data-full-image-fallback="/images/2d/baking_succcess_overview.jpg"
+                             data-description="2D art assets ranging from cutscene art and gameplay to UI elements (Pencil & Photoshop)"
+                             loading="lazy" decoding="async" width="400" height="300"
+                             onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
+                <a href="/images/2d/CF_character_concept.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/CF_character_concept_thumbnail.webp" type="image/webp">
+                        <img src="/images/2d/CF_character_concept_thumbnail.jpg" 
+                             alt="2D medieval character concepts (Pencil & Photoshop)" 
+                             data-full-image="/images/2d/CF_character_concept.webp"
+                             data-full-image-fallback="/images/2d/CF_character_concept.jpg"
+                             data-description="2D medieval character concepts (Pencil & Photoshop)"
+                             loading="lazy" decoding="async" width="400" height="300"
+                             onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
+                <a href="/videos/2d/world_map.mp4" class="gallery-item" target="_blank" rel="noopener">
                     <img src="/videos/2d/world_map_gif.gif" 
                          alt="2D frame animated world map (Pencil & Photoshop)" 
                          data-video="/videos/2d/world_map.mp4"
                          data-loop="true"
                          data-description="2D frame animated world map (Pencil & Photoshop)"
-                         loading="lazy" decoding="async">
-                </div>
+                         loading="lazy" decoding="async" width="400" height="300"
+                         onerror="var p=this.parentElement;if(p)p.classList.add('img-failed')">
+                </a>
             </div>
         </section>
 
         <section class="more-work">
             <h2 class="section-title">MORE WORK</h2>
             <div class="more-grid">
-                <div class="gallery-item">
-                    <img src="/images/2d/Giger.webp" alt="Digital painting inspired by H.R. Giger (Pencil & Photoshop)" loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/TFTP_title_01_animated.gif" alt="Animated title screen (Procreate & Photoshop)" loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/Rippers.webp" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/Rippers_2.webp" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/Make_it_so.webp" alt="Oil painting" loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
+                <a href="/images/2d/Giger.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/Giger.webp" type="image/webp">
+                        <img src="/images/2d/Giger.jpg" alt="Digital painting inspired by H.R. Giger (Pencil & Photoshop)" loading="lazy" decoding="async" width="280" height="280" onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
+                <a href="/images/2d/TFTP_title_01_animated.gif" class="gallery-item" target="_blank" rel="noopener">
+                    <img src="/images/2d/TFTP_title_01_animated.gif" alt="Animated title screen (Procreate & Photoshop)" loading="lazy" decoding="async" width="280" height="280" onerror="var p=this.parentElement;if(p)p.classList.add('img-failed')">
+                </a>
+                <a href="/images/2d/Rippers.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/Rippers.webp" type="image/webp">
+                        <img src="/images/2d/Rippers.jpg" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async" width="280" height="280" onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
+                <a href="/images/2d/Rippers_2.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/Rippers_2.webp" type="image/webp">
+                        <img src="/images/2d/Rippers_2.jpg" alt="Concept art (Pencil & Photoshop)" loading="lazy" decoding="async" width="280" height="280" onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
+                <a href="/images/2d/Make_it_so.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/Make_it_so.webp" type="image/webp">
+                        <img src="/images/2d/Make_it_so.jpg" alt="Oil painting" loading="lazy" decoding="async" width="280" height="280" onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
+                <a href="https://youtu.be/iMxSd7ppROc" class="gallery-item" target="_blank" rel="noopener">
                     <img src="/videos/2d/waking_up_gif.gif" 
                          alt="2D cutscene snippet compilation (Procreate, Photoshop & Unity)" 
                          data-youtube="https://youtu.be/iMxSd7ppROc"
                          data-description="2D cutscene snippet compilation (Procreate, Photoshop & Unity)"
-                         loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
+                         loading="lazy" decoding="async" width="280" height="280"
+                         onerror="var p=this.parentElement;if(p)p.classList.add('img-failed')">
+                </a>
+                <a href="/videos/2d/gross_cellar.mp4" class="gallery-item" target="_blank" rel="noopener">
                     <img src="/videos/2d/gross_cellar_gif.gif" 
                          alt="2D animated background (Photoshop & Unity)" 
                          data-video="/videos/2d/gross_cellar.mp4"
                          data-loop="true"
                          data-description="2D animated background (Photoshop & Unity)"
-                         loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
+                         loading="lazy" decoding="async" width="280" height="280"
+                         onerror="var p=this.parentElement;if(p)p.classList.add('img-failed')">
+                </a>
+                <a href="https://youtu.be/HAOjQEE00BI" class="gallery-item" target="_blank" rel="noopener">
                     <img src="/videos/2d/youtube_HAOjQEE00BI_gif.gif" 
                          alt="Speedpainting (Photoshop)" 
                          data-youtube="https://youtu.be/HAOjQEE00BI"
                          data-description="Speedpainting of my lovely husband and our late hound Igor (Photoshop)"
-                         loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/logos_thumbnail.webp" 
-                         alt="Logo designs (Photoshop)" 
-                         data-full-image="/images/2d/logos.webp"
-                         data-description="Some logo designs (Photoshop)"
-                         loading="lazy" decoding="async">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/2d/fight_club_thumbnail.webp" 
-                         alt="Oil painting" 
-                         data-full-image="/images/2d/fight_club.webp"
-                         data-description="Oil painting"
-                         loading="lazy" decoding="async">
-                </div>
+                         loading="lazy" decoding="async" width="280" height="280"
+                         onerror="var p=this.parentElement;if(p)p.classList.add('img-failed')">
+                </a>
+                <a href="/images/2d/logos.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/logos_thumbnail.webp" type="image/webp">
+                        <img src="/images/2d/logos_thumbnail.jpg" 
+                             alt="Logo designs (Photoshop)" 
+                             data-full-image="/images/2d/logos.webp"
+                             data-full-image-fallback="/images/2d/logos.jpg"
+                             data-description="Some logo designs (Photoshop)"
+                             loading="lazy" decoding="async" width="280" height="280"
+                             onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
+                <a href="/images/2d/fight_club.webp" class="gallery-item" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="/images/2d/fight_club_thumbnail.webp" type="image/webp">
+                        <img src="/images/2d/fight_club_thumbnail.jpg" 
+                             alt="Oil painting" 
+                             data-full-image="/images/2d/fight_club.webp"
+                             data-full-image-fallback="/images/2d/fight_club.jpg"
+                             data-description="Oil painting"
+                             loading="lazy" decoding="async" width="280" height="280"
+                             onerror="var p=this.closest('.gallery-item');if(p)p.classList.add('img-failed')">
+                    </picture>
+                </a>
             </div>
         </section>
     </main>
@@ -738,6 +840,10 @@
             <div class="lightbox-media-container">
                 <button class="lightbox-close" aria-label="Close">×</button>
                 <div class="lightbox-loading" id="lightbox-loading">Loading</div>
+                <div class="lightbox-error" id="lightbox-error">
+                    <p>This image could not be loaded.</p>
+                    <p><a href="#" id="lightbox-error-link" target="_blank" rel="noopener">Open in new tab</a></p>
+                </div>
                 <img src="" alt="" id="lightbox-img" style="display: none;">
                 <video controls style="display: none;" id="lightbox-video"></video>
                 <iframe src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;" id="lightbox-iframe"></iframe>
@@ -756,6 +862,8 @@
             const lightboxIframe = document.getElementById('lightbox-iframe');
             const lightboxDesc = document.getElementById('lightbox-desc');
             const lightboxLoading = document.getElementById('lightbox-loading');
+            const lightboxError = document.getElementById('lightbox-error');
+            const lightboxErrorLink = document.getElementById('lightbox-error-link');
 
             let items = [];
             let currentIndex = 0;
@@ -777,6 +885,7 @@
 
                 if (lightboxVideo.style.display !== 'none') { lightboxVideo.pause(); lightboxVideo.src = ''; }
                 if (lightboxIframe.style.display !== 'none') { stopYouTube(lightboxIframe); lightboxIframe.src = ''; }
+                if (lightboxError) lightboxError.classList.remove('active');
 
                 const yt = img.getAttribute('data-youtube');
                 const vid = img.getAttribute('data-video');
@@ -804,16 +913,36 @@
                 } else {
                     lightboxVideo.style.display = 'none';
                     lightboxIframe.style.display = 'none';
+                    lightboxError.classList.remove('active');
                     const src = img.getAttribute('data-full-image') || img.src;
+                    const fallbackSrc = img.getAttribute('data-full-image-fallback');
                     lightboxLoading.classList.add('active');
                     lightboxImg.style.display = 'none';
                     lightboxImg.src = src;
                     lightboxImg.alt = img.alt || '';
                     lightboxDesc.textContent = img.getAttribute('data-description') || img.alt || '';
-                    const preload = new Image();
-                    preload.onload = preload.onerror = function() {
+                    if (lightboxErrorLink) lightboxErrorLink.href = fallbackSrc || src;
+                    function showImg() {
                         lightboxImg.style.display = 'block';
                         lightboxLoading.classList.remove('active');
+                        if (lightboxError) lightboxError.classList.remove('active');
+                    }
+                    function showErr() {
+                        lightboxImg.style.display = 'none';
+                        lightboxLoading.classList.remove('active');
+                        if (lightboxError) lightboxError.classList.add('active');
+                    }
+                    const preload = new Image();
+                    preload.onload = showImg;
+                    preload.onerror = function() {
+                        if (fallbackSrc) {
+                            preload.onerror = showErr;
+                            preload.onload = showImg;
+                            preload.src = lightboxImg.src = fallbackSrc;
+                            if (lightboxErrorLink) lightboxErrorLink.href = fallbackSrc;
+                        } else {
+                            showErr();
+                        }
                     };
                     preload.src = src;
                 }
@@ -842,23 +971,29 @@
                 lastLightboxTrigger = null;
             }
 
-            document.querySelectorAll('.portfolio-gallery .gallery-item img').forEach(function(img) {
-                img.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openLightbox(img, img.closest('.gallery-item'));
-                });
-            });
-
             document.querySelectorAll('.portfolio-gallery .gallery-item').forEach(function(item) {
                 var img = item.querySelector('img');
-                item.setAttribute('role', 'button');
-                item.setAttribute('tabindex', '0');
-                item.setAttribute('aria-label', (img && img.alt) ? img.alt : 'View image');
-                item.addEventListener('keydown', function(e) {
-                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                item.addEventListener('click', function(e) {
                     e.preventDefault();
                     if (img) openLightbox(img, item);
                 });
+                if (!item.matches('a')) {
+                    item.setAttribute('role', 'button');
+                    item.setAttribute('tabindex', '0');
+                    item.setAttribute('aria-label', (img && img.alt) ? img.alt : 'View image');
+                    item.addEventListener('keydown', function(e) {
+                        if (e.key !== 'Enter' && e.key !== ' ') return;
+                        e.preventDefault();
+                        if (img) openLightbox(img, item);
+                    });
+                } else {
+                    item.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            if (img) openLightbox(img, item);
+                        }
+                    });
+                }
             });
 
             document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);

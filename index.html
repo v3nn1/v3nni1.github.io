@@ -3795,20 +3795,20 @@
 
                 function onYouTubeIframeAPIReady() {
                     clearTimeout(apiTimeout);
-                    introIds.forEach(initPlayerForIframe);
-                    var projectInitObserver = new IntersectionObserver(function(entries) {
+                    var lazyInitObserver = new IntersectionObserver(function(entries) {
                         entries.forEach(function(entry) {
                             if (!entry.isIntersecting) return;
                             var container = entry.target;
                             var iframe = container.querySelector('iframe[id]');
                             if (!iframe || players[iframe.id]) return;
                             initPlayerForIframe(iframe.id);
-                            projectInitObserver.unobserve(container);
+                            lazyInitObserver.unobserve(container);
                         });
                     }, { rootMargin: '100px', threshold: 0 });
-                    projectIds.forEach(function(id) {
-                        var container = document.getElementById(id) && document.getElementById(id).closest('.project-video');
-                        if (container) projectInitObserver.observe(container);
+                    introIds.concat(projectIds).forEach(function(id) {
+                        var iframe = document.getElementById(id);
+                        var container = iframe && (iframe.closest('.intro-video') || iframe.closest('.project-video'));
+                        if (container) lazyInitObserver.observe(container);
                     });
                     setupObserver();
                 }

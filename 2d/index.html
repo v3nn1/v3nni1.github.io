@@ -785,8 +785,10 @@
                     lightboxImg.style.display = 'none';
                     lightboxVideo.style.display = 'none';
                     lightboxIframe.style.display = 'block';
+                    lightboxLoading.classList.remove('active');
                     let id = '';
-                    if (yt.includes('youtu.be/')) id = yt.split('youtu.be/')[1].split('?')[0];
+                    if (yt.includes('youtu.be/')) id = yt.split('youtu.be/')[1].split('?')[0].split('&')[0];
+                    else if (yt.includes('youtube.com/embed/')) id = yt.split('embed/')[1].split('?')[0].split('&')[0];
                     else if (yt.includes('v=')) id = yt.split('v=')[1].split('&')[0];
                     lightboxIframe.src = id ? 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1' : '';
                     lightboxDesc.textContent = img.getAttribute('data-description') || img.alt || '';

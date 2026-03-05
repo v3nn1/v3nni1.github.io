@@ -3752,48 +3752,63 @@
                 if (link) link.classList.add('video-fallback-link--visible');
             }
 
-            function initAllYoutubeEmbeds() {
-                var iframes = document.querySelectorAll('.intro-video iframe[id], .project-video iframe[id]');
-                var iframeIds = [];
-                for (var i = 0; i < iframes.length; i++) {
-                    if (iframes[i].src && iframes[i].src.includes('youtube.com/embed')) {
-                        iframeIds.push(iframes[i].id);
+            function initPlayerForIframe(id) {
+                var iframe = document.getElementById(id);
+                if (!iframe) return;
+                var fallbackLink = getFallbackLink(iframe);
+                var readyTimeout = setTimeout(function() {
+                    if (fallbackLink && !fallbackLink.classList.contains('video-fallback-link--visible')) {
+                        fallbackLink.classList.add('video-fallback-link--visible');
                     }
+                }, PLAYER_READY_TIMEOUT_MS);
+                fallbackTimeouts[id] = readyTimeout;
+                try {
+                    players[id] = new YT.Player(id, {
+                        events: {
+                            onReady: function() { clearTimeout(readyTimeout); },
+                            onError: function() {
+                                clearTimeout(readyTimeout);
+                                showFallbackForVideo(id);
+                            }
+                        }
+                    });
+                } catch (e) {
+                    clearTimeout(readyTimeout);
+                    showFallbackForVideo(id);
                 }
-                if (iframeIds.length === 0) return;
+            }
 
-                var apiTimeout = setTimeout(function() {
-                    iframeIds.forEach(showFallbackForVideo);
-                }, API_TIMEOUT_MS);
+            function initAllYoutubeEmbeds() {
+                var introIframes = document.querySelectorAll('.intro-video iframe[id]');
+                var projectIframes = document.querySelectorAll('.project-video iframe[id]');
+                var introIds = [], projectIds = [];
+                for (var i = 0; i < introIframes.length; i++) {
+                    if (introIframes[i].src && introIframes[i].src.includes('youtube.com/embed')) introIds.push(introIframes[i].id);
+                }
+                for (var i = 0; i < projectIframes.length; i++) {
+                    if (projectIframes[i].src && projectIframes[i].src.includes('youtube.com/embed')) projectIds.push(projectIframes[i].id);
+                }
+                var allIds = introIds.concat(projectIds);
+                if (allIds.length === 0) return;
+
+                var apiTimeout = setTimeout(function() { allIds.forEach(showFallbackForVideo); }, API_TIMEOUT_MS);
 
                 function onYouTubeIframeAPIReady() {
                     clearTimeout(apiTimeout);
-                    iframeIds.forEach(function(id) {
-                        var iframe = document.getElementById(id);
-                        if (!iframe) return;
-                        var fallbackLink = getFallbackLink(iframe);
-                        var readyTimeout = setTimeout(function() {
-                            if (fallbackLink && !fallbackLink.classList.contains('video-fallback-link--visible')) {
-                                fallbackLink.classList.add('video-fallback-link--visible');
-                            }
-                        }, PLAYER_READY_TIMEOUT_MS);
-                        fallbackTimeouts[id] = readyTimeout;
-                        try {
-                            players[id] = new YT.Player(id, {
-                                events: {
-                                    onReady: function() {
-                                        clearTimeout(readyTimeout);
-                                    },
-                                    onError: function() {
-                                        clearTimeout(readyTimeout);
-                                        showFallbackForVideo(id);
-                                    }
-                                }
-                            });
-                        } catch (e) {
-                            clearTimeout(readyTimeout);
-                            showFallbackForVideo(id);
-                        }
+                    introIds.forEach(initPlayerForIframe);
+                    var projectInitObserver = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (!entry.isIntersecting) return;
+                            var container = entry.target;
+                            var iframe = container.querySelector('iframe[id]');
+                            if (!iframe || players[iframe.id]) return;
+                            initPlayerForIframe(iframe.id);
+                            projectInitObserver.unobserve(container);
+                        });
+                    }, { rootMargin: '100px', threshold: 0 });
+                    projectIds.forEach(function(id) {
+                        var container = document.getElementById(id) && document.getElementById(id).closest('.project-video');
+                        if (container) projectInitObserver.observe(container);
                     });
                     setupObserver();
                 }
@@ -3804,7 +3819,7 @@
                 } else {
                     var tag = document.createElement('script');
                     tag.src = 'https://www.youtube.com/iframe_api';
-                    tag.onerror = function() { iframeIds.forEach(showFallbackForVideo); clearTimeout(apiTimeout); };
+                    tag.onerror = function() { allIds.forEach(showFallbackForVideo); clearTimeout(apiTimeout); };
                     var firstScript = document.getElementsByTagName('script')[0];
                     firstScript.parentNode.insertBefore(tag, firstScript);
                 }

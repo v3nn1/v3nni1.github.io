@@ -633,12 +633,15 @@
             color: var(--neon-cyan);
         }
 
-        /* YouTube fallback link */
+        /* YouTube fallback link - hidden until video fails to load */
         .video-fallback-link {
-            display: block;
+            display: none;
             margin-top: 0.5rem;
             font-size: 0.85rem;
             color: var(--neon-cyan);
+        }
+        .video-fallback-link--visible {
+            display: block;
         }
         .video-fallback-link:hover {
             color: var(--warm-amber);
@@ -693,7 +696,7 @@
 
     <section class="intro-video" aria-label="Intro video">
         <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/LWzTrGzI240?autoplay=1&mute=1&loop=1&playlist=LWzTrGzI240&controls=1&showinfo=0&rel=0" title="2D intro video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="intro-video-2d" src="https://www.youtube.com/embed/LWzTrGzI240?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=LWzTrGzI240&controls=1&showinfo=0&rel=0" title="2D intro video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <a href="https://www.youtube.com/watch?v=LWzTrGzI240" class="video-fallback-link" target="_blank" rel="noopener">If the video doesn&apos;t load, watch on YouTube →</a>
     </section>
@@ -847,6 +850,7 @@
                 <img src="" alt="" id="lightbox-img" style="display: none;">
                 <video controls style="display: none;" id="lightbox-video"></video>
                 <iframe src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;" id="lightbox-iframe"></iframe>
+                <a href="#" class="video-fallback-link lightbox-youtube-fallback" target="_blank" rel="noopener" style="display: none;">If the video doesn&apos;t load, watch on YouTube →</a>
             </div>
             <div class="lightbox-description" id="lightbox-desc"></div>
             <button class="lightbox-nav prev" aria-label="Previous">‹</button>
@@ -854,6 +858,72 @@
         </div>
     </div>
 
+    <script>
+        (function() {
+            var introVideoIds = ['intro-video-2d'];
+            var API_TIMEOUT_MS = 10000;
+            var PLAYER_READY_TIMEOUT_MS = 8000;
+
+            function showFallbackForVideo(iframeId) {
+                var iframe = document.getElementById(iframeId);
+                if (!iframe) return;
+                var container = iframe.closest('.intro-video');
+                var link = container && container.querySelector('.video-fallback-link');
+                if (link) link.classList.add('video-fallback-link--visible');
+            }
+
+            function initIntroVideo() {
+                var iframe = document.getElementById('intro-video-2d');
+                if (!iframe) return;
+
+                var apiTimeout = setTimeout(function() { introVideoIds.forEach(showFallbackForVideo); }, API_TIMEOUT_MS);
+
+                function onReady() {
+                    if (window.YT && window.YT.Player) {
+                        clearTimeout(apiTimeout);
+                        var container = iframe.closest('.intro-video');
+                        var fallbackLink = container && container.querySelector('.video-fallback-link');
+                        var readyTimeout = setTimeout(function() {
+                            if (fallbackLink && !fallbackLink.classList.contains('video-fallback-link--visible')) {
+                                fallbackLink.classList.add('video-fallback-link--visible');
+                            }
+                        }, PLAYER_READY_TIMEOUT_MS);
+                        try {
+                            new YT.Player(iframe.id, {
+                                events: {
+                                    onReady: function() { clearTimeout(readyTimeout); },
+                                    onError: function() {
+                                        clearTimeout(readyTimeout);
+                                        showFallbackForVideo(iframe.id);
+                                    }
+                                }
+                            });
+                        } catch (e) {
+                            clearTimeout(readyTimeout);
+                            showFallbackForVideo(iframe.id);
+                        }
+                    }
+                }
+
+                window.onYouTubeIframeAPIReady = function() { onReady(); };
+
+                if (window.YT && window.YT.Player) {
+                    onReady();
+                } else {
+                    var tag = document.createElement('script');
+                    tag.src = 'https://www.youtube.com/iframe_api';
+                    tag.onerror = function() { introVideoIds.forEach(showFallbackForVideo); clearTimeout(apiTimeout); };
+                    document.querySelector('script').parentNode.insertBefore(tag, document.querySelector('script'));
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initIntroVideo);
+            } else {
+                initIntroVideo();
+            }
+        })();
+    </script>
     <script>
         (function() {
             const lightbox = document.getElementById('lightbox');
@@ -864,6 +934,8 @@
             const lightboxLoading = document.getElementById('lightbox-loading');
             const lightboxError = document.getElementById('lightbox-error');
             const lightboxErrorLink = document.getElementById('lightbox-error-link');
+            const lightboxYoutubeFallback = document.querySelector('.lightbox-youtube-fallback');
+            var lightboxYtPlayerReadyTimeout = null;
 
             let items = [];
             let currentIndex = 0;
@@ -886,6 +958,8 @@
                 if (lightboxVideo.style.display !== 'none') { lightboxVideo.pause(); lightboxVideo.src = ''; }
                 if (lightboxIframe.style.display !== 'none') { stopYouTube(lightboxIframe); lightboxIframe.src = ''; }
                 if (lightboxError) lightboxError.classList.remove('active');
+                if (lightboxYoutubeFallback) lightboxYoutubeFallback.style.display = 'none';
+                if (lightboxYtPlayerReadyTimeout) { clearTimeout(lightboxYtPlayerReadyTimeout); lightboxYtPlayerReadyTimeout = null; }
 
                 const yt = img.getAttribute('data-youtube');
                 const vid = img.getAttribute('data-video');
@@ -895,12 +969,53 @@
                     lightboxVideo.style.display = 'none';
                     lightboxIframe.style.display = 'block';
                     lightboxLoading.classList.remove('active');
-                    let id = '';
+                    var id = '';
                     if (yt.includes('youtu.be/')) id = yt.split('youtu.be/')[1].split('?')[0].split('&')[0];
                     else if (yt.includes('youtube.com/embed/')) id = yt.split('embed/')[1].split('?')[0].split('&')[0];
                     else if (yt.includes('v=')) id = yt.split('v=')[1].split('&')[0];
-                    lightboxIframe.src = id ? 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1' : '';
+                    var embedUrl = id ? 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1&enablejsapi=1' : '';
+                    var watchUrl = id ? 'https://www.youtube.com/watch?v=' + id : '#';
+                    lightboxIframe.src = embedUrl;
                     lightboxDesc.textContent = img.getAttribute('data-description') || img.alt || '';
+                    if (lightboxYoutubeFallback) lightboxYoutubeFallback.href = watchUrl;
+                    var showYtFallback = function() {
+                        if (lightboxYoutubeFallback) lightboxYoutubeFallback.style.display = 'block';
+                        lightboxLoading.classList.remove('active');
+                    };
+                    lightboxYtPlayerReadyTimeout = setTimeout(showYtFallback, 8000);
+                    lightboxIframe.onload = function() {
+                        lightboxLoading.classList.remove('active');
+                        if (window.YT && window.YT.Player && lightboxIframe.id) {
+                            try {
+                                new YT.Player(lightboxIframe.id, {
+                                    events: {
+                                        onReady: function() {
+                                            if (lightboxYtPlayerReadyTimeout) {
+                                                clearTimeout(lightboxYtPlayerReadyTimeout);
+                                                lightboxYtPlayerReadyTimeout = null;
+                                            }
+                                        },
+                                        onError: function() {
+                                            if (lightboxYtPlayerReadyTimeout) {
+                                                clearTimeout(lightboxYtPlayerReadyTimeout);
+                                                lightboxYtPlayerReadyTimeout = null;
+                                            }
+                                            showYtFallback();
+                                        }
+                                    }
+                                });
+                            } catch (e) {
+                                showYtFallback();
+                            }
+                        }
+                    };
+                    lightboxIframe.onerror = function() {
+                        if (lightboxYtPlayerReadyTimeout) {
+                            clearTimeout(lightboxYtPlayerReadyTimeout);
+                            lightboxYtPlayerReadyTimeout = null;
+                        }
+                        showYtFallback();
+                    };
                 } else if (vid) {
                     lightboxImg.style.display = 'none';
                     lightboxIframe.style.display = 'none';
@@ -965,6 +1080,8 @@
                 lightbox.classList.remove('active');
                 if (lightboxVideo.style.display !== 'none') { lightboxVideo.pause(); lightboxVideo.src = ''; }
                 if (lightboxIframe.style.display !== 'none') { lightboxIframe.src = ''; }
+                if (lightboxYoutubeFallback) lightboxYoutubeFallback.style.display = 'none';
+                if (lightboxYtPlayerReadyTimeout) { clearTimeout(lightboxYtPlayerReadyTimeout); lightboxYtPlayerReadyTimeout = null; }
                 if (lastLightboxTrigger && typeof lastLightboxTrigger.focus === 'function') {
                     lastLightboxTrigger.focus();
                 }

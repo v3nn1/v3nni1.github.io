@@ -953,6 +953,96 @@
             margin-bottom: 15px;
         }
 
+        /* Bio section: portrait + text side by side, portrait height matches text */
+        #section-bio .bio-layout {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            gap: 28px;
+            margin-top: 8px;
+        }
+        #section-bio .bio-portrait-wrap {
+            flex-shrink: 0;
+            width: 14em;
+        }
+        /* Portrait: rounded corners, fills wrap height (matches text block), pink tint + heavy CRT */
+        #section-bio .bio-portrait {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        #section-bio .bio-portrait picture {
+            display: block;
+            height: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        #section-bio .bio-portrait img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            vertical-align: middle;
+        }
+        /* Heavy CRT scanlines – dense, dark, scrolling */
+        #section-bio .bio-portrait::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 1px,
+                rgba(0, 0, 0, 0.35) 1px,
+                rgba(0, 0, 0, 0.35) 2px
+            );
+            background-size: 100% 4px;
+            background-position: 0 0;
+            pointer-events: none;
+            z-index: 2;
+            animation: bio-scanline 3s linear infinite;
+        }
+        /* Pink tint + heavy vignette (CRT tube look) */
+        #section-bio .bio-portrait::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(232, 90, 110, 0.28);
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: inset 0 0 80px 30px rgba(0, 0, 0, 0.6);
+        }
+        @keyframes bio-scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 4px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #section-bio .bio-portrait::before {
+                animation: none;
+            }
+        }
+        #section-bio .bio-text {
+            flex: 1;
+            min-width: 0;
+        }
+        @media (max-width: 560px) {
+            #section-bio .bio-layout {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            #section-bio .bio-portrait-wrap {
+                width: 12em;
+            }
+            #section-bio .bio-portrait {
+                min-height: 180px;
+            }
+        }
+
         /* Skills Section - game level / dialog box style */
         .skill-item {
             margin-bottom: 60px;
@@ -3598,10 +3688,20 @@
 
             <section class="section introduction-section" id="section-bio">
                 <h2 data-translate="intro-title">Bio</h2>
-                <div class="introduction">
-                    <p data-translate="intro-p1">I grew up in the 80s with He-Man, G.I. Joe, Transformers, the Commodore 64 and stacks of comic books, all of which fueled my love for visual storytelling. I earned a Bachelor of Arts in Graphic Design from the University of Lapland and, after a few years in the design field, found my way into indie game development in 2008. I've stayed ever since because I love creating immersive experiences where visuals, sound and gameplay come together.</p>
-                    <p data-translate="intro-p2">I'm comfortable working solo or with a team, and my background in both game art and graphic design gives me a flexible skill set from concept to final production. I draw from a wide visual library and enjoy working across styles—from cute to horror, and from stylized to realism.</p>
-                    <p data-translate="intro-p3">If you think we might work well together, feel free to contact me at veera(at)nekobolt.net.</p>
+                <div class="bio-layout">
+                    <div class="bio-text introduction">
+                        <p data-translate="intro-p1">I grew up in the 80s with He-Man, G.I. Joe, Transformers, the Commodore 64 and stacks of comic books, all of which fueled my love for visual storytelling. I earned a Bachelor of Arts in Graphic Design from the University of Lapland and, after a few years in the design field, found my way into indie game development in 2008. I've stayed ever since because I love creating immersive experiences where visuals, sound and gameplay come together.</p>
+                        <p data-translate="intro-p2">I'm comfortable working solo or with a team, and my background in both game art and graphic design gives me a flexible skill set from concept to final production. I draw from a wide visual library and enjoy working across styles—from cute to horror, and from stylized to realism.</p>
+                        <p data-translate="intro-p3">If you think we might work well together, feel free to contact me at veera(at)nekobolt.net.</p>
+                    </div>
+                    <div class="bio-portrait-wrap" aria-hidden="true">
+                        <div class="bio-portrait">
+                            <picture>
+                                <source srcset="images/portrait.webp" type="image/webp">
+                                <img src="images/portrait.png" alt="" loading="lazy" decoding="async">
+                            </picture>
+                        </div>
+                    </div>
                 </div>
             </section>
             </main>
